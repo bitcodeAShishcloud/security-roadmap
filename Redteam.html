@@ -449,7 +449,8 @@
             syllabus.forEach(mod => {
                 const section = document.createElement('div');
                 section.className = "bg-slate-800/50 rounded-xl border border-slate-700 overflow-hidden";
-                
+                section.id = `checklist-${mod.id}`;
+
                 // Section Header
                 const header = document.createElement('div');
                 header.className = "p-4 bg-slate-800 border-b border-slate-700 flex items-center gap-3 sticky top-0 backdrop-blur-sm z-10";
@@ -498,8 +499,12 @@
         function showModuleModal(mod) {
             const modal = document.getElementById('module-modal');
             const modalContent = document.getElementById('modal-content');
-            let html = `<h2 class="text-xl font-bold mb-2 flex items-center gap-2"><i class="${mod.icon} ${mod.color}"></i> ${mod.title}</h2>`;
-            html += `<p class="text-sm text-slate-400 mb-4">${mod.count} • ${mod.items.length} Lessons</p>`;
+            let html = `<div class=\"flex items-center gap-2 mb-2\">`;
+            html += `<i class=\"${mod.icon} ${mod.color} text-2xl\"></i>`;
+            html += `<span class=\"text-xl font-bold\">${mod.title}</span>`;
+            html += `<a href=\"#\" onclick=\"goToChecklist('${mod.id}')\" class=\"ml-3 px-3 py-1 rounded bg-slate-700 text-xs text-slate-200 hover:bg-red-500 hover:text-white transition\">Checklist</a>`;
+            html += `</div>`;
+            html += `<p class=\"text-sm text-slate-400 mb-4\">${mod.count} • ${mod.items.length} Lessons</p>`;
             html += '<ol class="list-decimal pl-5 space-y-1">';
             mod.items.forEach((item, idx) => {
                 // Remove 'Day X:' prefix if present
@@ -513,6 +518,17 @@
             setTimeout(() => {
                 modal.addEventListener('mousedown', handleModalOutsideClick);
             }, 0);
+            // Go to checklist tab and scroll to module section (global scope for inline onclick)
+            window.goToChecklist = function(moduleId) {
+                closeModuleModal();
+                switchTab('checklist');
+                setTimeout(() => {
+                    const section = document.getElementById(`checklist-${moduleId}`);
+                    if (section) {
+                        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }, 200);
+            }
         }
 
         function closeModuleModal() {
