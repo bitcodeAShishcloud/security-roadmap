@@ -1,1 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Security Red Team Pass</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0f172a',
+                            light: '#1e293b',
+                            accent: '#f97316', // Orange
+                            red: '#ef4444',
+                            text: '#e2e8f0',
+                            muted: '#94a3b8'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        
+        body {
+            background-color: #0b0f19;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+
+        .cyber-glow {
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
+        }
+
+        .nav-item.active {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border-bottom: 2px solid #ef4444;
+        }
+
+        /* Checkbox styling */
+        .custom-checkbox:checked + div {
+            text-decoration: line-through;
+            color: #64748b;
+        }
+        .custom-checkbox:checked + div::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #ef4444;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-[#0b0f19]/95 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-red-600 to-orange-600 flex items-center justify-center cyber-glow">
+                    <i class="ri-shield-keyhole-fill text-white text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight">Red Team Pass</h1>
+                    <p class="text-xs text-brand-muted">Cyber Security Curriculum</p>
+                </div>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="switchTab('home')" id="tab-home" class="nav-item active px-4 py-2 text-sm font-medium transition-colors rounded-md hover:bg-slate-800">
+                    <i class="ri-home-4-line mr-1"></i> Home
+                </button>
+                <button onclick="switchTab('checklist')" id="tab-checklist" class="nav-item px-4 py-2 text-sm font-medium transition-colors rounded-md hover:bg-slate-800 text-brand-muted">
+                    <i class="ri-list-check-2 mr-1"></i> Checklist
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-4xl mx-auto w-full p-4 pb-20">
+        
+        <!-- View: Home (Modules Overview) -->
+        <div id="view-home" class="space-y-6 animate-fade-in">
+            <!-- Hero Card -->
+            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 border border-slate-700 p-6 mb-8">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-red-600/10 rounded-full blur-3xl -mr-10 -mt-10"></div>
+                <h2 class="text-2xl font-bold mb-2">Welcome to the Red Team</h2>
+                <p class="text-brand-muted mb-4">Master offensive security with our comprehensive 5-module curriculum.</p>
+                <div class="flex gap-4 text-sm">
+                    <div class="flex items-center gap-2">
+                        <i class="ri-video-line text-brand-accent"></i>
+                        <span>262+ Lessons</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="ri-file-list-3-line text-brand-accent"></i>
+                        <span>5 Quizzes</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modules Grid -->
+            <div id="modules-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Modules injected via JS -->
+            </div>
+
+            <!-- Modal for Module Topics -->
+            <div id="module-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 hidden" tabindex="-1">
+                <div id="modal-dialog" class="bg-slate-900 rounded-2xl shadow-xl max-w-lg w-full p-6 relative border border-slate-700 max-h-[80vh] overflow-y-auto">
+                    <button onclick="closeModuleModal()" class="absolute top-3 right-3 text-slate-400 hover:text-red-400 text-xl" title="Close">&times;</button>
+                    <div id="modal-content"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- View: Checklist (Full List) -->
+        <div id="view-checklist" class="hidden space-y-4">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold">Full Syllabus Checklist</h2>
+                <button onclick="resetProgress()" class="text-xs text-red-400 hover:text-red-300 underline">Reset Progress</button>
+            </div>
+            
+            <div id="checklist-container" class="space-y-6">
+                <!-- Checklist items injected via JS -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Bottom Navigation (Mobile Style) -->
+    <nav class="fixed bottom-0 w-full bg-[#0f172a] border-t border-slate-800 md:hidden z-50">
+        <div class="flex justify-around py-3">
+            <button onclick="switchTab('home')" class="flex flex-col items-center gap-1 text-brand-accent">
+                <i class="ri-home-4-fill text-xl"></i>
+                <span class="text-xs">Home</span>
+            </button>
+            <button onclick="switchTab('checklist')" class="flex flex-col items-center gap-1 text-brand-muted">
+                <i class="ri-list-check-2 text-xl"></i>
+                <span class="text-xs">Checklist</span>
+            </button>
+        </div>
+    </nav>
+
+    <script>
+        // --- Data Structure ---
+        const syllabus = [
+            {
+                id: "mod1",
+                title: "CompTIA Security+",
+                count: "13 Days",
+                icon: "ri-shield-check-line",
+                color: "text-blue-400",
+                bg: "bg-blue-500/10",
+                items: [
+                    "Day 1: Threats, Attacks & Vulnerabilities",
+                    "Day 2: Authentication & Installation of Kali Linux",
+                    "Day 3: Software Vulnerabilities and Kali Linux Basic Commands",
+                    "Day 4: Risk & Incident Response",
+                    "Day 5: Implementing Identity and Account Management Controls",
+                    "Day 6: Physical Security, Risk Management & Firewall Basics",
+                    "Day 7: SIEM, Secure Mobile Devices & Password Attacks",
+                    "Day 8: Cryptography (Encryption, Hashing & Digital Security)",
+                    "Day 9: Cryptography (Digital Certificate, Digital Signatures)",
+                    "Day 10: Cloud Computing, Virtualization & Host Security Basics",
+                    "Day 11: Digital Forensics, Redundancy & Info. Management",
+                    "Day 12: Business Continuity and Essential Functions",
+                    "Day 13: Penetration Testing, Risk Types & Access Control"
+                ]
+            },
+            {
+                id: "mod2",
+                title: "EC Council - CEH",
+                count: "44 Days",
+                icon: "ri-hacker-line",
+                color: "text-orange-400",
+                bg: "bg-orange-500/10",
+                items: [
+                    "Day 01: Introduction of CEH",
+                    "Day 2: Cyber attacks, hacking steps, and MITRE ATTACK",
+                    "Day 3: Sony Entertainment Cyber Attack Case Study (2014)",
+                    "Day 4: Kali Linux Basics – Commands and Terminal Usage",
+                    "Day 5: Basics of Hacking – Concepts, Tools, and Techniques",
+                    "Day 6: Footprinting – Org, Network, System & Google Dorks",
+                    "Day 7: Introduction to Google Hacking Database and Shodan",
+                    "Day 8: Footprinting – Background, Planning, and Expert",
+                    "Day 9: Scanning Live Hosts, Open Ports & Services",
+                    "Day 10: Nmap (Live Hosts, DNS, Ports & NSE)",
+                    "Day 11: Nmap Commands and How to Use",
+                    "Day 12: NMAP Commands and Practical Usage (Part 2)",
+                    "Day 13: FTP, SSH, and SMTP Enumeration Using Nmap",
+                    "Day 15: MSFConsole Basic Commands and Module Usage",
+                    "Day 16: System Information Gathering (Reconnaissance)",
+                    "Day 17: Credential, Directory, and File Enumeration",
+                    "Day 18: Performing Password Attacks",
+                    "Day 19: Performing Privilege Escalation",
+                    "Day 20: Introduction to System Hacking (Troll Techniques)",
+                    "Day 21: Windows XP Enumeration and Exploitation",
+                    "Day 22: Social Engineering Principles and Malware",
+                    "Day 23: Types of Malware Viruses",
+                    "Day 24: Introduction to Nessus Essentials",
+                    "Day 25: Vulnerability Research and Information Sources",
+                    "Day 26: Denial of Service Attack Techniques",
+                    "Day 27: Introduction to Web Application Attacks",
+                    "Day 28: Web Application Attacks (SQL Injection and Types)",
+                    "Day 29: Web Application Attacks: Encoding & Reflected XSS",
+                    "Day 30: Linux Machine Enumeration and SUID Exploitation",
+                    "Day 31: Cross-Site Request Forgery (CSRF)",
+                    "Day 32: End-to-End Hacking Machine Walkthrough",
+                    "Day 33: Hackademic Lab Walkthrough",
+                    "Day 36: Hackademic Lab Walkthrough - Part 2",
+                    "Day 37: Digital Signatures & Public Key Infrastructure (PKI)",
+                    "Day 38: Mobile Platform",
+                    "Day 39: Classless Inter-Domain Routing (CIDR)",
+                    "Day 40: Cloud Computing Concepts & Services",
+                    "Day 41: Virtualization Concepts & Architecture",
+                    "Day 42: Wireless Networking Terminology",
+                    "Day 43: Wireless Security Threats",
+                    "Day 44: Wi-Fi Network Discovery"
+                ]
+            },
+            {
+                id: "mod3",
+                title: "EC Council - CEHv13",
+                count: "20 Days",
+                icon: "ri-shield-star-line",
+                color: "text-purple-400",
+                bg: "bg-purple-500/10",
+                items: [
+                    "Day 01: Webinar",
+                    "Day 02: Elements of Information Security",
+                    "Day 03: Networking Model & Cyber Threat Intelligence",
+                    "Day 04: Threat Intelligence Lifecycle",
+                    "Day 05: Footprinting",
+                    "Day 06: Labs",
+                    "Day 07: Practical",
+                    "Day 08: Practical of Labs",
+                    "Day 09: Vulnerability",
+                    "Day 10: Study of Nessus Installation and System Hacking",
+                    "Day 11: Sniffing",
+                    "Day 12: Social Eng. Attacks",
+                    "Day 13: Protocol-Based Attacks",
+                    "Day 14: DDoS attacks",
+                    "Day 15: Labs",
+                    "Day 16: Labs",
+                    "Day 17: Practical Labs",
+                    "Day 18: Hacking Mobile Platform",
+                    "Day 19: Cloud computing",
+                    "Day 20: Hacking Wireless Networks"
+                ]
+            },
+            {
+                id: "mod4",
+                title: "CompTIA Pentest+",
+                count: "23 Days",
+                icon: "ri-bug-line",
+                color: "text-green-400",
+                bg: "bg-green-500/10",
+                items: [
+                    "Day 1: Introduction to CompTIA PenTest+",
+                    "Day 2: Attacks, Pentest Methodology & Cyber Kill Chain",
+                    "Day 3: Regulatory Compliance, Scoping & Rules of Engagement",
+                    "Day 4: PenTest+ Information Gathering & Footprinting",
+                    "Day 5: People Search Engines, Reporting, and Remediation",
+                    "Day 6: OSINT Framework & Google Dorking",
+                    "Day 7: Sublist3r, theHarvester, Censys, Maltego & OSRFramework",
+                    "Day 8: HTTP Response Codes",
+                    "Day 9: CERT, CVE, CWE & Active Reconnaissance",
+                    "Day 10: Nmap Switches & Script Categories",
+                    "Day 11: Metasploit & Metasploit Framework",
+                    "Day 12: Metasploit & Metasploit Framework – Part 2",
+                    "Day 13: Temporary Storage Area & CPU Registers (EIP, ESP, EBP)",
+                    "Day 14: Human, Physical & Wireless Attack Vectors",
+                    "Day 15: Social Engineering – Part 2",
+                    "Day 16: Network & Application Attacks",
+                    "Day 17: OWASP Tools Setup – Juice Shop & ZAP",
+                    "Day 18: Covering Tracks & Automation Scripts",
+                    "Day 19: Windows Domain, Domain Controller & Zone Setup",
+                    "Day 20: Introduction to Server Manager and Management",
+                    "Day 21: Security Groups & Authentication Protocols",
+                    "Day 22: Python Network Scanner & APT Install",
+                    "Day 23: Keylogger Creation in Python (keylogger_script.py)"
+                ]
+            },
+            {
+                id: "mod5",
+                title: "OSCP",
+                count: "57 Days",
+                icon: "ri-skull-line",
+                color: "text-red-500",
+                bg: "bg-red-500/10",
+                items: [
+                    "Day 1: Introduction to OSCP",
+                    "Day 2: Broken Link Hijacking and Solve The Quiz",
+                    "Day 3: HTTP on Login Pages (HackerOne) & Clickjacking",
+                    "Day 4: Testing Live Targets, RDB & CVD",
+                    "Day 5: Mobile Application Pentesting",
+                    "Day 6: Website Testing",
+                    "Day 7: Two-Factor Authentication (2FA) Bypass",
+                    "Day 8: Bug Bounty Sessions",
+                    "Day 9: Talk of the Titans (Episode 1)",
+                    "Day 10: Target & WAF Fingerprinting (JCP, Shodan)",
+                    "Day 11: Testing on website",
+                    "Day 12: Discuss about 100 innovative bugs",
+                    "Day 13: How Bug Hunts Start",
+                    "Day 14: Penetration Testing on Applications",
+                    "Day 15: Bug Bounty Program: Pine Labs",
+                    "Day 16: Passive Information Gathering Techniques",
+                    "Day 17: Windows Privilege Escalation",
+                    "Day 18: Practical Labs",
+                    "Day 19: Penetration Testing on Web Applications",
+                    "Day 20: Mobile App Penetration Testing",
+                    "Day 21: Mobile App Penetration Testing (Part 2)",
+                    "Day 22: Scopes in Penetration Testing",
+                    "Day 23: Discuss about Therapy",
+                    "Day 24: Innovative bugs",
+                    "Day 25: Finding Subdomains",
+                    "Day 26: Website pentesting",
+                    "Day 27: Learn about Coding ninjas",
+                    "Day 28: Coding ninjas part 2",
+                    "Day 29: How much bounty scopes",
+                    "Day 30: Internal functionality",
+                    "Day 31: Discuss About Noda.live",
+                    "Day 32: Privilege Escalation",
+                    "Day 33: Discuss About Bugs",
+                    "Day 34: Topic- LABS",
+                    "Day 35: Intermediate labs",
+                    "Day 36: Tilda Publishing",
+                    "Day 37: Testing on Tilda",
+                    "Day 38: Premium labs",
+                    "Day 39: Understanding Rate Limits",
+                    "Day 40: Discuss about GEA.com",
+                    "Day 41: Windows Labs",
+                    "Day 42: Looking for bugs or security issues",
+                    "Day 43: Lab Setup for Active Directory",
+                    "Day 44: Bug bounty program for test",
+                    "Day 45: Website pentest",
+                    "Day 46: Web App Pen Testing",
+                    "Day 47: Web App Pentesting Part 2",
+                    "Day 48: Report Making Procedure",
+                    "Day 49: Study of Ad Hacking Techniques",
+                    "Day 50: Mobile app pentesting",
+                    "Day 51: Mobile App Testing And Reporting",
+                    "Day 52: Methodology Build On Ycode",
+                    "Day 53: Web pentesting",
+                    "Day 54: Android Pentesting",
+                    "Day 55: Revision For All Days",
+                    "Day 56: Revision for all days Part 2",
+                    "Day 57: Session reviser and last class"
+                ]
+            }
+        ];
+
+        // --- State Management ---
+        let completedItems = JSON.parse(localStorage.getItem('redTeamProgress')) || {};
+
+        function saveProgress() {
+            localStorage.setItem('redTeamProgress', JSON.stringify(completedItems));
+            renderChecklist(); // Re-render to update counts if needed
+        }
+
+        function toggleItem(moduleId, itemIndex) {
+            const key = `${moduleId}-${itemIndex}`;
+            if (completedItems[key]) {
+                delete completedItems[key];
+            } else {
+                completedItems[key] = true;
+            }
+            saveProgress();
+            renderHome(); // Update progress bars
+        }
+
+        function resetProgress() {
+            if(confirm("Are you sure you want to reset all progress?")) {
+                completedItems = {};
+                saveProgress();
+                renderHome();
+                renderChecklist();
+            }
+        }
+
+        // --- Rendering Functions ---
+
+        function renderHome() {
+            const container = document.getElementById('modules-container');
+            container.innerHTML = '';
+
+            syllabus.forEach(mod => {
+                // Calculate progress
+                let completedCount = 0;
+                mod.items.forEach((_, index) => {
+                    if (completedItems[`${mod.id}-${index}`]) completedCount++;
+                });
+                const percentage = Math.round((completedCount / mod.items.length) * 100);
+
+                const card = document.createElement('div');
+                card.className = `bg-slate-800 border border-slate-700 rounded-xl p-5 hover:border-slate-500 transition-all cursor-pointer group`;
+                card.onclick = () => showModuleModal(mod);
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-lg ${mod.bg} flex items-center justify-center">
+                                <i class="${mod.icon} text-2xl ${mod.color}"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-100 group-hover:text-white transition-colors">${mod.title}</h3>
+                                <p class="text-xs text-slate-400">${mod.count} • ${mod.items.length} Lessons</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-2xl font-bold ${percentage === 100 ? 'text-green-400' : 'text-slate-200'}">${percentage}%</span>
+                        </div>
+                    </div>
+                    <div class="w-full bg-slate-700 rounded-full h-2 mb-2">
+                        <div class="bg-gradient-to-r from-red-500 to-orange-500 h-2 rounded-full transition-all duration-500" style="width: ${percentage}%"></div>
+                    </div>
+                    <p class="text-xs text-slate-500 text-right">${completedCount}/${mod.items.length} Completed</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function renderChecklist() {
+            const container = document.getElementById('checklist-container');
+            container.innerHTML = '';
+
+            syllabus.forEach(mod => {
+                const section = document.createElement('div');
+                section.className = "bg-slate-800/50 rounded-xl border border-slate-700 overflow-hidden";
+                
+                // Section Header
+                const header = document.createElement('div');
+                header.className = "p-4 bg-slate-800 border-b border-slate-700 flex items-center gap-3 sticky top-0 backdrop-blur-sm z-10";
+                header.innerHTML = `
+                    <i class="${mod.icon} ${mod.color} text-xl"></i>
+                    <h3 class="font-bold text-slate-200">${mod.title}</h3>
+                    <span class="ml-auto text-xs bg-slate-700 px-2 py-1 rounded text-slate-400">${mod.count}</span>
+                `;
+                section.appendChild(header);
+
+                // List Items
+                const list = document.createElement('div');
+                list.className = "divide-y divide-slate-700/50";
+
+                mod.items.forEach((item, index) => {
+                    const key = `${mod.id}-${index}`;
+                    const isChecked = completedItems[key];
+                    // Remove 'Day X:' prefix if present
+                    let clean = item.replace(/^Day\s*\d+\s*[:.-]?\s*/i, '');
+
+                    const row = document.createElement('label');
+                    row.className = `flex items-center gap-4 p-4 cursor-pointer transition-all group ${isChecked ? 'bg-slate-800/80' : 'hover:bg-slate-700/30'} rounded-xl`;
+
+                    row.innerHTML = `
+                        <span class="relative flex items-center justify-center w-9 h-9">
+                            <input type="checkbox" class="peer absolute w-9 h-9 opacity-0 cursor-pointer z-10" ${isChecked ? 'checked' : ''} onchange="toggleItem('${mod.id}', ${index})">
+                            <span class="block w-9 h-9 rounded-full border-2 ${isChecked ? 'border-red-500 bg-red-500/90' : 'border-slate-600 bg-slate-900'} transition-all duration-200"></span>
+                            <svg class="absolute w-6 h-6 text-white pointer-events-none transition-opacity duration-200 ${isChecked ? 'opacity-100' : 'opacity-0'}" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 10.5l3 3 5-5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </span>
+                        <div class="flex-grow text-base font-medium leading-relaxed ${isChecked ? 'line-through text-slate-500' : 'text-slate-200'}">
+                            ${clean}
+                        </div>
+                    `;
+                    list.appendChild(row);
+                });
+
+                section.appendChild(list);
+                container.appendChild(section);
+            });
+        }
+
+        // --- Modal Logic ---
+
+        function showModuleModal(mod) {
+            const modal = document.getElementById('module-modal');
+            const modalContent = document.getElementById('modal-content');
+            let html = `<h2 class="text-xl font-bold mb-2 flex items-center gap-2"><i class="${mod.icon} ${mod.color}"></i> ${mod.title}</h2>`;
+            html += `<p class="text-sm text-slate-400 mb-4">${mod.count} • ${mod.items.length} Lessons</p>`;
+            html += '<ol class="list-decimal pl-5 space-y-1">';
+            mod.items.forEach((item, idx) => {
+                // Remove 'Day X:' prefix if present
+                let clean = item.replace(/^Day\s*\d+\s*[:.-]?\s*/i, '');
+                html += `<li class="text-slate-200">${clean}</li>`;
+            });
+            html += '</ol>';
+            modalContent.innerHTML = html;
+            modal.classList.remove('hidden');
+            // Add event listener for outside click
+            setTimeout(() => {
+                modal.addEventListener('mousedown', handleModalOutsideClick);
+            }, 0);
+        }
+
+        function closeModuleModal() {
+            const modal = document.getElementById('module-modal');
+            modal.classList.add('hidden');
+            modal.removeEventListener('mousedown', handleModalOutsideClick);
+        }
+
+        function handleModalOutsideClick(e) {
+            const dialog = document.getElementById('modal-dialog');
+            if (!dialog.contains(e.target)) {
+                closeModuleModal();
+            }
+        }
+
+        // --- Navigation Logic ---
+        function switchTab(tabName) {
+            const homeView = document.getElementById('view-home');
+            const checklistView = document.getElementById('view-checklist');
+            const homeBtn = document.getElementById('tab-home');
+            const checklistBtn = document.getElementById('tab-checklist');
+
+            if (tabName === 'home') {
+                homeView.classList.remove('hidden');
+                checklistView.classList.add('hidden');
+                
+                homeBtn.classList.add('active', 'text-brand-accent');
+                homeBtn.classList.remove('text-brand-muted');
+                
+                checklistBtn.classList.remove('active', 'text-brand-accent');
+                checklistBtn.classList.add('text-brand-muted');
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
+            } else {
+                homeView.classList.add('hidden');
+                checklistView.classList.remove('hidden');
+                
+                checklistBtn.classList.add('active', 'text-brand-accent');
+                checklistBtn.classList.remove('text-brand-muted');
+                
+                homeBtn.classList.remove('active', 'text-brand-accent');
+                homeBtn.classList.add('text-brand-muted');
+                
+                window.scrollTo(0, 0);
+            }
+        }
+
+        // Initialize
+        renderHome();
+        renderChecklist();
+
+    </script>
+</body>
+</html>
 
