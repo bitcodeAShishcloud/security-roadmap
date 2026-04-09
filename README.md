@@ -1,117 +1,80 @@
-🛡️ Security Roadmap: From Beginner to Expert
+# 🔐 Security Roadmap
 
-A comprehensive, interactive collection of cybersecurity learning paths. This repository hosts day-by-day execution protocols and checklists to take you from absolute beginner to advanced vulnerability researcher (PhD level).
+A complete **PortSwigger / Red Team / Cybersecurity learning path** designed to take you from **beginner to expert**.
 
-👉 Access the Live Interactive Dashboard Here
+This repository contains structured HTML pages covering different domains of security along with a long-term roadmap.
 
-📂 Curriculum Index (Live Links)
+---
 
-Click on any "Live Link" below to launch its interactive version directly in your browser:
+## 📌 Live Website
+👉 https://bitcodeashishcloud.github.io/security-roadmap/
 
-File Name
+---
 
-Focus Area
+## 📂 Project Structure
 
-Live Link
+### 🧠 Main Roadmap
+- 📍 [Hacker Roadmap (2 Year Plan)](https://github.com/bitcodeAshishcloud/security-roadmap/blob/main/hacker_roadmap_2year.html)
 
-Description
+---
 
-index.html
+### 🌐 Web Security
+- 📍 [Web Security](https://github.com/bitcodeAshishcloud/security-roadmap/blob/main/WebSec.html)
 
-Main Dashboard
+---
 
-🌐 View Live Site
+### 💻 Cyber Security Basics
+- 📍 [Cyber Security](https://github.com/bitcodeAshishcloud/security-roadmap/blob/main/cyber.html)
 
-The central landing page routing to all available learning tracks.
+---
 
-hacker_roadmap_2year.html
+### 🔴 Red Team
+- 📍 [Red Team Guide](https://github.com/bitcodeAshishcloud/security-roadmap/blob/main/Redteam.html)
 
-Zero to PhD
+---
 
-🌐 View Live Site
+### 🏠 Entry Point
+- 📍 [Home / Index](https://github.com/bitcodeAshishcloud/security-roadmap/blob/main/index.html)
 
-An exhaustive 730-day (2-year) daily execution protocol covering foundations, exploitation, advanced RE, and original vulnerability research.
+---
 
-Redteam.html
+## 🚀 Features
+- Structured **learning roadmap**
+- Beginner → Advanced progression
+- Focus on **practical security skills**
+- Covers:
+  - Web Security
+  - Red Teaming
+  - Cybersecurity fundamentals
+  - Hands-on labs & concepts
 
-Red Teaming Ops
+---
 
-🌐 View Live Site
+## 🛠️ Tech Used
+- HTML
+- Basic frontend structure
+- GitHub Pages for deployment
 
-Focused pathway on threat emulation, Active Directory exploitation, C2 infrastructure, and advanced persistent threat (APT) tactics.
+---
 
-WebSec.html
+## 📈 Future Improvements
+- Add interactive modules
+- Include labs & CTF challenges
+- Add progress tracking system
+- Improve UI/UX
 
-Web App Security
+---
 
-🌐 View Live Site
+## 🤝 Contributing
+Contributions are welcome!
 
-Deep dive into web vulnerabilities, heavily aligned with the PortSwigger Web Security Academy paths and modern Bug Bounty methodologies.
+1. Fork the repo  
+2. Create a new branch  
+3. Make your changes  
+4. Submit a Pull Request  
 
-cyber.html
+---
 
-General CyberSec
-
-🌐 View Live Site
-
-High-level overview and foundational roadmap for general cybersecurity concepts.
-
-✨ Features
-
-Interactive UI: Modern, dark-themed (cyberpunk aesthetic) dashboard interfaces.
-
-Progress Tracking: Localized progress saving (via browser localStorage). Your checked tasks remain saved across sessions.
-
-Zero Dependencies: 100% Vanilla HTML, CSS, and JavaScript. No build steps, frameworks, or backend required.
-
-Micro-Tasking: Massive curriculums are broken down into actionable, day-by-day micro-tasks to prevent cognitive overload.
-
-🚀 How to Use
-
-Option 1: View Online (Recommended)
-
-Simply navigate to the GitHub pages deployment or click any of the live links in the curriculum index above.
-🔗 https://bitcodeashishcloud.github.io/security-roadmap/
-
-Option 2: Run Locally
-
-Because these are zero-dependency files, you can clone the repository and run them entirely offline.
-
-Clone the repository:
-
-git clone [https://github.com/bitcodeAShishcloud/security-roadmap.git](https://github.com/bitcodeAShishcloud/security-roadmap.git)
-
-
-Navigate to the directory:
-
-cd security-roadmap
-
-
-Open any file directly in your browser:
-
-# Linux/macOS
-open index.html 
-
-# Windows
-start index.html
-
-
-🧠 Methodology
-
-These roadmaps are built on the principle of continuous, compounded learning. The suggested pace is 3 hours per day. Do not skip foundational steps; advanced exploitation relies heavily on deep architectural understanding.
-
-🤝 Contributing
-
-Found a typo? Want to add a new resource or update a learning path? Contributions are welcome.
-
-Fork the Project
-
-Create your Feature Branch (git checkout -b feature/NewRoadmap)
-
-Commit your Changes (git commit -m 'Add new cloud security track')
-
-Push to the Branch (git push origin feature/NewRoadmap)
-
-Open a Pull Request
-
-Built for the cybersecurity community. Stay curious. Stay legal.
+## 📬 Contact
+Created by **Ashish**  
+Feel free to connect or suggest improvements.
