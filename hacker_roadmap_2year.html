@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zero to PhD Hacker Roadmap — 2 Years</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap');
+
+  :root {
+    --bg: #030811;
+    --bg2: #060e1a;
+    --bg3: #0a1628;
+    --green: #00ff9d;
+    --cyan: #00d4ff;
+    --red: #ff3860;
+    --orange: #ff8c00;
+    --yellow: #ffd700;
+    --purple: #bd00ff;
+    --dim: #1a2a3a;
+    --text: #c8d8e8;
+    --muted: #4a6070;
+    --border: #0d2235;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* Scanline overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* HEADER */
+  .hero {
+    position: relative;
+    padding: 80px 40px 60px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(ellipse, rgba(0,255,157,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--green);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    opacity: 0.8;
+  }
+
+  .hero h1 {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(28px, 5vw, 54px);
+    font-weight: 900;
+    letter-spacing: 2px;
+    line-height: 1.1;
+    color: #fff;
+    text-shadow: 0 0 40px rgba(0,255,157,0.3);
+    margin-bottom: 20px;
+  }
+
+  .hero h1 span { color: var(--green); }
+
+  .hero-sub {
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 700px;
+    margin: 0 auto 40px;
+    font-weight: 400;
+  }
+
+  .stats-bar {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--cyan);
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* WARNING BANNER */
+  .warning-banner {
+    background: linear-gradient(90deg, rgba(255,56,96,0.1), rgba(255,56,96,0.05));
+    border: 1px solid rgba(255,56,96,0.3);
+    border-left: 3px solid var(--red);
+    padding: 14px 24px;
+    margin: 24px 40px;
+    border-radius: 4px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--red);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* NAV */
+  .toc {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin: 24px 40px;
+    padding: 28px;
+  }
+
+  .toc h3 {
+    font-family: 'Orbitron', monospace;
+    font-size: 13px;
+    color: var(--cyan);
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 8px;
+  }
+
+  .toc-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    text-decoration: none;
+    color: var(--text);
+    font-size: 13px;
+    transition: all 0.2s;
+  }
+
+  .toc-item:hover { border-color: var(--green); color: var(--green); background: rgba(0,255,157,0.04); }
+
+  .toc-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* MAIN CONTAINER */
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 40px 80px; }
+
+  /* PHASE HEADERS */
+  .phase-header {
+    position: relative;
+    margin: 60px 0 30px;
+    padding: 30px 36px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--green);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .phase-header::after {
+    content: attr(data-phase);
+    position: absolute;
+    right: 30px; top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Orbitron', monospace;
+    font-size: 80px;
+    font-weight: 900;
+    color: rgba(0,255,157,0.04);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .phase-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--green);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .phase-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+
+  .phase-meta {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+  }
+
+  .phase-badge {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 3px;
+    border: 1px solid;
+  }
+
+  .badge-time { border-color: var(--cyan); color: var(--cyan); }
+  .badge-level { border-color: var(--orange); color: var(--orange); }
+  .badge-focus { border-color: var(--purple); color: var(--purple); }
+
+  /* MONTH BLOCK */
+  .month-block {
+    margin-bottom: 28px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .month-header {
+    background: var(--bg3);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+  }
+
+  .month-header:hover { background: var(--dim); }
+
+  .month-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    min-width: 80px;
+  }
+
+  .month-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: #fff;
+    flex: 1;
+  }
+
+  .month-hours {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .month-toggle {
+    color: var(--muted);
+    font-size: 18px;
+    transition: transform 0.3s;
+  }
+
+  .month-block.open .month-toggle { transform: rotate(180deg); }
+
+  .month-body {
+    display: none;
+    padding: 24px;
+    background: var(--bg);
+  }
+
+  .month-block.open .month-body { display: block; }
+
+  /* WEEK SECTIONS */
+  .week {
+    margin-bottom: 28px;
+  }
+
+  .week-title {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--cyan);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+
+  /* DAY CARD */
+  .days-grid {
+    display: grid;
+    gap: 12px;
+  }
+
+  .day-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 20px;
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 16px;
+    transition: border-color 0.2s;
+  }
+
+  .day-card:hover { border-color: #1a3a5a; }
+
+  .day-label {
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    padding-top: 2px;
+  }
+
+  .day-content {}
+
+  .day-topic {
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+
+  .day-detail {
+    font-size: 13px;
+    color: #6a8a9a;
+    line-height: 1.6;
+  }
+
+  .day-tasks {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .task-chip {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 3px;
+    border: 1px solid;
+  }
+
+  .chip-theory { border-color: #1a3a5a; color: #4a8aaa; }
+  .chip-lab { border-color: #1a4a2a; color: #3aaa5a; }
+  .chip-tool { border-color: #3a2a1a; color: #aa6a3a; }
+  .chip-ctf { border-color: #2a1a4a; color: #7a4aaa; }
+  .chip-research { border-color: #4a1a1a; color: #aa4a4a; }
+  .chip-project { border-color: #1a4a4a; color: #3aaaaa; }
+
+  /* RESOURCES BOX */
+  .resources-box {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin-top: 20px;
+  }
+
+  .resources-box h4 {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--orange);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .res-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 8px;
+  }
+
+  .res-item {
+    font-size: 12px;
+    color: var(--muted);
+    padding: 4px 0;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .res-item::before { content: '›'; color: var(--orange); flex-shrink: 0; }
+
+  /* MILESTONE */
+  .milestone {
+    background: linear-gradient(135deg, rgba(0,255,157,0.06), rgba(0,212,255,0.03));
+    border: 1px solid rgba(0,255,157,0.2);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 20px 0;
+  }
+
+  .milestone h4 {
+    font-family: 'Orbitron', monospace;
+    font-size: 13px;
+    color: var(--green);
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+  }
+
+  .milestone ul {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 6px;
+  }
+
+  .milestone li {
+    font-size: 13px;
+    color: #7aaa8a;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .milestone li::before { content: '✓'; color: var(--green); flex-shrink: 0; }
+
+  /* TOOLS SECTION */
+  .tools-section {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin-top: 16px;
+  }
+
+  .tools-section h4 {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--purple);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .tools-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tool-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--purple);
+    border: 1px solid rgba(189,0,255,0.3);
+    padding: 3px 10px;
+    border-radius: 3px;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 40px;
+    border-top: 1px solid var(--border);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 2px;
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--dim); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+  /* RESPONSIVE */
+  @media (max-width: 700px) {
+    .hero, .toc, .warning-banner { margin: 16px; padding: 20px; }
+    .container { padding: 0 16px 60px; }
+    .day-card { grid-template-columns: 1fr; }
+    .stats-bar { gap: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">// CLASSIFIED CURRICULUM // 2-YEAR PROGRAM //</div>
+  <h1>ZERO TO <span>PhD HACKER</span><br>COMPLETE ROADMAP</h1>
+  <p class="hero-sub">A comprehensive, day-by-day cybersecurity curriculum from absolute beginner to research-level expertise — 3 hours/day, every topic, no shortcuts.</p>
+  <div class="stats-bar">
+    <div class="stat"><span class="stat-num">730</span><span class="stat-label">Total Days</span></div>
+    <div class="stat"><span class="stat-num">2,190</span><span class="stat-label">Study Hours</span></div>
+    <div class="stat"><span class="stat-num">24</span><span class="stat-label">Months</span></div>
+    <div class="stat"><span class="stat-num">200+</span><span class="stat-label">Topics</span></div>
+    <div class="stat"><span class="stat-num">8</span><span class="stat-label">Phases</span></div>
+  </div>
+</div>
+
+<!-- WARNING -->
+<div class="warning-banner">
+  ⚠ ETHICAL NOTICE: This roadmap includes knowledge of offensive techniques purely for educational understanding and authorized penetration testing. Unauthorized access to systems is illegal and unethical. Always operate within legal and ethical boundaries.
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<div class="toc">
+  <h3>// Navigation Index</h3>
+  <div class="toc-grid">
+    <a href="#phase1" class="toc-item"><span class="toc-dot" style="background:#00ff9d"></span>Phase 1 — Foundations (M1–3)</a>
+    <a href="#phase2" class="toc-item"><span class="toc-dot" style="background:#00d4ff"></span>Phase 2 — Networking & OS (M4–5)</a>
+    <a href="#phase3" class="toc-item"><span class="toc-dot" style="background:#ffd700"></span>Phase 3 — Web Security (M6–7)</a>
+    <a href="#phase4" class="toc-item"><span class="toc-dot" style="background:#ff8c00"></span>Phase 4 — System Exploitation (M8–10)</a>
+    <a href="#phase5" class="toc-item"><span class="toc-dot" style="background:#ff3860"></span>Phase 5 — Malware & RE (M11–12)</a>
+    <a href="#phase6" class="toc-item"><span class="toc-dot" style="background:#bd00ff"></span>Phase 6 — Advanced Attacks (M13–15)</a>
+    <a href="#phase7" class="toc-item"><span class="toc-dot" style="background:#ff8c00"></span>Phase 7 — Cryptography & Research (M16–18)</a>
+    <a href="#phase8" class="toc-item"><span class="toc-dot" style="background:#00ff9d"></span>Phase 8 — PhD Level (M19–24)</a>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+
+<!-- ============================================================ -->
+<!-- PHASE 1 -->
+<!-- ============================================================ -->
+<div id="phase1" class="phase-header" data-phase="01">
+  <div class="phase-tag">// Phase 01 — Year 1, Month 1–3</div>
+  <div class="phase-title">ABSOLUTE FOUNDATIONS</div>
+  <p style="color:var(--muted);font-size:14px;">Linux mastery, networking basics, programming for hackers, command-line fu, and how computers really work.</p>
+  <div class="phase-meta">
+    <span class="phase-badge badge-time">3 Months · 270 Hours</span>
+    <span class="phase-badge badge-level">UG Freshman Level</span>
+    <span class="phase-badge badge-focus">Theory + Hands-On Setup</span>
+  </div>
+</div>
+
+<!-- MONTH 1 -->
+<div class="month-block open" id="m1">
+  <div class="month-header" onclick="toggle(this)">
+    <span class="month-num">MONTH 01</span>
+    <span class="month-title">Linux, CLI & How Computers Work</span>
+    <span class="month-hours">~90 hrs · 3 hrs/day</span>
+    <span class="month-toggle">▾</span>
+  </div>
+  <div class="month-body">
+
+    <div class="week">
+      <div class="week-title">// Week 1 — Linux Survival Kit</div>
+      <div class="days-grid">
+        <div class="day-card">
+          <div class="day-label">DAY 01<br><small style="color:#2a4a6a;font-size:9px">3 hrs</small></div>
+          <div class="day-content">
+            <div class="day-topic">Install Kali Linux + Virtual Machines Setup</div>
+            <div class="day-detail">Install VirtualBox/VMware. Set up Kali Linux VM + Ubuntu VM. Understand snapshot/rollback. Learn why hackers use VMs (isolation, safe testing). Explore the desktop, terminal. First commands: <code>pwd, ls, cd, mkdir, touch</code>.</div>
+            <div class="day-tasks">
+              <span class="task-chip chip-lab">LAB: Dual VM network</span>
+              <span class="task-chip chip-theory">OS Internals Intro</span>
+            </div>
+          </div>
+        </div>
+        <div class="day-card">
+          <div class="day-label">DAY 02</div>
+          <div class="day-content">
+            <div class="day-topic">Linux File System & Permissions Deep Dive</div>
+            <div class="day-detail">File system hierarchy: /etc, /var, /proc, /dev, /home. Understand inode, symlinks, hardlinks. File permissions: rwx, octal notation, chmod/chown/chgrp. SUID, SGID bits — why they're a hacker's goldmine. Practice: create files, set permissions, break and fix access.</div>
+            <div class="day-tasks">
+              <span class="task-chip chip-theory">Inode tables</span>
+              <span class="task-chip chip-lab">Permission CTF</span>
+            </div>
+          </div>
+        </div>
+        <div class="day-card">
+          <div class="day-label">DAY 03</div>
+          <div class="day-content">
+            <div class="day-topic">Essential CLI Tools & Text Processing</div>
+            <div class="day-detail">grep, awk, sed, cut, sort, uniq, wc, head, tail. Pipes and redirection (|, >, >>, 2>, &>). Process management: ps, top, htop, kill, nice. Reading /proc/[pid]/ for process internals. Build a 1-liner to find all SUID files.</div>
+            <div class="day-tasks">
+              <span class="task-chip chip-lab">Log parsing challenge</span>
+              <span class="task-chip chip-tool">grep/awk mastery</span>
+            </div>
+          </div>
+        </div>
+        <div class="day-card">
+          <div class="day-label">DAY 04</div>
+          <div class="day-content">
+            <div class="day-topic">Shell Scripting for Hackers (Bash)</div>
+            <div class="day-detail">Variables, loops, conditionals, functions. Reading stdin/args. Error handling. Write a port scanner in pure bash. Write an automated file enumerator. Understand shebang, PATH manipulation, alias tricks. cron jobs — attacker perspective.</div>
+            <div class="day-tasks">
+              <span class="task-chip chip-project">Build: Bash port scanner</span>
+              <span class="task-chip chip-lab">Cron persistence demo</span>
+            </div>
+          </div>
+        </div>
+        <div class="day-card">
+          <div class="day-label">DAY 05</div>
+          <div class="day-content">
+            <div class="day-topic">Networking Basics: OSI Model & TCP/IP Stack</div>
+            <div class="day-detail">7 layers of OSI — understand each layer's attack surface. TCP/IP stack: IP, TCP, UDP, ICMP. 3-way handshake in depth. IP addressing, subnetting (CIDR), ARP. Use Wireshark to capture your first packets. Understand why packet analysis is core to hacking.</div>
+            <div class="day-tasks">
+              <span class="task-chip chip-theory">OSI Attack Mapping</span>
+              <span class="task-chip chip-tool">Wireshark intro</span>
+            </div>
+          </div>
+        </div>
+        <div class="day-card">
+          <div class="day-label">DAY 06</div>
+          <div class="day-content">
+            <div class="day-topic">DNS, HTTP & How the Web Actually Works</div>
+            <div class="day-detail">DNS resolution deep-dive: A, MX, CNAME, TXT, NS records. DNS poisoning concept. HTTP/HTTPS: methods, status codes, headers, cookies, sessions. How TLS handshake works. Use curl and httpie as raw HTTP tools. Burp Suite installation and proxy setup.</div>
+            <div class="day-tasks">
+              <span class="task-chip chip-tool">Burp Suite setup</span>
+              <span class="task-chip chip-lab">DNS enumeration</span>
+            </div>
+          </div>
+        </div>
+        <div class="day-card">
+          <div class="day-label">DAY 07</div>
+          <div class="day-content">
+            <div class="day-topic">Week 1 CTF Challenge + Review</div>
+            <div class="day-detail">Solve TryHackMe "Pre-Security" path first 5 rooms. Write a summary of everything learned. Set up your hacker notebook (Obsidian/CherryTree). Review weak areas. Document your lab setup with screenshots. Rest + reflection.</div>
+            <div class="day-tasks">
+              <span class="task-chip chip-ctf">TryHackMe Pre-Security</span>
+              <span class="task-chip chip-project">Setup hacker notebook</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week">
+      <div class="week-title">// Week 2 — Python for Hackers</div>
+      <div class="days-grid">
+        <div class="day-card">
+          <div class="day-label">DAY 08</div>
+          <div class="day-content">
+            <div class="day-topic">Python Foundations: Data Structures & Control Flow</div>
+            <div class="day-detail">Why Python dominates hacking. Data types, lists, dicts, sets, tuples. Loops, conditionals, list comprehensions. Functions, args, kwargs. File I/O: reading /etc/passwd style files. Exception handling. Write a wordlist generator script.</div>
+            <div class="day-tasks"><span class="task-chip chip-project">Build: Wordlist generator</span><span class="task-chip chip-lab">Parse /etc/shadow format</span></div>
+          </div>
+        </div>
+        <div class="day-card">
+          <div class="day-label">DAY 09</div>
+          <div class="day-content">
+            <div class="day-topic">Python Socket Programming & Network Tools</div>
+            <div class="day-detail">socket module deep-dive: TCP client, TCP server, UDP. Bind/connect/listen/accept lifecycle. Build a raw TCP port scanner. Build a banner grabber. Understand raw sockets (SOCK_RAW). Introduction to scapy for packet crafting.</div>
+            <div class="day-tasks"><span class="task-chip chip-project">Build: Port scanner</span><span class="task-chip chip-tool">Scapy intro</span></div>
+          </div>
+        </div>
+        <div class="day-card">
+          <div class="day-label">DAY 10</div>
+          <div class="day-content">
+            <div class="day-topic">Python: HTTP Requests, Web Scraping & Fuzzing</div>
+            <div class="day-detail">requests library: GET/POST/sessions/headers. Beautiful Soup for HTML parsing. Build a directory fuzzer (like gobuster, in Python). Understand rate limiting and anti-bot. Build a login brute-forcer for test lab. Introduction to asyncio for fast I/O.</div>
+            <div class="day-tasks"><span class="task-chip chip-project">Build: Dir fuzzer</span><span class="task-chip chip-lab">DVWA login bruteforce</span></div>
+          </div>
+        </div>
+        <div class="day-card">
+          <div class="day-label">DAY 11</div>
+          <div class="day-content">
+            <div class="day-topic">Python: Crypto Libraries & Encoding</div>
+            <div class="day-detail">hashlib: MD5, SHA1, SHA256 — when hashes break. base64, hex, binary encoding/decoding. pycryptodome: AES, RSA basics. Build a simple password cracker (rainbow table concept). XOR encryption (used in malware). Understanding entropy.</div>
+            <div class="day-tasks"><span class="task-chip chip-project">Build: Hash cracker</span><span class="task-chip chip-theory">Entropy & randomness</span></div>
+          </div>
+        </div>
+        <div class="day-card">
+          <div class="day-label">DAY 12</div>
+          <div class="day-content">
+            <div class="day-topic">Python: Building a Reverse Shell (Educational)</div>
+            <div class="day-detail">What is a reverse shell vs bind shell. subprocess module, os module. Build a simple reverse shell client-server in Python (lab only). Understand socket reuse. Learn detection evasion concepts (why AV catches this). Study how defenders detect shells.</div>
+            <div class="day-tasks"><span class="task-chip chip-lab">Lab: Reverse shell demo</span><span class="task-chip chip-theory">Detection theory</span></div>
+          </div>
+        </div>
+        <div class="day-card">
+          <div class="day-label">DAY 13</div>
+          <div class="day-content">
+            <div class="day-topic">C Language Basics for Exploitation</div>
+            <div class="day-detail">Why C matters for hackers. Memory model: stack, heap, data, text segments. Pointers, pointer arithmetic. Buffer overflows at source level. Compile with GCC, understand ELF format. strlen vs strncpy vulnerability. Write your first intentionally vulnerable C program.</div>
+            <div class="day-tasks"><span class="task-chip chip-theory">Memory model</span><span class="task-chip chip-lab">Vulnerable C program</span></div>
+          </div>
+        </div>
+        <div class="day-card">
+          <div class="day-label">DAY 14</div>
+          <div class="day-content">
+            <div class="day-topic">Week 2 Review + PicoCTF Beginner Challenges</div>
+            <div class="day-detail">Solve 5 PicoCTF general skills challenges. Solve 2 cryptography challenges. Document solutions with methodology. Review Python code written this week. Start building your "tools" GitHub repository.</div>
+            <div class="day-tasks"><span class="task-chip chip-ctf">PicoCTF General Skills</span><span class="task-chip chip-project">GitHub repo setup</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week">
+      <div class="week-title">// Week 3 — Assembly & Binary Fundamentals</div>
+      <div class="days-grid">
+        <div class="day-card">
+          <div class="day-label">DAY 15</div>
+          <div class="day-content">
+            <div class="day-topic">x86-64 Assembly Language Fundamentals</div>
+            <div class="day-detail">Registers: RAX, RBX, RCX, RDX, RSP, RBP, RIP. MOV, ADD, SUB, MUL, DIV instructions. JMP, JE, JNE conditional jumps. PUSH/POP stack operations. Calling conventions: System V AMD64 ABI. Write "Hello World" in NASM. Understand how C compiles to ASM.</div>
+            <div class="day-tasks"><span class="task-chip chip-theory">Register map</span><span class="task-chip chip-lab">NASM hello world</span></div>
+          </div>
+        </div>
+        <div class="day-card">
+          <div class="day-label">DAY 16</div>
+          <div class="day-content">
+            <div class="day-topic">GDB Debugger Mastery</div>
+            <div class="day-detail">GDB commands: run, break, next, step, continue, info registers, x (examine memory). GDB-PEDA/pwndbg setup. Stepping through a program. Setting breakpoints before and after function calls. Examining stack frames. Understanding backtrace.</div>
+            <div class="day-tasks"><span class="task-chip chip-tool">GDB-PEDA setup</span><span class="task-chip chip-lab">Debug vulnerable binary</span></div>
+          </div>
+        </div>
+        <div class="day-card">
+          <div class="day-label">DAY 17</div>
+          <div class="day-content">
+            <div class="day-topic">ELF Binary Format & Reverse Engineering Basics</div>
+            <div class="day-detail">ELF sections: .text, .data, .bss, .plt, .got. readelf, objdump, nm, strings, file, ltrace, strace. Ghidra installation and first decompilation. Find strings, functions, imports in a binary. Understand PLT/GOT for exploitation later.</div>
+            <div class="day-tasks"><span class="task-chip chip-tool">Ghidra setup</span><span class="task-chip chip-lab">Reverse a crackme</span></div>
+          </div>
+        </div>
+        <div class="day-card">
+          <div class="day-label">DAY 18</div>
+          <div class="day-content">
+            <div class="day-topic">Classic Buffer Overflow (Stack-based)</div>
+            <div class="day-detail">Stack frame anatomy: saved RBP, return address, local vars. How strcpy overwrites the return address. Find the offset with pattern_create. Overwrite RIP to redirect execution. Disable ASLR for practice. Write your first working BoF exploit.</div>
+            <div class="day-tasks"><span class="task-chip chip-lab">First BoF exploit</span><span class="task-chip chip-tool">pattern_create</span></div>
+          </div>
+        </div>
+        <div class="day-card">
+          <div class="day-label">DAY 19</div>
+          <div class="day-content">
+            <div class="day-topic">Introduction to Shellcode</div>
+            <div class="day-detail">What shellcode is. Write a simple execve("/bin/sh") shellcode in x86-64 ASM. Avoid null bytes. Test shellcode with a C wrapper. Use msfvenom to generate shellcode. Understand NOP sleds. Learn how defenses (NX/DEP) stop this.</div>
+            <div class="day-tasks"><span class="task-chip chip-lab">Custom shellcode</span><span class="task-chip chip-tool">msfvenom intro</span></div>
+          </div>
+        </div>
+        <div class="day-card">
+          <div class="day-label">DAY 20</div>
+          <div class="day-content">
+            <div class="day-topic">How Operating Systems Work (Process & Memory)</div>
+            <div class="day-detail">Process lifecycle: fork/exec/wait. Virtual address space layout. Kernel vs userspace. System calls — the interface to the kernel. Understand /proc/[pid]/maps. Introduction to privilege escalation concept: user → root. How capabilities work.</div>
+            <div class="day-tasks"><span class="task-chip chip-theory">Kernel internals</span><span class="task-chip chip-lab">/proc exploration</span></div>
+          </div>
+        </div>
+        <div class="day-card">
+          <div class="day-label">DAY 21</div>
+          <div class="day-content">
+            <div class="day-topic">Week 3 Challenges + Binary CTF</div>
+            <div class="day-detail">PicoCTF: Solve all available Binary Exploitation beginner challenges. Solve 3 Reverse Engineering challenges. Document methodology. Review GDB workflow. Push tools to GitHub.</div>
+            <div class="day-tasks"><span class="task-chip chip-ctf">PicoCTF Binary Exp</span><span class="task-chip chip-ctf">PicoCTF RE</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week">
+      <div class="week-title">// Week 4 — Reconnaissance & OSINT Foundations</div>
+      <div class="days-grid">
+        <div class="day-card">
+          <div class="day-label">DAY 22</div>
+          <div class="day-content">
+            <div class="day-topic">Passive Reconnaissance & OSINT Techniques</div>
+            <div class="day-detail">OSINT framework overview. Google dorking (100+ dork operators). WHOIS, RDAP lookups. Certificate transparency logs (crt.sh). Shodan for internet-exposed devices. theHarvester for email/subdomain harvesting. Maltego fundamentals. Build a target profile (legal target only).</div>
+            <div class="day-tasks"><span class="task-chip chip-tool">Shodan / theHarvester</span><span class="task-chip chip-lab">Build OSINT profile</span></div>
+          </div>
+        </div>
+        <div class="day-card">
+          <div class="day-label">DAY 23</div>
+          <div class="day-content">
+            <div class="day-topic">Active Reconnaissance: Nmap Mastery</div>
+            <div class="day-detail">Nmap scan types: SYN, TCP Connect, UDP, NULL, FIN, Xmas. OS fingerprinting (-O). Service/version detection (-sV). NSE scripts: categories, popular scripts. Nmap timing templates. Evading firewalls with fragmentation. Parse Nmap XML output with Python.</div>
+            <div class="day-tasks"><span class="task-chip chip-tool">Nmap NSE scripts</span><span class="task-chip chip-project">Python Nmap parser</span></div>
+          </div>
+        </div>
+        <div class="day-card">
+          <div class="day-label">DAY 24</div>
+          <div class="day-content">
+            <div class="day-topic">Subdomain Enumeration & DNS Hacking</div>
+            <div class="day-detail">Amass, subfinder, assetfinder. DNS brute-forcing vs. passive enumeration. Zone transfers (AXFR). DNS wildcards and how to bypass. Reverse DNS sweeps. Discovering hidden subdomains with alterations. Build an automated recon script combining all tools.</div>
+            <div class="day-tasks"><span class="task-chip chip-tool">Amass / subfinder</span><span class="task-chip chip-project">Auto-recon script</span></div>
+          </div>
+        </div>
+        <div class="day-card">
+          <div class="day-label">DAY 25</div>
+          <div class="day-content">
+            <div class="day-topic">Vulnerability Scanning: Nessus & OpenVAS</div>
+            <div class="day-detail">Install and configure Nessus Essentials. Run a vulnerability scan against your Metasploitable VM. Understand severity ratings (CVSS scoring). Read CVE/NVD entries. Differentiate true positives from false positives. Introduction to vulnerability lifecycle.</div>
+            <div class="day-tasks"><span class="task-chip chip-tool">Nessus Essentials</span><span class="task-chip chip-lab">Metasploitable scan</span></div>
+          </div>
+        </div>
+        <div class="day-card">
+          <div class="day-label">DAY 26</div>
+          <div class="day-content">
+            <div class="day-topic">Metasploit Framework — Complete Introduction</div>
+            <div class="day-detail">MSF architecture: exploits, payloads, encoders, auxiliaries, post. msfconsole workflow. search, use, show options, set, run. Exploit ms17-010 (EternalBlue) against unpatched Windows VM. Meterpreter session basics: sysinfo, getuid, hashdump. Sessions management.</div>
+            <div class="day-tasks"><span class="task-chip chip-tool">Metasploit Framework</span><span class="task-chip chip-lab">EternalBlue on Win VM</span></div>
+          </div>
+        </div>
+        <div class="day-card">
+          <div class="day-label">DAY 27</div>
+          <div class="day-content">
+            <div class="day-topic">Introduction to CTF Methodology</div>
+            <div class="day-detail">CTF categories: pwn, web, crypto, forensics, RE, misc. CTF strategy: triaging, time management. Tools for each category. Solve a full TryHackMe beginner room end-to-end. Document your approach formally (methodology writeup). Start on Hack The Box Starting Point.</div>
+            <div class="day-tasks"><span class="task-chip chip-ctf">TryHackMe room</span><span class="task-chip chip-ctf">HTB Starting Point</span></div>
+          </div>
+        </div>
+        <div class="day-card">
+          <div class="day-label">DAY 28–30</div>
+          <div class="day-content">
+            <div class="day-topic">Month 1 Review, Assessment & Setup</div>
+            <div class="day-detail">Day 28: Solve 3 TryHackMe rooms end-to-end. Day 29: Write your first full penetration testing report (against your own lab). Day 30: Review all tools, scripts, notes. Set up your Obsidian vault with proper structure. Complete skill-gap analysis for Month 2.</div>
+            <div class="day-tasks"><span class="task-chip chip-project">Pentest report</span><span class="task-chip chip-project">Obsidian knowledge base</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="milestone">
+      <h4>✦ MONTH 1 MILESTONES</h4>
+      <ul>
+        <li>Kali Linux fully set up and comfortable with CLI</li>
+        <li>Python scripts: port scanner, fuzzer, hash cracker</li>
+        <li>First working buffer overflow exploit</li>
+        <li>Completed TryHackMe Pre-Security path</li>
+        <li>Basic Metasploit usage (EternalBlue demo)</li>
+        <li>OSINT profile built on a legal target</li>
+        <li>First penetration testing report written</li>
+      </ul>
+    </div>
+
+    <div class="resources-box">
+      <h4>// Month 1 Resources</h4>
+      <div class="res-grid">
+        <div class="res-item">The Linux Command Line — William Shotts</div>
+        <div class="res-item">Black Hat Python — Justin Seitz</div>
+        <div class="res-item">Computer Organization & Design — Patterson</div>
+        <div class="res-item">TryHackMe Pre-Security Path</div>
+        <div class="res-item">PicoCTF platform</div>
+        <div class="res-item">OverTheWire: Bandit (levels 0–20)</div>
+        <div class="res-item">pwn.college ASM module</div>
+        <div class="res-item">Hacking: Art of Exploitation — Erickson</div>
+      </div>
+    </div>
+  </div>
+</div><!-- end Month 1 -->
+
+<!-- MONTH 2 -->
+<div class="month-block" id="m2">
+  <div class="month-header" onclick="toggle(this)">
+    <span class="month-num">MONTH 02</span>
+    <span class="month-title">Networking, Protocols & Network Hacking</span>
+    <span class="month-hours">~90 hrs · 3 hrs/day</span>
+    <span class="month-toggle">▾</span>
+  </div>
+  <div class="month-body">
+
+    <div class="week">
+      <div class="week-title">// Week 1 — Deep Networking</div>
+      <div class="days-grid">
+        <div class="day-card"><div class="day-label">DAY 31</div><div class="day-content"><div class="day-topic">Subnetting Mastery & IPv6</div><div class="day-detail">CIDR notation, subnet masks, wildcard masks. Calculate subnets by hand (exam speed). IPv6 addressing, EUI-64, link-local. IPv6 attack surface: NDP spoofing, rogue RA. Practice with Subnetting exercises until instant calculation.</div><div class="day-tasks"><span class="task-chip chip-theory">Subnetting drills</span><span class="task-chip chip-lab">IPv6 NDP spoofing demo</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 32</div><div class="day-content"><div class="day-topic">ARP, DHCP & Layer 2 Attacks</div><div class="day-detail">ARP protocol deep-dive. ARP spoofing/poisoning with arpspoof and Bettercap. MITM attack in LAN. DHCP starvation attack (Gobbler). DHCP spoofing rogue server. MAC flooding (CAM table overflow). 802.1Q VLAN hopping. Protect with Dynamic ARP Inspection.</div><div class="day-tasks"><span class="task-chip chip-lab">ARP MITM in lab</span><span class="task-chip chip-tool">Bettercap</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 33</div><div class="day-content"><div class="day-topic">Wireshark Deep Analysis</div><div class="day-detail">Capture filters vs display filters. Protocol dissection: TCP stream, HTTP objects, DNS queries. Follow TCP stream to extract credentials. Export HTTP objects from PCAP. Detect ARP spoofing in a PCAP. Understand TLS and why you can/can't decrypt it. Practice with malware PCAP samples.</div><div class="day-tasks"><span class="task-chip chip-tool">Wireshark forensics</span><span class="task-chip chip-lab">Malware PCAP analysis</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 34</div><div class="day-content"><div class="day-topic">Firewall Architecture & Evasion</div><div class="day-detail">Stateful vs stateless firewalls. iptables rules — understanding INPUT, OUTPUT, FORWARD chains. WAF concepts. Firewall fingerprinting with Nmap. Firewall evasion: fragmentation, decoys, source port manipulation, IPv6 tunneling. Egress filtering and why it matters for attackers.</div><div class="day-tasks"><span class="task-chip chip-theory">iptables deep dive</span><span class="task-chip chip-lab">Firewall evasion Nmap</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 35</div><div class="day-content"><div class="day-topic">VPN, Proxy Chains & Anonymity</div><div class="day-detail">How VPNs work (WireGuard, OpenVPN internals). ProxyChains for SOCKS proxying. Tor network: onion routing layers. Setting up anonymous lab environment. Understanding traffic correlation attacks. OPSEC fundamentals for a hacker. When anonymity fails (log analysis).</div><div class="day-tasks"><span class="task-chip chip-lab">ProxyChains + Tor setup</span><span class="task-chip chip-theory">OPSEC fundamentals</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 36</div><div class="day-content"><div class="day-topic">Wireless Security (Wi-Fi Hacking)</div><div class="day-detail">802.11 standards and security protocols: WEP, WPA, WPA2, WPA3. 4-way handshake capture with airodump-ng. WPA2 handshake cracking with Hashcat. PMKID attack. Evil twin attack with hostapd. WPS PIN attack (Reaver). Understand WPA3-SAE and why it's harder. Aircrack-ng suite mastery.</div><div class="day-tasks"><span class="task-chip chip-tool">Aircrack-ng suite</span><span class="task-chip chip-lab">WPA2 crack own AP</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 37</div><div class="day-content"><div class="day-topic">Bluetooth & IoT Attack Surface</div><div class="day-detail">Bluetooth architecture: Classic, BLE. BTLE sniffing with Wireshark. Bluejacking, bluesnarfing concepts. BLE GATT attribute exploitation. IoT attack surface: default creds, open Telnet, MQTT exposure. Shodan dorking for IoT devices. Firmware extraction overview.</div><div class="day-tasks"><span class="task-chip chip-theory">IoT threat model</span><span class="task-chip chip-lab">BLE sniffing demo</span></div></div></div>
+      </div>
+    </div>
+
+    <div class="week">
+      <div class="week-title">// Week 2 — Active Directory & Windows Fundamentals</div>
+      <div class="days-grid">
+        <div class="day-card"><div class="day-label">DAY 38</div><div class="day-content"><div class="day-topic">Active Directory Architecture</div><div class="day-detail">Forest, domain, OU structure. Domain Controllers, Global Catalog. LDAP, Kerberos, NTLM protocols. AD objects: users, groups, GPOs, computer accounts. Set up a Windows Server 2019 DC + Windows 10 client lab. Join domain, configure GPO. BloodHound installation and collection.</div><div class="day-tasks"><span class="task-chip chip-lab">AD lab setup</span><span class="task-chip chip-tool">BloodHound</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 39</div><div class="day-content"><div class="day-topic">Kerberos Authentication Deep Dive</div><div class="day-detail">Kerberos tickets: TGT, TGS, AP-REQ/AP-REP. KDC, AS, TGS roles. Kerberoasting: SPN discovery, ticket request, offline crack. AS-REP Roasting: accounts without pre-auth. Golden Ticket and Silver Ticket attacks — theory and execution in lab. Pass-the-Ticket.</div><div class="day-tasks"><span class="task-chip chip-lab">Kerberoasting lab</span><span class="task-chip chip-theory">Ticket attack taxonomy</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 40</div><div class="day-content"><div class="day-topic">NTLM, Pass-the-Hash & Credential Attacks</div><div class="day-detail">NTLM authentication flow. Pass-the-Hash with Mimikatz (lab). NTLM relay attacks with Responder + ntlmrelayx. Credential dumping: LSASS, SAM, NTDS.dit. DCSync attack. Overpass-the-Hash. SMB signing bypass. SecretsDump from Impacket suite.</div><div class="day-tasks"><span class="task-chip chip-tool">Mimikatz / Impacket</span><span class="task-chip chip-lab">DCSync attack</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 41</div><div class="day-content"><div class="day-topic">PowerShell for Red Teams</div><div class="day-detail">PowerShell remoting and WinRM. AMSI bypass techniques (concept). PowerShell execution policies and bypass. PowerView for AD enumeration. PowerUp for local privilege escalation. Empire/PowerSploit overview. Script block logging and evasion. Living-off-the-land binaries (LOLbins).</div><div class="day-tasks"><span class="task-chip chip-tool">PowerView / PowerUp</span><span class="task-chip chip-lab">AMSI bypass demo</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 42</div><div class="day-content"><div class="day-topic">Windows Privilege Escalation</div><div class="day-detail">Local privesc vectors: unquoted service paths, weak service permissions, always install elevated, DLL hijacking, token impersonation. AlwaysInstallElevated. Registry autoruns. Scheduled tasks abuse. Use WinPEAS and PrivescCheck. Practice on TryHackMe Windows Privesc rooms.</div><div class="day-tasks"><span class="task-chip chip-tool">WinPEAS</span><span class="task-chip chip-ctf">THM Windows Privesc</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 43</div><div class="day-content"><div class="day-topic">Linux Privilege Escalation</div><div class="day-detail">SUID/SGID binaries (GTFOBins). Sudo misconfigurations. Cron job hijacking. PATH injection. Weak file permissions: /etc/passwd write, SSH key injection. Kernel exploits (DirtyCow concept). Capabilities abuse. LinPEAS usage. Practice on HTB Linux machines. Build a privesc checklist.</div><div class="day-tasks"><span class="task-chip chip-tool">LinPEAS / GTFOBins</span><span class="task-chip chip-ctf">HTB Linux easy boxes</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 44</div><div class="day-content"><div class="day-topic">Post-Exploitation & Lateral Movement</div><div class="day-detail">Post-exploitation framework: Meterpreter advanced commands. Port forwarding and pivoting (sshuttle, Chisel, Metasploit route). Lateral movement: PsExec, WMI, WinRM, SMBExec. Network tunneling through compromised hosts. Data exfiltration techniques. Cleanup and covering tracks.</div><div class="day-tasks"><span class="task-chip chip-lab">Pivoting lab (3 VMs)</span><span class="task-chip chip-tool">Chisel / sshuttle</span></div></div></div>
+      </div>
+    </div>
+
+    <div class="week">
+      <div class="week-title">// Week 3 — Password Attacks & Cryptanalysis</div>
+      <div class="days-grid">
+        <div class="day-card"><div class="day-label">DAY 45</div><div class="day-content"><div class="day-topic">Password Cracking Fundamentals</div><div class="day-detail">Hash types: MD5, NTLM, SHA-256, bcrypt, PBKDF2, argon2. John the Ripper: rules, wordlists, formats. Hashcat: attack modes (0,1,3,6,7), rule-based attacks, mask attacks. GPU acceleration. Build a custom rule set for Indian passwords. RainbowCrack concept. Hash identification tools.</div><div class="day-tasks"><span class="task-chip chip-tool">Hashcat GPU cracking</span><span class="task-chip chip-lab">Custom rule building</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 46</div><div class="day-content"><div class="day-topic">Wordlist Creation & OSINT-Based Cracking</div><div class="day-detail">rockyou.txt analysis. CUPP (Common User Password Profiler): create target-specific wordlist from OSINT data. Crunch for pattern-based generation. CeWL for website-based wordlists. Mentalist for rule-based wordlists. Combining lists with hashcat. Real-world statistics on password reuse.</div><div class="day-tasks"><span class="task-chip chip-tool">CUPP / CeWL</span><span class="task-chip chip-project">Build targeted wordlist</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 47</div><div class="day-content"><div class="day-topic">Classic Cryptography & Breaking It</div><div class="day-detail">Caesar, Vigenère, Substitution ciphers — frequency analysis attacks. Enigma machine (historical). One-time pad and why it's unbreakable. ECB mode penguin attack. CBC bit-flipping. MD5 length extension attacks. Hash collision attacks (MD5, SHA1 collision theory). CyberChef mastery.</div><div class="day-tasks"><span class="task-chip chip-tool">CyberChef</span><span class="task-chip chip-ctf">Crypto CTF challenges</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 48</div><div class="day-content"><div class="day-topic">RSA Deep Dive & Attacks</div><div class="day-detail">RSA math: Euler's theorem, modular exponentiation. Key generation. Small public exponent attack (e=3). Common modulus attack. Wiener's attack (small d). Hastad's broadcast attack. Factor with factordb. Coppersmith's theorem (intro). Implement RSA from scratch in Python. RsaCtfTool.</div><div class="day-tasks"><span class="task-chip chip-theory">RSA mathematics</span><span class="task-chip chip-tool">RsaCtfTool</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 49</div><div class="day-content"><div class="day-topic">TLS/SSL — Attacks & Analysis</div><div class="day-detail">TLS 1.2 vs 1.3 handshake. Certificate chain of trust. BEAST, CRIME, BREACH, POODLE, ROBOT attacks (theory + lab where possible). SSL stripping (sslstrip). HSTS bypass. Certificate pinning and bypass. testssl.sh for audit. How to set up your own CA. Let's Encrypt internals.</div><div class="day-tasks"><span class="task-chip chip-tool">testssl.sh</span><span class="task-chip chip-lab">SSL strip lab</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 50</div><div class="day-content"><div class="day-topic">Social Engineering — Technical Aspects</div><div class="day-detail">Phishing infrastructure setup: GoPhish. Clone a website with HTTrack. Email spoofing, SPF/DKIM/DMARC bypass. Spear phishing email construction. Pretexting methodology. Vishing scripts. SMS spoofing concept. Social Engineering Toolkit (SET). Report writing for social engineering engagements.</div><div class="day-tasks"><span class="task-chip chip-tool">GoPhish / SET</span><span class="task-chip chip-lab">Phishing campaign demo</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 51</div><div class="day-content"><div class="day-topic">Week 3 Review + HTB Easy Linux Machine</div><div class="day-detail">Root an HTB easy Linux machine end-to-end without hints. Write a complete penetration test report. Review all cryptography concepts. Build a crypto attack cheat sheet.</div><div class="day-tasks"><span class="task-chip chip-ctf">HTB Easy Linux root</span><span class="task-chip chip-project">Pentest report #2</span></div></div></div>
+      </div>
+    </div>
+
+    <div class="week">
+      <div class="week-title">// Week 4 — Network Services Exploitation</div>
+      <div class="days-grid">
+        <div class="day-card"><div class="day-label">DAY 52</div><div class="day-content"><div class="day-topic">FTP, SSH, Telnet, SMTP Exploitation</div><div class="day-detail">FTP anonymous login, bounce attacks, directory traversal. SSH: key-based auth, key harvesting, SSH tunneling tricks. Telnet: why it's dangerous, cleartext sniffing. SMTP: open relay, email enumeration (VRFY/EXPN), sendmail exploitation. Test all against Metasploitable2.</div><div class="day-tasks"><span class="task-chip chip-lab">Metasploitable2 service attacks</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 53</div><div class="day-content"><div class="day-topic">SMB, RPC, NetBIOS & Windows Services</div><div class="day-detail">SMB enumeration with enum4linux, smbclient, smbmap. SMBv1 EternalBlue (MS17-010). PrintNightmare (CVE-2021-34527). PetitPotam. RPC endpoint enumeration. MS-SQL exploitation (xp_cmdshell). WinRM coercion attacks. Understanding how Impacket modules work internally.</div><div class="day-tasks"><span class="task-chip chip-tool">Impacket suite</span><span class="task-chip chip-lab">PrintNightmare lab</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 54</div><div class="day-content"><div class="day-topic">Database Hacking: MySQL, PostgreSQL, MongoDB</div><div class="day-detail">MySQL: enumeration, UDF privilege escalation, file read/write. PostgreSQL: COPY TO/FROM exploitation. MongoDB: NoSQL injection, unauthenticated access. Redis exploitation: unauthorized access, config rewrite, SSRF chain. Database-linked attacks: SQLi to command execution chain.</div><div class="day-tasks"><span class="task-chip chip-lab">DB privesc lab</span><span class="task-chip chip-tool">Redis exploit demo</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 55–60</div><div class="day-content"><div class="day-topic">Month 2 Completion: Practice Labs + Assessment</div><div class="day-detail">Day 55–57: Complete TryHackMe "Jr Penetration Tester" path. Day 58: Root 2 HTB easy machines (1 Linux, 1 Windows). Day 59: Build a comprehensive lab network with 5 VMs and document it. Day 60: Month 2 self-assessment, skill gap analysis, plan Month 3 adjustments.</div><div class="day-tasks"><span class="task-chip chip-ctf">THM Jr Pentester path</span><span class="task-chip chip-project">5-VM lab network</span></div></div></div>
+      </div>
+    </div>
+
+    <div class="milestone">
+      <h4>✦ MONTH 2 MILESTONES</h4>
+      <ul>
+        <li>Active Directory lab fully operational</li>
+        <li>Completed Kerberoasting and Pass-the-Hash attacks in lab</li>
+        <li>WPA2 handshake captured and cracked</li>
+        <li>Custom password wordlists generated</li>
+        <li>Rooted 3 HTB/THM boxes with reports</li>
+        <li>RSA CTF challenge solved from scratch</li>
+        <li>Network pivoting through 3-hop lab chain</li>
+      </ul>
+    </div>
+  </div>
+</div><!-- end Month 2 -->
+
+<!-- MONTH 3 -->
+<div class="month-block" id="m3">
+  <div class="month-header" onclick="toggle(this)">
+    <span class="month-num">MONTH 03</span>
+    <span class="month-title">Web Application Security — Complete</span>
+    <span class="month-hours">~90 hrs · 3 hrs/day</span>
+    <span class="month-toggle">▾</span>
+  </div>
+  <div class="month-body">
+    <div class="week">
+      <div class="week-title">// Week 1 — OWASP Top 10 In Depth</div>
+      <div class="days-grid">
+        <div class="day-card"><div class="day-label">DAY 61</div><div class="day-content"><div class="day-topic">SQL Injection — Complete Mastery</div><div class="day-detail">In-band SQLi: UNION-based, error-based. Blind SQLi: boolean-based, time-based. Out-of-band SQLi (DNS exfil). Second-order SQLi. SQLmap — every important flag. Bypass WAF: case manipulation, comment injection, encoding. Manual SQLi methodology. Extract data from all major DB engines.</div><div class="day-tasks"><span class="task-chip chip-lab">DVWA SQLi all levels</span><span class="task-chip chip-tool">SQLmap mastery</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 62</div><div class="day-content"><div class="day-topic">Cross-Site Scripting (XSS) — All Types</div><div class="day-detail">Reflected, Stored, DOM-based XSS. CSP bypass techniques. XSS filter evasion: encoding, event handlers, HTML5 vectors. XSS to account takeover (cookie theft). CSRF using XSS. BeEF framework for browser exploitation. XSS to SSRF chain. Build a keylogger via XSS. PortSwigger XSS labs.</div><div class="day-tasks"><span class="task-chip chip-lab">PortSwigger XSS labs</span><span class="task-chip chip-tool">BeEF framework</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 63</div><div class="day-content"><div class="day-topic">SSRF, XXE & Command Injection</div><div class="day-detail">SSRF: cloud metadata exploitation (AWS IMDSv1), internal service enumeration, SSRF to RCE chain. XXE: file disclosure, SSRF via XXE, blind XXE with OOB. Command injection: OS command injection, blind command injection, injection via different encodings. All PortSwigger labs for these.</div><div class="day-tasks"><span class="task-chip chip-lab">PortSwigger SSRF/XXE</span><span class="task-chip chip-lab">Cloud metadata exploit</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 64</div><div class="day-content"><div class="day-topic">Authentication & Session Attacks</div><div class="day-detail">Broken authentication: brute force, credential stuffing, username enumeration. Session management: predictable tokens, session fixation, session hijacking. JWT attacks: alg:none, RS to HS256 confusion, weak secret, jwk injection. OAuth 2.0 vulnerabilities: implicit flow misuse, state bypass. 2FA bypass techniques.</div><div class="day-tasks"><span class="task-chip chip-lab">JWT attacks lab</span><span class="task-chip chip-lab">OAuth CSRF bypass</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 65</div><div class="day-content"><div class="day-topic">Insecure Deserialization & Business Logic</div><div class="day-detail">PHP object injection: magic methods, POP chains. Java deserialization: ysoserial tool, gadget chains. Python pickle deserialization. Business logic flaws: price manipulation, privilege escalation via parameter tampering, race conditions, workflow bypass. Mass assignment vulnerabilities.</div><div class="day-tasks"><span class="task-chip chip-tool">ysoserial</span><span class="task-chip chip-lab">Race condition lab</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 66</div><div class="day-content"><div class="day-topic">File Upload, Path Traversal & LFI/RFI</div><div class="day-detail">Unrestricted file upload: bypass extension checks, MIME type manipulation, null byte injection, polyglot files. PHP webshell upload to RCE. Path traversal: URL encoding, double encoding, null byte. LFI: log poisoning, /proc/self/environ, PHP filter chains, LFI to RCE. RFI setup and exploitation.</div><div class="day-tasks"><span class="task-chip chip-lab">Upload bypass all methods</span><span class="task-chip chip-lab">LFI to RCE chain</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 67</div><div class="day-content"><div class="day-topic">PortSwigger Web Security Academy Sprint</div><div class="day-detail">Complete all apprentice-level labs across: SQL injection, XSS, CSRF, clickjacking, CORS, SSRF, XXE, authentication. Write up methodology for each. Time yourself — speed matters. Identify patterns across vulnerability types.</div><div class="day-tasks"><span class="task-chip chip-ctf">PortSwigger apprentice</span><span class="task-chip chip-project">Writeups for all</span></div></div></div>
+      </div>
+    </div>
+
+    <div class="week">
+      <div class="week-title">// Week 2 — API Security & Modern Web Attacks</div>
+      <div class="days-grid">
+        <div class="day-card"><div class="day-label">DAY 68</div><div class="day-content"><div class="day-topic">REST API Security Testing</div><div class="day-detail">API enumeration: endpoint discovery, parameter fuzzing. OWASP API Top 10: broken object level auth, broken user auth, excessive data exposure, lack of resources & rate limiting. Test APIs with Postman and Burp Suite. BOLA/IDOR in APIs. API key disclosure. GraphQL introspection attacks.</div><div class="day-tasks"><span class="task-chip chip-tool">Postman / Burp</span><span class="task-chip chip-lab">GraphQL injection</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 69</div><div class="day-content"><div class="day-topic">GraphQL Security & WebSocket Attacks</div><div class="day-detail">GraphQL introspection for schema discovery. InQL Burp extension. GraphQL injection: SQLi via GraphQL, NoSQLi. Batching attacks, CSRF via GraphQL. WebSocket vulnerabilities: hijacking, injection through WebSocket messages. XSSI and JSONP attacks. HTTP request smuggling fundamentals.</div><div class="day-tasks"><span class="task-chip chip-tool">InQL extension</span><span class="task-chip chip-lab">Request smuggling lab</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 70</div><div class="day-content"><div class="day-topic">HTTP Request Smuggling (Deep Dive)</div><div class="day-detail">CL.TE vs TE.CL vs TE.TE desync. Detecting smuggling with timing. Confirming with differential response. Exploiting: bypass front-end security, capture other users' requests, reflected XSS via smuggling, HTTP/2 request splitting. PortSwigger smuggling labs (practitioner level).</div><div class="day-tasks"><span class="task-chip chip-lab">PortSwigger smuggling</span><span class="task-chip chip-theory">Desync theory</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 71</div><div class="day-content"><div class="day-topic">Server-Side Template Injection (SSTI)</div><div class="day-detail">Template engine detection: Jinja2, Twig, Freemarker, Smarty, Velocity. SSTI to RCE in Jinja2 (Python). SSTI methodology tree. Filter bypass techniques. SSTI in ERB (Ruby), Pebble (Java). Build automated SSTI detection script. Practice on VulnHub SSTI machines.</div><div class="day-tasks"><span class="task-chip chip-lab">SSTI to RCE Jinja2</span><span class="task-chip chip-project">SSTI detection script</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 72</div><div class="day-content"><div class="day-topic">Access Control & IDOR (Advanced)</div><div class="day-detail">Horizontal vs vertical privilege escalation. IDOR in GUIDs, hashes, predictable IDs. IDOR via API. Access control via Referer/Origin headers. Multi-stage IDOR. Forced browsing. CORS misconfiguration: wildcard origin, trusted null origin, subdomain bypass. Full CORS exploitation chain.</div><div class="day-tasks"><span class="task-chip chip-lab">PortSwigger access control</span><span class="task-chip chip-lab">CORS full exploit</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 73</div><div class="day-content"><div class="day-topic">Web Cache Poisoning & Prototype Pollution</div><div class="day-detail">Web cache poisoning: unkeyed headers, unkeyed query params. Fat GET poisoning. Cache deception. JavaScript prototype pollution: server-side and client-side. Gadget chains for prototype pollution to RCE. DOM clobbering. Client-side prototype pollution to XSS. PortSwigger advanced labs.</div><div class="day-tasks"><span class="task-chip chip-lab">Cache poisoning labs</span><span class="task-chip chip-lab">Prototype pollution RCE</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 74</div><div class="day-content"><div class="day-topic">Burp Suite Professional Mastery</div><div class="day-detail">Burp Suite all tools: Proxy, Repeater, Intruder, Scanner, Decoder, Comparer, Sequencer, Collaborator. Advanced Intruder: Sniper, Battering Ram, Pitchfork, Cluster Bomb. Turbo Intruder for race conditions. Writing custom Burp extensions in Python/Java. Burp macro for multi-step auth.</div><div class="day-tasks"><span class="task-chip chip-tool">Burp advanced</span><span class="task-chip chip-project">Custom Burp extension</span></div></div></div>
+      </div>
+    </div>
+
+    <div class="week">
+      <div class="week-title">// Week 3 — Bug Bounty Methodology</div>
+      <div class="days-grid">
+        <div class="day-card"><div class="day-label">DAY 75</div><div class="day-content"><div class="day-topic">Bug Bounty Platforms & Methodology</div><div class="day-detail">HackerOne, Bugcrowd, Intigriti — platform mechanics, scope reading, safe harbor. Disclosure best practices. CVSS scoring for bounties. Recon-heavy methodology: ASN discovery, CDN identification, tech stack fingerprinting. Writing a quality bug report. Triage and response timeline. Legal considerations.</div><div class="day-tasks"><span class="task-chip chip-theory">Bug bounty lifecycle</span><span class="task-chip chip-lab">Report writing practice</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 76</div><div class="day-content"><div class="day-topic">Automation in Bug Bounty (Recon Pipeline)</div><div class="day-detail">Build a full recon pipeline: subfinder → httpx → nuclei → gf patterns → manual review. nuclei templates: custom and community. ffuf for fuzzing at scale. gau/waybackurls for historical URLs. github-search for secrets. truffleHog, gitleaks for credential leaks. Build a complete bash recon script.</div><div class="day-tasks"><span class="task-chip chip-project">Full recon pipeline</span><span class="task-chip chip-tool">Nuclei templates</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 77–80</div><div class="day-content"><div class="day-topic">Full Web App Pentest — End to End</div><div class="day-detail">Day 77: Set up DVWA, bWAPP, Juice Shop. Hack all three completely. Day 78: Root an HTB web machine. Day 79: HackThisSite or WebGoat full completion. Day 80: Write a complete professional pentest report for a web app assessment. Practice executive summary writing.</div><div class="day-tasks"><span class="task-chip chip-ctf">HTB web machine</span><span class="task-chip chip-project">Professional report</span></div></div></div>
+      </div>
+    </div>
+
+    <div class="week">
+      <div class="week-title">// Week 4 — Cloud Security Foundations</div>
+      <div class="days-grid">
+        <div class="day-card"><div class="day-label">DAY 81</div><div class="day-content"><div class="day-topic">AWS Security Fundamentals & Attacks</div><div class="day-detail">AWS IAM: roles, policies, permission boundaries, service control policies. S3 bucket misconfigurations: public buckets, ACL issues, presigned URL abuse. EC2 IMDS v1 SSRF. Metadata credential theft. Pacu framework for AWS exploitation. CloudTrail log analysis. AWS security assessment methodology.</div><div class="day-tasks"><span class="task-chip chip-tool">Pacu framework</span><span class="task-chip chip-lab">S3 bucket misconfiguration</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 82</div><div class="day-content"><div class="day-topic">Container Security: Docker & Kubernetes</div><div class="day-detail">Docker security: privileged containers, socket mount, volume mounts. Docker breakout techniques. Kubernetes: RBAC misconfiguration, exposed API server, kubelet exploitation. k8s secret exposure. Service account token abuse. Falco for runtime detection. Container scanning with Trivy. Build a vulnerable k8s lab.</div><div class="day-tasks"><span class="task-chip chip-lab">Docker breakout</span><span class="task-chip chip-lab">K8s token abuse</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 83–90</div><div class="day-content"><div class="day-topic">Month 3 Capstone: Full Engagement Simulation</div><div class="day-detail">Days 83–88: Complete a full pentest simulation from recon to report on your 5-VM lab network. Every phase: recon, scanning, exploitation, post-exploitation, lateral movement, persistence, exfiltration, cleanup. Day 89–90: Write a 20-page professional penetration testing report. This is your Phase 1 graduation project.</div><div class="day-tasks"><span class="task-chip chip-project">Full pentest engagement</span><span class="task-chip chip-project">20-page pro report</span></div></div></div>
+      </div>
+    </div>
+
+    <div class="milestone">
+      <h4>✦ MONTH 3 — PHASE 1 COMPLETE</h4>
+      <ul>
+        <li>All OWASP Top 10 exploited in controlled environments</li>
+        <li>PortSwigger Web Academy apprentice-level complete</li>
+        <li>Full web app pentest report written</li>
+        <li>Bug bounty recon pipeline automated</li>
+        <li>AWS SSRF + metadata credential theft</li>
+        <li>Docker breakout demonstrated</li>
+        <li>20-page professional pentest report</li>
+        <li>TryHackMe Jr Pentester certification (or equivalent)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PHASE 2 -->
+<!-- ============================================================ -->
+<div id="phase2" class="phase-header" data-phase="02" style="border-left-color:var(--cyan)">
+  <div class="phase-tag">// Phase 02 — Year 1, Month 4–6</div>
+  <div class="phase-title">EXPLOITATION ENGINEERING</div>
+  <p style="color:var(--muted);font-size:14px;">Advanced binary exploitation, exploit development, memory corruption, kernel hacking, and real CVE recreation.</p>
+  <div class="phase-meta">
+    <span class="phase-badge badge-time">3 Months · 270 Hours</span>
+    <span class="phase-badge badge-level">UG Senior / Early Graduate</span>
+    <span class="phase-badge badge-focus">Binary + Exploit Dev</span>
+  </div>
+</div>
+
+<div class="month-block" id="m4">
+  <div class="month-header" onclick="toggle(this)">
+    <span class="month-num">MONTH 04</span>
+    <span class="month-title">Advanced Binary Exploitation & Memory Corruption</span>
+    <span class="month-hours">~90 hrs · 3 hrs/day</span>
+    <span class="month-toggle">▾</span>
+  </div>
+  <div class="month-body">
+    <div class="week">
+      <div class="week-title">// Week 1 — Modern Exploitation Protections & Bypasses</div>
+      <div class="days-grid">
+        <div class="day-card"><div class="day-label">DAY 91</div><div class="day-content"><div class="day-topic">ASLR — Theory & Bypasses</div><div class="day-detail">How ASLR randomizes the address space. 32-bit vs 64-bit ASLR entropy. Information leak primitives. Format string to leak addresses. Partial overwrite technique. Brute forcing 32-bit ASLR. spraying techniques. ret2plt for defeating ASLR. Practice on pwn.college ASLR module.</div><div class="day-tasks"><span class="task-chip chip-lab">ASLR bypass via format string</span><span class="task-chip chip-lab">ret2plt exploitation</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 92</div><div class="day-content"><div class="day-topic">NX/DEP & Stack Canaries — Bypasses</div><div class="day-detail">NX bit: how it prevents shellcode execution. ret2libc: jump to system() with controlled args. ret2plt chain. Stack canaries: how they protect, brute forcing in fork servers, leaking canary via format string, off-by-one canary bypass. Combine: leak canary → bypass NX via ret2libc.</div><div class="day-tasks"><span class="task-chip chip-lab">ret2libc exploit</span><span class="task-chip chip-lab">Canary leak + bypass</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 93</div><div class="day-content"><div class="day-topic">Return Oriented Programming (ROP)</div><div class="day-detail">What ROP is and why it bypasses NX. Gadget discovery with ROPgadget and ropper. Building ROP chains: pop rdi → system("/bin/sh"). ret2plt with ROP. ASLR bypass using ROP. Advanced: sigreturn-oriented programming (SROP). JOP (Jump-oriented programming). Practice on pwn.college ROP module — all challenges.</div><div class="day-tasks"><span class="task-chip chip-tool">ROPgadget / ropper</span><span class="task-chip chip-lab">pwn.college ROP module</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 94</div><div class="day-content"><div class="day-topic">Format String Vulnerabilities</div><div class="day-detail">printf format string internals. %x, %s, %n format specifiers as attackers. Read arbitrary memory with %s and %x. Write arbitrary memory with %n. 4-byte write, 2-byte write, 1-byte write. GOT overwrite via format string. Automate with pwntools fmtstr_payload. Practice on pwnables.tw.</div><div class="day-tasks"><span class="task-chip chip-lab">GOT overwrite via printf</span><span class="task-chip chip-tool">pwntools fmtstr</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 95</div><div class="day-content"><div class="day-topic">Heap Exploitation — Foundations</div><div class="day-detail">Glibc malloc internals: chunks, bins (fast, small, large, unsorted). Heap layout visualization. Use-after-free (UAF) concept. Heap overflow: corrupting chunk metadata. Double-free vulnerability. Understand tcache (glibc 2.27+). House of concepts overview. pwndbg heap commands: heap, bins, chunks.</div><div class="day-tasks"><span class="task-chip chip-theory">Heap internals</span><span class="task-chip chip-lab">UAF demo exploit</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 96</div><div class="day-content"><div class="day-topic">Heap Exploitation — Tcache Attacks</div><div class="day-detail">Tcache bin mechanics. Tcache poisoning to arbitrary write. Tcache double-free (pre/post-patch). tcache_perthread_struct corruption. House of Botcake. Bypass tcache safe-linking (glibc 2.32+). Use-after-free → tcache chain → arbitrary allocation. Complete pwn.college heap module.</div><div class="day-tasks"><span class="task-chip chip-lab">Tcache poison exploit</span><span class="task-chip chip-lab">pwn.college heap</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 97</div><div class="day-content"><div class="day-topic">Week 1 Challenges — pwn.college + CTF</div><div class="day-detail">Solve 5 pwntools CTF challenges. Complete pwn.college Memory Safety module. Root an HTB pwn challenge. Write detailed exploits with full pwntools scripts. Document bypass techniques used.</div><div class="day-tasks"><span class="task-chip chip-ctf">pwn.college memory safety</span><span class="task-chip chip-ctf">HTB pwn challenge</span></div></div></div>
+      </div>
+    </div>
+
+    <div class="week">
+      <div class="week-title">// Week 2 — Heap Houses & Advanced Primitives</div>
+      <div class="days-grid">
+        <div class="day-card"><div class="day-label">DAY 98</div><div class="day-content"><div class="day-topic">House of Force, Spirit, Einherjar</div><div class="day-detail">House of Force: overwrite top chunk size, malloc to target. House of Spirit: free fake chunk. House of Einherjar: off-by-null consolidation attack. Conditions and prerequisites for each. Which glibc versions are vulnerable. Practice implementing each from scratch with pwntools.</div><div class="day-tasks"><span class="task-chip chip-lab">House of Force exploit</span><span class="task-chip chip-lab">House of Einherjar</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 99</div><div class="day-content"><div class="day-topic">House of Orange, Lore & IO_FILE Exploitation</div><div class="day-detail">House of Orange: unsorted bin attack + FSOP. _IO_FILE vtable hijack. FSOP (File Stream Oriented Programming). _IO_buf_base/_IO_buf_end exploitation. Bypassing vtable checks (glibc 2.24+). IO_file exploitation chains. These are common in modern CTF heap challenges. Practice on CTFtime archived challenges.</div><div class="day-tasks"><span class="task-chip chip-theory">FSOP theory</span><span class="task-chip chip-lab">IO_FILE vtable hijack</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 100</div><div class="day-content"><div class="day-topic">Kernel Exploitation Fundamentals</div><div class="day-detail">Linux kernel architecture: rings 0–3. Kernel modules. /proc/kallsyms, /proc/modules. commit_creds, prepare_kernel_cred for privesc. SMEP, SMAP, KPTI protections. Kernel heap (SLUB allocator). Kernel stack overflow basics. ret2usr concept. Set up a kernel hacking VM with QEMU.</div><div class="day-tasks"><span class="task-chip chip-theory">Kernel security model</span><span class="task-chip chip-lab">QEMU kernel lab setup</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 101</div><div class="day-content"><div class="day-topic">Kernel Module Exploitation</div><div class="day-detail">Write a vulnerable kernel module (char device with stack overflow). Exploit it: write shellcode to commit_creds(prepare_kernel_cred(0)). Bypass SMEP with ROP in kernel space. KPTI trampoline technique. Use-after-free in kernel drivers. Practice on pwn.college kernel exploitation module.</div><div class="day-tasks"><span class="task-chip chip-lab">Kernel module exploit</span><span class="task-chip chip-lab">SMEP bypass</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 102</div><div class="day-content"><div class="day-topic">Race Conditions & TOCTOU</div><div class="day-detail">Race conditions in userspace: file-based TOCTOU. Kernel race conditions: double-fetch bugs. Exploiting userfaultfd for race windows. DirtyCow (CVE-2016-5195) deep analysis and recreation. Reproducing the exploit with modern techniques. Time-of-check-to-time-of-use in web apps.</div><div class="day-tasks"><span class="task-chip chip-lab">DirtyCow recreation</span><span class="task-chip chip-lab">userfaultfd race</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 103</div><div class="day-content"><div class="day-topic">Integer Overflows & Type Confusion</div><div class="day-detail">Signed/unsigned integer overflow. Integer truncation. Off-by-one errors. Type confusion in C++: virtual function table corruption. C++ vtable hijacking. Vulnerabilities in type casting. Case study: CVE integer overflow leading to heap overflow. Practice challenges on pwn.college and exploit.education.</div><div class="day-tasks"><span class="task-chip chip-theory">Integer vuln taxonomy</span><span class="task-chip chip-lab">vtable hijack</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 104</div><div class="day-content"><div class="day-topic">Exploit Development with pwntools</div><div class="day-detail">pwntools complete: process/remote, tubes, ELF, ROP, packing. Automatic exploit scripting. GDB integration. Cyclic patterns, offset finding. Building complex multi-stage exploits programmatically. Solve 3 CTF pwn challenges using pwntools. Understand libc database lookup (libc.rip).</div><div class="day-tasks"><span class="task-chip chip-tool">pwntools mastery</span><span class="task-chip chip-ctf">3 CTF pwn solves</span></div></div></div>
+      </div>
+    </div>
+
+    <div class="week">
+      <div class="week-title">// Week 3–4 — CVE Recreation & Real Exploits</div>
+      <div class="days-grid">
+        <div class="day-card"><div class="day-label">DAY 105</div><div class="day-content"><div class="day-topic">CVE Research Methodology</div><div class="day-detail">Reading CVE advisories, NVD, GitHub security advisories. Source code diff analysis (git diff for patch analysis). From patch to proof-of-concept: working backward. Setting up vulnerable software versions with Docker. CVE timeline: discovery → report → patch → public. Bug bounty vs. responsible disclosure.</div><div class="day-tasks"><span class="task-chip chip-research">Patch diff analysis</span><span class="task-chip chip-theory">Disclosure process</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 106</div><div class="day-content"><div class="day-topic">Recreate CVE-2021-3156 (Baron Samedit — sudo heap overflow)</div><div class="day-detail">Study the heap overflow in sudoedit. Understand the off-by-one in argument parsing. Set up vulnerable sudo version. Analyze the Qualys PoC. Step through the exploit in GDB. Understand the heap spray technique. Reproduce the local privilege escalation to root. Write a detailed technical analysis.</div><div class="day-tasks"><span class="task-chip chip-lab">Baron Samedit reproduction</span><span class="task-chip chip-research">Technical writeup</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 107</div><div class="day-content"><div class="day-topic">Recreate CVE-2022-0847 (Dirty Pipe)</div><div class="day-detail">Pipe page caching vulnerability in Linux kernel 5.8+. Study the splice() system call internals. Understand the PIPE_BUF_FLAG_CAN_MERGE flag bug. Run the original exploit. Overwrite read-only file contents (passwd overwrite to get root). Technical writeup of the vulnerability class.</div><div class="day-tasks"><span class="task-chip chip-lab">Dirty Pipe recreation</span><span class="task-chip chip-research">Kernel analysis</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 108–110</div><div class="day-content"><div class="day-topic">Browser Exploitation Introduction</div><div class="day-detail">V8 JavaScript engine internals. JIT compilation and JIT spraying. Type confusion in JavaScript engines. V8 heap structure: Smi, HeapObject, Map. Basic V8 exploitation: addrOf and fakeObj primitives. Compile d8 from source. Intro to WebAssembly exploitation. CTF V8 beginner challenges.</div><div class="day-tasks"><span class="task-chip chip-theory">V8 internals</span><span class="task-chip chip-lab">addrOf/fakeObj primitives</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 111–120</div><div class="day-content"><div class="day-topic">Month 4 Capstone: Build a Working Exploit</div><div class="day-detail">Days 111–115: Find, analyze, and develop a working exploit for a real vulnerable software (VulnHub or old CVE). Must include: vulnerability analysis, exploit development, mitigation bypass, weaponization. Days 116–118: Participate in a CTF competition (online). Day 119–120: Full writeup and exploit code publication on GitHub.</div><div class="day-tasks"><span class="task-chip chip-project">Real-world exploit</span><span class="task-chip chip-ctf">CTF competition</span><span class="task-chip chip-project">GitHub publication</span></div></div></div>
+      </div>
+    </div>
+
+    <div class="milestone">
+      <h4>✦ MONTH 4 MILESTONES</h4>
+      <ul>
+        <li>Full ROP chain built from scratch (no hints)</li>
+        <li>Tcache poisoning exploit working</li>
+        <li>Baron Samedit or equivalent CVE reproduced</li>
+        <li>pwntools scripts for 5+ CTF challenges</li>
+        <li>Kernel module exploitation successful</li>
+        <li>CTF competition participated and scored</li>
+      </ul>
+    </div>
+  </div>
+</div><!-- Month 4 -->
+
+<!-- MONTH 5 -->
+<div class="month-block" id="m5">
+  <div class="month-header" onclick="toggle(this)">
+    <span class="month-num">MONTH 05</span>
+    <span class="month-title">Malware Development & Analysis</span>
+    <span class="month-hours">~90 hrs · 3 hrs/day</span>
+    <span class="month-toggle">▾</span>
+  </div>
+  <div class="month-body">
+    <div class="week">
+      <div class="week-title">// Week 1 — Malware Internals</div>
+      <div class="days-grid">
+        <div class="day-card"><div class="day-label">DAY 121</div><div class="day-content"><div class="day-topic">Malware Taxonomy & Architecture</div><div class="day-detail">Virus, worm, trojan, ransomware, rootkit, spyware, adware, fileless. Malware lifecycle: delivery, execution, persistence, lateral movement, exfiltration. PE file format deep-dive: MZ header, PE header, sections, imports/exports table. Understand how Windows loads PE files. Tools: PE-bear, CFF Explorer.</div><div class="day-tasks"><span class="task-chip chip-theory">PE format analysis</span><span class="task-chip chip-tool">PE-bear</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 122</div><div class="day-content"><div class="day-topic">Static Malware Analysis</div><div class="day-detail">Safe analysis environment setup (FlareVM, REMnux). Hash analysis, VirusTotal. strings, floss (FLARE OBFUSCATED STRING SOLVER). PEiD/Detect-It-Easy for packer detection. Import table analysis. Yara rule writing. Capa for capability detection. Analyze 3 real malware samples from MalwareBazaar (safely).</div><div class="day-tasks"><span class="task-chip chip-tool">FlareVM + REMnux</span><span class="task-chip chip-lab">Real sample analysis</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 123</div><div class="day-content"><div class="day-topic">Dynamic Malware Analysis</div><div class="day-detail">Controlled execution in sandboxed VM. Process Monitor (ProcMon) for file/registry/network activity. Process Hacker for process inspection. Wireshark for C2 traffic capture. Regshot for registry diff. API Monitor for API call logging. Analyze a dropper: what files does it create? What network connections? Build IOCs.</div><div class="day-tasks"><span class="task-chip chip-tool">ProcMon / API Monitor</span><span class="task-chip chip-lab">IOC extraction</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 124</div><div class="day-content"><div class="day-topic">Reverse Engineering Malware with Ghidra & IDA</div><div class="day-detail">Ghidra advanced: custom analysis, scripting with Java/Python. IDA Free: navigation, cross-references, renaming. Identify C2 communication logic. Decode hardcoded strings. Understand decryption routines (XOR, AES). Reconstruct malware config parser. Analyze a real ransomware sample structure (academic).</div><div class="day-tasks"><span class="task-chip chip-tool">IDA Free / Ghidra</span><span class="task-chip chip-lab">C2 extraction</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 125</div><div class="day-content"><div class="day-topic">Writing Malware in C (Educational Lab Only)</div><div class="day-detail">Process injection: classic DLL injection, process hollowing, reflective DLL injection. Shellcode injection via VirtualAlloc + WriteProcessMemory + CreateRemoteThread. Parent Process ID Spoofing. Early Bird injection. All in isolated lab with no network. Understand detection: how EDR detects injection via hooks.</div><div class="day-tasks"><span class="task-chip chip-lab">DLL injection lab</span><span class="task-chip chip-theory">EDR detection logic</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 126</div><div class="day-content"><div class="day-topic">Persistence Mechanisms</div><div class="day-detail">Registry autoruns (Run/RunOnce). Startup folder. Scheduled tasks (schtasks). DLL search order hijacking. COM hijacking. WMI event subscriptions. Boot/pre-OS persistence: bootkit concepts. Linux: cron, systemd services, LD_PRELOAD, .bashrc injection, SSH key addition, /etc/init.d. Build a persistence tester script.</div><div class="day-tasks"><span class="task-chip chip-lab">Persistence lab: 10 methods</span><span class="task-chip chip-project">Persistence checker</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 127</div><div class="day-content"><div class="day-topic">Week Review + Malware CTF</div><div class="day-detail">Complete FlareOn beginner challenges (FLARE-ON CTF archive). Analyze 2 samples from MalwareBazaar. Write an analysis report with IOCs and MITRE ATT&CK mappings.</div><div class="day-tasks"><span class="task-chip chip-ctf">FlareOn beginner</span><span class="task-chip chip-research">MITRE ATT&CK mapping</span></div></div></div>
+      </div>
+    </div>
+
+    <div class="week">
+      <div class="week-title">// Week 2 — Antivirus Evasion & Defense Bypass</div>
+      <div class="days-grid">
+        <div class="day-card"><div class="day-label">DAY 128</div><div class="day-content"><div class="day-topic">How Antivirus & EDR Works</div><div class="day-detail">Signature-based detection: YARA, hash matching. Heuristic analysis. Behavioral analysis: API call sequences, syscall monitoring. EDR hooks: userland hooking (ntdll.dll), kernel callbacks. ETW (Event Tracing for Windows). Windows Defender internals. AMSI (Anti-Malware Scan Interface). MDE architecture overview.</div><div class="day-tasks"><span class="task-chip chip-theory">EDR internals</span><span class="task-chip chip-theory">AMSI architecture</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 129</div><div class="day-content"><div class="day-topic">Shellcode Obfuscation & Encoding</div><div class="day-detail">XOR encoding shellcode. Custom encryption (AES-256 in C). Polymorphic shellcode. Sleep obfuscation (Ekko, Foliage). Indirect syscalls concept. Direct syscalls to bypass userland hooks. Shellcode loaders: staged vs stageless. msfvenom encoder chains. Build your own shellcode encoder in C.</div><div class="day-tasks"><span class="task-chip chip-lab">Custom shellcode encoder</span><span class="task-chip chip-lab">Direct syscalls demo</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 130</div><div class="day-content"><div class="day-topic">AMSI & ETW Bypass Techniques</div><div class="day-detail">AMSI bypass: patching amsi.dll in memory. PowerShell AMSI bypass one-liners (lab). ETW patching. CLM bypass. Constrained Language Mode escape. AppLocker bypass via WDAC gaps. Script block logging bypass. Process argument spoofing. All techniques isolated to lab environment with no real payloads deployed.</div><div class="day-tasks"><span class="task-chip chip-lab">AMSI patch demo</span><span class="task-chip chip-lab">AppLocker bypass</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 131</div><div class="day-content"><div class="day-topic">C2 Framework Architecture</div><div class="day-detail">C2 (Command and Control) framework components: listener, agent, teamserver. HTTP/HTTPS vs DNS vs ICMP C2. Domain fronting concept (now largely blocked). Redirectors and malleable C2 profiles. Study Cobalt Strike's architecture (without using it). Understand Sliver, Havoc, Metasploit as open-source alternatives. Build a basic HTTP C2 in Python (educational).</div><div class="day-tasks"><span class="task-chip chip-theory">C2 architecture</span><span class="task-chip chip-project">Build HTTP C2 (Python)</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 132</div><div class="day-content"><div class="day-topic">Rootkits: Concept to Implementation</div><div class="day-detail">User-mode rootkits: SSDT hooking (legacy), IAT hooking, DLL injection rootkits. Kernel-mode rootkits: DKOM (Direct Kernel Object Manipulation), process hiding, port hiding. Linux kernel rootkits: LKM-based, syscall table hooking. Detection: rootkit hunters (rkhunter, chkrootkit). Volatility for memory forensics on infected systems.</div><div class="day-tasks"><span class="task-chip chip-theory">Rootkit taxonomy</span><span class="task-chip chip-tool">Volatility forensics</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 133–140</div><div class="day-content"><div class="day-topic">Ransomware Analysis + Defensive Countermeasures</div><div class="day-detail">Day 133: Analyze WannaCry statically. Day 134: Analyze LockBit 2.0 structure (academic, no execution). Day 135: Build a DEFENSIVE ransomware honeypot/detector in Python. Day 136: Volatility deep-dive: memory analysis of infected image. Day 137–138: Write a full malware analysis report (STIX format). Day 139–140: YARA rule development for the analyzed samples.</div><div class="day-tasks"><span class="task-chip chip-research">WannaCry analysis</span><span class="task-chip chip-project">YARA rules</span><span class="task-chip chip-tool">Volatility</span></div></div></div>
+      </div>
+    </div>
+
+    <div class="milestone">
+      <h4>✦ MONTH 5 MILESTONES</h4>
+      <ul>
+        <li>3 real malware samples statically analyzed</li>
+        <li>MITRE ATT&CK report written for analyzed malware</li>
+        <li>YARA rules written for malware family</li>
+        <li>AMSI bypass demonstrated in lab</li>
+        <li>Basic C2 built in Python</li>
+        <li>Rootkit detection with rkhunter and Volatility</li>
+        <li>FlareOn beginner challenges completed</li>
+      </ul>
+    </div>
+  </div>
+</div><!-- Month 5 -->
+
+<!-- MONTH 6 -->
+<div class="month-block" id="m6">
+  <div class="month-header" onclick="toggle(this)">
+    <span class="month-num">MONTH 06</span>
+    <span class="month-title">Red Teaming, OSCP Preparation & Pentesting Standards</span>
+    <span class="month-hours">~90 hrs · 3 hrs/day</span>
+    <span class="month-toggle">▾</span>
+  </div>
+  <div class="month-body">
+    <div class="week">
+      <div class="week-title">// Full Month Plan</div>
+      <div class="days-grid">
+        <div class="day-card"><div class="day-label">DAY 151–157</div><div class="day-content"><div class="day-topic">OSCP Methodology & Report Writing</div><div class="day-detail">Week 1: OSCP exam format, 24-hour structure, point system. Buffer overflow room (legacy BOF for OSCP). Penetration testing execution standard (PTES). OWASP Testing Guide. NIST SP 800-115. Write 3 professional reports following OSCP template. Time yourself on enumeration → foothold → privesc.</div><div class="day-tasks"><span class="task-chip chip-theory">PTES/OWASP-TG</span><span class="task-chip chip-project">OSCP-format reports</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 158–164</div><div class="day-content"><div class="day-topic">HTB & ProLabs — Intensive Practice</div><div class="day-detail">Week 2: Root 7 HTB machines (mix of Linux/Windows, easy/medium). Focus on: Active Directory machines, web exploitation machines, and one hard machine. Every machine → full report. Target: 4 hours per machine including report. Track MITRE ATT&CK techniques used.</div><div class="day-tasks"><span class="task-chip chip-ctf">7 HTB machines</span><span class="task-chip chip-project">7 pentest reports</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 165–171</div><div class="day-content"><div class="day-topic">Red Team Operations Planning</div><div class="day-detail">Week 3: Red team vs pentest vs bug bounty differences. Rules of engagement. Threat modeling and TTPs planning. Assumed breach scenarios. Purple team concepts. MITRE ATT&CK Navigator usage. Red team report structure. Building a red team infrastructure: domain fronting alternatives, redirectors, C2 opsec.</div><div class="day-tasks"><span class="task-chip chip-theory">Red team methodology</span><span class="task-chip chip-project">ATT&CK Navigator map</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 172–180</div><div class="day-content"><div class="day-topic">Year 1 First Half Capstone: Full Red Team Exercise</div><div class="day-detail">Days 172–178: Execute a full red team exercise against your AD lab. Phases: external recon, initial access (phishing sim), internal recon, credential theft, lateral movement, persistence, objective (data exfiltration sim). Days 179–180: Write a complete red team assessment report (30 pages). This is your 6-month graduation project.</div><div class="day-tasks"><span class="task-chip chip-project">Full red team exercise</span><span class="task-chip chip-project">30-page red team report</span></div></div></div>
+      </div>
+    </div>
+    <div class="milestone">
+      <h4>✦ 6-MONTH MILESTONE — HALF-WAY CHECKPOINT</h4>
+      <ul>
+        <li>Rooted 15+ HTB/THM machines with reports</li>
+        <li>OSCP-style exam simulation completed</li>
+        <li>Full red team exercise executed and documented</li>
+        <li>MITRE ATT&CK mapping expertise</li>
+        <li>Advanced exploit development (heap, kernel)</li>
+        <li>Malware analysis + YARA writing capability</li>
+        <li>Ready to attempt OSCP or eJPT certification</li>
+      </ul>
+    </div>
+  </div>
+</div><!-- Month 6 -->
+
+<!-- ============================================================ -->
+<!-- PHASE 3 -->
+<!-- ============================================================ -->
+<div id="phase3" class="phase-header" data-phase="03" style="border-left-color:var(--yellow)">
+  <div class="phase-tag">// Phase 03 — Year 1, Month 7–9</div>
+  <div class="phase-title">REVERSE ENGINEERING & ADVANCED ANALYSIS</div>
+  <p style="color:var(--muted);font-size:14px;">Professional reverse engineering, deobfuscation, anti-analysis bypass, firmware analysis, and program analysis tools.</p>
+  <div class="phase-meta">
+    <span class="phase-badge badge-time">3 Months · 270 Hours</span>
+    <span class="phase-badge badge-level">Graduate Level</span>
+    <span class="phase-badge badge-focus">RE + Program Analysis</span>
+  </div>
+</div>
+
+<div class="month-block" id="m7">
+  <div class="month-header" onclick="toggle(this)">
+    <span class="month-num">MONTH 07</span>
+    <span class="month-title">Professional Reverse Engineering</span>
+    <span class="month-hours">~90 hrs · 3 hrs/day</span>
+    <span class="month-toggle">▾</span>
+  </div>
+  <div class="month-body">
+    <div class="week">
+      <div class="week-title">// Week 1 — IDA Pro & Advanced Ghidra</div>
+      <div class="days-grid">
+        <div class="day-card"><div class="day-label">DAY 181</div><div class="day-content"><div class="day-topic">IDA Pro Advanced Workflow</div><div class="day-detail">IDA Pro (free/student): graph view, proximity browser, decompiler (Hex-Rays). Custom type libraries. Structures and unions reconstruction from decompiled code. Cross-referencing strategy. IDA scripting with IDAPython. Reconstructing stripped binaries. Rename based on behavior patterns.</div><div class="day-tasks"><span class="task-chip chip-tool">IDA Pro workflow</span><span class="task-chip chip-lab">Stripped binary RE</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 182</div><div class="day-content"><div class="day-topic">Ghidra Scripting & Plugin Development</div><div class="day-detail">Ghidra Java API for scripting. Write a Ghidra script to automatically rename functions based on string references. Ghidra's PCode intermediate language. Write a custom analyzer plugin. Use Ghidra headless analyzer for batch processing. BinExport for binary diffing.</div><div class="day-tasks"><span class="task-chip chip-project">Ghidra auto-rename script</span><span class="task-chip chip-tool">BinExport</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 183</div><div class="day-content"><div class="day-topic">Binary Diffing & Patch Analysis</div><div class="day-detail">BinDiff for comparing binaries. Diaphora for function matching. Use case: compare patched vs unpatched binary to find vulnerability location. N-day vulnerability discovery workflow. Analyzing firmware updates for hidden patches. Open-source bindiff alternatives. Real-world application: finding 1-day vulnerabilities.</div><div class="day-tasks"><span class="task-chip chip-tool">BinDiff / Diaphora</span><span class="task-chip chip-research">N-day discovery method</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 184</div><div class="day-content"><div class="day-topic">Obfuscation & Deobfuscation Techniques</div><div class="day-detail">Common obfuscation: control flow flattening, bogus control flow, instruction substitution, string encryption. Deobfuscation: symbolic execution with angr. Dynamic deobfuscation via emulation (Unicorn Engine). de4dot for .NET deobfuscation. JavaScript deobfuscation: AST manipulation, JS beautifiers. Practice on crackme.one challenges.</div><div class="day-tasks"><span class="task-chip chip-tool">angr / Unicorn</span><span class="task-chip chip-lab">Deobfuscate crackmes</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 185</div><div class="day-content"><div class="day-topic">Anti-Analysis Bypass: Debugging Tricks</div><div class="day-detail">Anti-debugging: IsDebuggerPresent, CheckRemoteDebuggerPresent, NtQueryInformationProcess. Timing checks. Exception-based anti-debug. Anti-disassembly: overlapping instructions, junk code, self-modifying code. VM detection. Sandbox evasion techniques (sleep, user interaction checks). Bypass each technique manually.</div><div class="day-tasks"><span class="task-chip chip-lab">Anti-debug bypass</span><span class="task-chip chip-lab">Self-mod code analysis</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 186</div><div class="day-content"><div class="day-topic">Packer Analysis & Unpacking</div><div class="day-detail">UPX, MPRESS, custom packers. Generic unpacking method: set breakpoint on OEP (Original Entry Point), dump memory, fix IAT. OllyDump, PE-Sieve, hollows_hunter. Manual unpacking of custom XOR-encrypted loaders. Virtualization-based obfuscation (VMProtect, Themida) — analysis approach. Reconstruct packed binary for static analysis.</div><div class="day-tasks"><span class="task-chip chip-tool">PE-Sieve / hollows_hunter</span><span class="task-chip chip-lab">Manual unpacking</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 187</div><div class="day-content"><div class="day-topic">FlareOn CTF Sprint (Advanced Challenges)</div><div class="day-detail">Solve FlareOn 8+ challenges. Focus on: packed executables, .NET reversing, scripting languages, custom VMs. Document each solution with detailed methodology. Push all solutions to GitHub with writeups.</div><div class="day-tasks"><span class="task-chip chip-ctf">FlareOn CTF challenges</span><span class="task-chip chip-project">GitHub writeups</span></div></div></div>
+      </div>
+    </div>
+
+    <div class="week">
+      <div class="week-title">// Week 2–4 — Symbolic Execution, Fuzzing & Program Analysis</div>
+      <div class="days-grid">
+        <div class="day-card"><div class="day-label">DAY 188–194</div><div class="day-content"><div class="day-topic">Symbolic Execution with angr</div><div class="day-detail">Week 2: angr architecture: project, states, SimManager. Constraint solving with claripy. Solve CTF crackmes with angr. angr for vulnerability discovery. Veritesting. Concolic execution. Practice: angr_ctf repository (all challenges). Use angr to automatically find inputs that reach a target code path. Advanced: custom exploration techniques.</div><div class="day-tasks"><span class="task-chip chip-tool">angr framework</span><span class="task-chip chip-ctf">angr_ctf all challenges</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 195–201</div><div class="day-content"><div class="day-topic">Fuzzing: AFL++ & LibFuzzer</div><div class="day-detail">Week 3: Fuzzing theory: coverage-guided, mutation-based, generation-based. AFL++ setup: instrumentation, corpus, mutations. Harness writing. Persistent mode. ASAN/UBSAN for bug detection. LibFuzzer for library fuzzing. Structure-aware fuzzing with Atheris. Set up a real fuzzing campaign against an open-source project. Triage crashes with GDB.</div><div class="day-tasks"><span class="task-chip chip-tool">AFL++ / LibFuzzer</span><span class="task-chip chip-lab">Real OSS fuzzing campaign</span></div></div></div>
+        <div class="day-card"><div class="day-label">DAY 202–210</div><div class="day-content"><div class="day-topic">Firmware & Embedded System Analysis</div><div class="day-detail">Week 4: Firmware extraction: UART, JTAG, flash chip reading, binwalk. Firmware unpacking and analysis. QEMU emulation of firmware (ARM, MIPS). Firmwalker for sensitive file discovery. Router firmware analysis: hardcoded credentials, command injection in CGI. Build analysis report. FAT (Firmware Analysis Toolkit). IoT attack case studies.</div><div class="day-tasks"><span class="task-chip chip-tool">binwalk / FAT</span><span class="task-chip chip-lab">Router firmware analysis</span></div></div></div>
+      </div>
+    </div>
+    <div class="milestone">
+      <h4>✦ MONTH 7 MILESTONES</h4>
+      <ul>
+        <li>IDA Pro and Ghidra used professionally</li>
+        <li>angr used to auto-solve 10+ crackmes</li>
+        <li>AFL++ fuzzing campaign found at least 1 real crash</li>
+        <li>Packed malware unpacked manually</li>
+        <li>Firmware analyzed and vulnerabilities mapped</li>
+        <li>FlareOn challenges completed with writeups</li>
+      </ul>
+    </div>
+  </div>
+</div><!-- Month 7 -->
+
+<!-- MONTHS 8-9 SUMMARY -->
+<div class="month-block" id="m8">
+  <div class="month-header" onclick="toggle(this)">
+    <span class="month-num">MONTH 08</span>
+    <span class="month-title">Advanced Cryptography & Cryptanalysis</span>
+    <span class="month-hours">~90 hrs · 3 hrs/day</span>
+    <span class="month-toggle">▾</span>
+  </div>
+  <div class="month-body">
+    <div class="week">
+      <div class="week-title">// Complete Month Plan</div>
+      <div class="days-grid">
+        <div class="day-card"><div class="day-label">WEEK 1<br>Day 211–217</div><div class="day-content"><div class="day-topic">Mathematical Foundations of Modern Cryptography</div><div class="day-detail">Group theory, ring theory, field theory essentials. Elliptic curve mathematics: point addition, scalar multiplication, ECDLP. Number theory: Chinese Remainder Theorem, Euler's theorem, quadratic residues. Lattice-based crypto introduction: SVP, CVP, LLL algorithm. Implement EC operations from scratch in Python (SageMath). Understand why discrete log is hard.</div><div class="day-tasks"><span class="task-chip chip-theory">SageMath mathematics</span><span class="task-chip chip-lab">EC from scratch</span></div></div></div>
+        <div class="day-card"><div class="day-label">WEEK 2<br>Day 218–224</div><div class="day-content"><div class="day-topic">Symmetric Cryptography & Block Cipher Attacks</div><div class="day-detail">AES internals: SubBytes, ShiftRows, MixColumns, AddRoundKey. AES-NI side-channel. Block cipher modes: ECB (penguin), CBC (padding oracle), CTR, GCM. Padding oracle attack implementation (POODLE recreation). CBC bit-flipping exploit. GCM nonce reuse attack. Differential and linear cryptanalysis concepts. SIMON, SPECK lightweight ciphers analysis.</div><div class="day-tasks"><span class="task-chip chip-lab">Padding oracle exploit</span><span class="task-chip chip-lab">GCM nonce reuse</span></div></div></div>
+        <div class="day-card"><div class="day-label">WEEK 3<br>Day 225–231</div><div class="day-content"><div class="day-topic">Elliptic Curve Cryptography Attacks</div><div class="day-detail">ECDSA nonce reuse (k-reuse) → private key recovery. Sony PS3 fail0verflow attack recreation. Invalid curve attacks. ECDH small subgroup attack. Pohlig-Hellman on weak curves. Invalid point injection. Twist security analysis. Implement attacks in SageMath. CryptoHack platform: all EC challenges. Read Bernstein's Curve25519 paper.</div><div class="day-tasks"><span class="task-chip chip-lab">ECDSA k-reuse exploit</span><span class="task-chip chip-ctf">CryptoHack EC challenges</span></div></div></div>
+        <div class="day-card"><div class="day-label">WEEK 4<br>Day 232–240</div><div class="day-content"><div class="day-topic">Post-Quantum Cryptography & Zero-Knowledge Proofs</div><div class="day-detail">Why quantum computers break RSA/ECC (Shor's algorithm). Grover's algorithm impact on symmetric crypto. NIST PQC finalists: CRYSTALS-Kyber, CRYSTALS-Dilithium, FALCON, SPHINCS+. Lattice cryptography: NTRU, LWE, Ring-LWE. Zero-knowledge proof introduction: ZK-SNARKs, ZK-STARKs, Bulletproofs. Interactive vs non-interactive proofs. Implement a simple ZK protocol.</div><div class="day-tasks"><span class="task-chip chip-theory">PQC algorithms</span><span class="task-chip chip-lab">Simple ZKP implementation</span></div></div></div>
+      </div>
+    </div>
+    <div class="milestone">
+      <h4>✦ MONTH 8 MILESTONES</h4>
+      <ul>
+        <li>ECDSA nonce reuse attack implemented from math</li>
+        <li>Padding oracle attack fully working</li>
+        <li>CryptoHack all beginner + intermediate challenges</li>
+        <li>SageMath proficiency for cryptographic computation</li>
+        <li>PQC algorithm concepts understood deeply</li>
+        <li>Simple ZKP protocol implemented</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="month-block" id="m9">
+  <div class="month-header" onclick="toggle(this)">
+    <span class="month-num">MONTH 09</span>
+    <span class="month-title">Cloud Security, DevSecOps & CI/CD Attacks</span>
+    <span class="month-hours">~90 hrs · 3 hrs/day</span>
+    <span class="month-toggle">▾</span>
+  </div>
+  <div class="month-body">
+    <div class="days-grid">
+      <div class="day-card"><div class="day-label">WEEK 1<br>Day 241–247</div><div class="day-content"><div class="day-topic">AWS, GCP, Azure — Attack & Defense</div><div class="day-detail">AWS attack paths: IAM privilege escalation (17 techniques), S3 enumeration, EC2 userdata secrets, Lambda function exploitation, Cross-account attacks, CloudFormation template injection. GCP: default service accounts, metadata server abuse. Azure: AD integration attacks, managed identity abuse, storage account attacks. CloudGoat and flaws.cloud labs. Study CloudTrail for detection.</div><div class="day-tasks"><span class="task-chip chip-lab">CloudGoat scenarios</span><span class="task-chip chip-lab">flaws.cloud lab</span></div></div></div>
+      <div class="day-card"><div class="day-label">WEEK 2<br>Day 248–254</div><div class="day-content"><div class="day-topic">Kubernetes & Container Security (Advanced)</div><div class="day-detail">K8s attack paths: etcd access, node-level compromise, privileged pod breakout, service account abuse, RBAC misconfig. kube-hunter, kube-bench for assessment. Istio service mesh security. Container image supply chain attacks: SolarWinds-style build system compromise. Docker image layer analysis. Falco rules for detection. Practice on k8s-goat lab.</div><div class="day-tasks"><span class="task-chip chip-lab">k8s-goat lab</span><span class="task-chip chip-tool">kube-hunter</span></div></div></div>
+      <div class="day-card"><div class="day-label">WEEK 3<br>Day 255–261</div><div class="day-content"><div class="day-topic">CI/CD Pipeline Attacks & Supply Chain Security</div><div class="day-detail">GitHub Actions exploitation: secrets exfiltration, workflow injection, OIDC token abuse. Jenkins vulnerabilities: Groovy script console, job configuration injection. Supply chain attack methodology (SolarWinds analysis, XZ Utils backdoor). Dependency confusion attacks. Malicious npm/PyPI packages. SLSA framework for supply chain integrity. SBOM generation and analysis.</div><div class="day-tasks"><span class="task-chip chip-research">SolarWinds analysis</span><span class="task-chip chip-lab">GitHub Actions exploit</span></div></div></div>
+      <div class="day-card"><div class="day-label">WEEK 4<br>Day 262–270</div><div class="day-content"><div class="day-topic">Threat Intelligence & Year 1 Capstone</div><div class="day-detail">Days 262–264: OSINT for threat intelligence. MISP platform, TAXII/STIX. Diamond model, kill chain analysis. Days 265–267: Participate in a real CTF competition. Days 268–270: Year 1 final assessment — root 3 medium HTB machines, write pro reports, publish your tool on GitHub, prepare for Year 2.</div><div class="day-tasks"><span class="task-chip chip-tool">MISP platform</span><span class="task-chip chip-ctf">Real CTF competition</span><span class="task-chip chip-project">Publish tool on GitHub</span></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- YEAR 2 PHASE 4 -->
+<!-- ============================================================ -->
+<div id="phase4" class="phase-header" data-phase="04" style="border-left-color:var(--orange)">
+  <div class="phase-tag">// Phase 04 — Year 2, Month 10–14</div>
+  <div class="phase-title">ADVANCED RESEARCH & VULNERABILITY DISCOVERY</div>
+  <p style="color:var(--muted);font-size:14px;">0-day discovery methodology, code auditing, advanced fuzzing, hardware security, and writing your first research paper.</p>
+  <div class="phase-meta">
+    <span class="phase-badge badge-time">5 Months · 450 Hours</span>
+    <span class="phase-badge badge-level">Graduate / PhD Entry</span>
+    <span class="phase-badge badge-focus">Original Research</span>
+  </div>
+</div>
+
+<div class="month-block" id="m10">
+  <div class="month-header" onclick="toggle(this)">
+    <span class="month-num">MONTH 10</span>
+    <span class="month-title">Code Auditing & Static Analysis</span>
+    <span class="month-hours">~90 hrs · 3 hrs/day</span>
+    <span class="month-toggle">▾</span>
+  </div>
+  <div class="month-body">
+    <div class="days-grid">
+      <div class="day-card"><div class="day-label">WEEK 1<br>Day 271–277</div><div class="day-content"><div class="day-topic">Source Code Auditing Methodology</div><div class="day-detail">Manual code review: top-down vs bottom-up. Identify dangerous functions: strcpy, sprintf, gets, system, popen (C). PHP: eval, exec, system, preg_replace with /e. Python: eval, exec, pickle.loads, subprocess.call with shell=True. Build a source code audit checklist. Audit 3 open-source projects for known CVEs — find them without looking at the CVE first.</div><div class="day-tasks"><span class="task-chip chip-lab">Find CVE in OSS</span><span class="task-chip chip-project">Audit checklist</span></div></div></div>
+      <div class="day-card"><div class="day-label">WEEK 2<br>Day 278–284</div><div class="day-content"><div class="day-topic">SAST Tools: CodeQL, Semgrep, Joern</div><div class="day-detail">CodeQL: write queries to find dangerous taint flows. Semgrep: rule writing for security patterns. Joern: code property graph for C/C++ vulnerability discovery. LGTM/GitHub CodeQL integration. Build custom rules for common vulnerability classes. Use SAST to find pre-CVE bugs in real open-source projects. Report responsibly.</div><div class="day-tasks"><span class="task-chip chip-tool">CodeQL queries</span><span class="task-chip chip-project">Custom Semgrep rules</span></div></div></div>
+      <div class="day-card"><div class="day-label">WEEK 3–4<br>Day 285–300</div><div class="day-content"><div class="day-topic">Advanced Fuzzing: Grammar-Based, Differential, Kernel</div><div class="day-detail">Grammar-based fuzzing: Domato (DOM fuzzer), Dharma. Differential fuzzing: compare implementations. Kernel fuzzing: syzkaller setup — fuzz a Linux kernel subsystem. Network protocol fuzzing. WebAssembly fuzzing. Mutation strategy design. Coverage measurement and optimization. Set up a 24/7 fuzzing server on cloud. Report any findings responsibly.</div><div class="day-tasks"><span class="task-chip chip-tool">syzkaller kernel fuzzer</span><span class="task-chip chip-lab">24/7 cloud fuzzing</span></div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="month-block" id="m11">
+  <div class="month-header" onclick="toggle(this)">
+    <span class="month-num">MONTH 11</span>
+    <span class="month-title">Hardware Security & Side-Channel Attacks</span>
+    <span class="month-hours">~90 hrs · 3 hrs/day</span>
+    <span class="month-toggle">▾</span>
+  </div>
+  <div class="month-body">
+    <div class="days-grid">
+      <div class="day-card"><div class="day-label">WEEK 1<br>Day 301–307</div><div class="day-content"><div class="day-topic">Hardware Hacking Fundamentals</div><div class="day-detail">UART/JTAG/SPI/I2C interfaces. Reading flash chips (flashrom, CH341A). Logic analyzer usage (Saleae). Oscilloscope basics. Glitching: voltage fault injection concept. Bus Pirate tool. Extract firmware from real hardware (old router, IP camera). Reverse engineer extracted firmware. Document findings.</div><div class="day-tasks"><span class="task-chip chip-tool">Logic analyzer / Bus Pirate</span><span class="task-chip chip-lab">Real hardware extraction</span></div></div></div>
+      <div class="day-card"><div class="day-label">WEEK 2<br>Day 308–314</div><div class="day-content"><div class="day-topic">Side-Channel Attacks</div><div class="day-detail">Timing attacks: cache timing, remote timing. Flush+Reload cache attack. Spectre and Meltdown: speculative execution exploitation. RowHammer DRAM bit-flip attack. Power analysis side-channel (concept). Electromagnetic side-channel. ChipWhisperer for practical SCA (if hardware available). Implement a timing attack against a vulnerable crypto implementation.</div><div class="day-tasks"><span class="task-chip chip-theory">Spectre/Meltdown analysis</span><span class="task-chip chip-lab">Timing attack implementation</span></div></div></div>
+      <div class="day-card"><div class="day-label">WEEK 3–4<br>Day 315–330</div><div class="day-content"><div class="day-topic">TPM, Secure Boot & TEE Analysis</div><div class="day-detail">TPM 2.0 architecture. Secure Boot chain of trust. UEFI security. Bypassing Secure Boot (historical CVEs). AMD SEV/Intel TDX Trusted Execution Environments. SGX side-channel attacks. ARM TrustZone architecture. Firmware signing and verification bypass. Read academic papers: "TPM-FAIL", "Plundervolt", "SGAxe". Reproduce one attack in simulation.</div><div class="day-tasks"><span class="task-chip chip-research">TPM-FAIL paper</span><span class="task-chip chip-theory">TEE security model</span></div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="month-block" id="m12">
+  <div class="month-header" onclick="toggle(this)">
+    <span class="month-num">MONTH 12</span>
+    <span class="month-title">Network Protocol Security & Custom Protocol Design</span>
+    <span class="month-hours">~90 hrs · 3 hrs/day</span>
+    <span class="month-toggle">▾</span>
+  </div>
+  <div class="month-body">
+    <div class="days-grid">
+      <div class="day-card"><div class="day-label">WEEK 1–2</div><div class="day-content"><div class="day-topic">BGP, DNS, SS7 & Telecom Security</div><div class="day-detail">BGP hijacking attacks (historical: Pakistan Telecom, Amazon Route53). RPKI and BGPsec. DNS security: DNSSEC, DNS-over-HTTPS, DNS-over-TLS. DNS amplification DDoS. SS7 protocol vulnerabilities (tracking, call interception). Diameter protocol security. 4G/5G security architecture. Read: "SS7 Hack Explained". CALEA and lawful intercept abuse.</div><div class="day-tasks"><span class="task-chip chip-research">BGP hijacking case study</span><span class="task-chip chip-theory">5G security model</span></div></div></div>
+      <div class="day-card"><div class="day-label">WEEK 3–4</div><div class="day-content"><div class="day-topic">Industrial Control Systems & SCADA Security</div><div class="day-detail">ICS/SCADA architecture: PLCs, RTUs, HMIs, historians. Modbus, DNP3, IEC 61850 protocols. Stuxnet deep analysis: 4 zero-day chains, centrifuge destruction. TRITON/TRISIS safety system attack. ICS attack methodology. SecurityOnion for ICS monitoring. DRAGOS threat intelligence. Set up a SCADA simulation lab with OpenPLC.</div><div class="day-tasks"><span class="task-chip chip-research">Stuxnet deep dive</span><span class="task-chip chip-lab">OpenPLC simulation</span></div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="month-block" id="m13">
+  <div class="month-header" onclick="toggle(this)">
+    <span class="month-num">MONTH 13</span>
+    <span class="month-title">AI/ML Security — Attacking & Defending AI Systems</span>
+    <span class="month-hours">~90 hrs · 3 hrs/day</span>
+    <span class="month-toggle">▾</span>
+  </div>
+  <div class="month-body">
+    <div class="days-grid">
+      <div class="day-card"><div class="day-label">WEEK 1<br>Day 361–367</div><div class="day-content"><div class="day-topic">Adversarial Machine Learning</div><div class="day-detail">ML security threat model. Adversarial examples: FGSM, PGD, C&W attacks on image classifiers. ART (Adversarial Robustness Toolbox). Evasion attacks on malware classifiers. Data poisoning attacks. Model inversion attacks. Membership inference attacks. Model stealing. Practice with CleverHans framework. Read: "Intriguing Properties of Neural Networks" (Szegedy et al.).</div><div class="day-tasks"><span class="task-chip chip-lab">FGSM adversarial attack</span><span class="task-chip chip-tool">ART framework</span></div></div></div>
+      <div class="day-card"><div class="day-label">WEEK 2<br>Day 368–374</div><div class="day-content"><div class="day-topic">LLM Security & Prompt Injection</div><div class="day-detail">LLM attack surface: prompt injection, indirect prompt injection, jailbreaking, training data extraction, model extraction. Prompt injection in agentic systems (e.g., AutoGPT exploits). OWASP LLM Top 10. RAG (Retrieval-Augmented Generation) poisoning. Embedding inversion. Supply chain attacks on model weights. Build a prompt injection test suite. Real-world cases: Bing Chat, ChatGPT jailbreaks.</div><div class="day-tasks"><span class="task-chip chip-lab">Prompt injection test suite</span><span class="task-chip chip-research">OWASP LLM Top 10</span></div></div></div>
+      <div class="day-card"><div class="day-label">WEEK 3–4<br>Day 375–390</div><div class="day-content"><div class="day-topic">Using AI in Offensive Security</div><div class="day-detail">AI for recon automation. LLM for vulnerability analysis. AI-generated phishing (GPT for social engineering). AI malware — concept and defense. Using Copilot/CodeQL for automated code audit. AI for OSINT correlation. AI-based fuzzing (MUZZ, Neuzz). Automated exploit generation (AEG) research. Research direction: can AI find 0-days autonomously? Read relevant papers.</div><div class="day-tasks"><span class="task-chip chip-research">AEG research papers</span><span class="task-chip chip-project">AI-powered recon tool</span></div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="month-block" id="m14">
+  <div class="month-header" onclick="toggle(this)">
+    <span class="month-num">MONTH 14</span>
+    <span class="month-title">First Security Research Paper</span>
+    <span class="month-hours">~90 hrs · 3 hrs/day</span>
+    <span class="month-toggle">▾</span>
+  </div>
+  <div class="month-body">
+    <div class="days-grid">
+      <div class="day-card"><div class="day-label">WEEK 1<br>Day 391–397</div><div class="day-content"><div class="day-topic">Academic Research Methodology in Security</div><div class="day-detail">How to find a research problem. Literature review with Google Scholar, USENIX, IEEE, ACM, Semantic Scholar. Reading papers: S&P, CCS, USENIX Security, NDSS — the "Big Four". Identifying research gaps. Formulating a hypothesis. Experimental design. IRB ethics for security research. Related work section writing. Set up a research reading tracker.</div><div class="day-tasks"><span class="task-chip chip-research">Read 20 top-conference papers</span><span class="task-chip chip-theory">Research gap analysis</span></div></div></div>
+      <div class="day-card"><div class="day-label">WEEK 2–4<br>Day 398–420</div><div class="day-content"><div class="day-topic">Write, Submit & Present Your First Paper</div><div class="day-detail">Days 398–405: Choose a research topic (novel variant of known vulnerability class, new tool, new attack on ML system, or crypto implementation weakness). Days 406–412: Run experiments, collect data, build proof-of-concept. Days 413–417: Write the paper (LaTeX, conference format). Days 418–419: Submit to arXiv preprint + identify target workshop/conference. Day 420: Prepare a 15-minute presentation.</div><div class="day-tasks"><span class="task-chip chip-research">Submit to arXiv</span><span class="task-chip chip-project">LaTeX paper complete</span></div></div></div>
+    </div>
+    <div class="milestone">
+      <h4>✦ MONTH 14 — RESEARCH PHASE MILESTONE</h4>
+      <ul>
+        <li>First security research paper written and on arXiv</li>
+        <li>Kernel fuzzing with syzkaller active</li>
+        <li>Hardware extracted and analyzed</li>
+        <li>Side-channel timing attack implemented</li>
+        <li>LLM prompt injection test suite built</li>
+        <li>AI adversarial attack implemented with ART</li>
+        <li>20+ top-conference security papers read</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PHASE 5 -->
+<!-- ============================================================ -->
+<div id="phase5" class="phase-header" data-phase="05" style="border-left-color:var(--red)">
+  <div class="phase-tag">// Phase 05 — Year 2, Month 15–18</div>
+  <div class="phase-title">APT SIMULATION & ADVANCED DEFENSE</div>
+  <p style="color:var(--muted);font-size:14px;">Nation-state level attack simulation, threat hunting, digital forensics, and defensive security engineering.</p>
+  <div class="phase-meta">
+    <span class="phase-badge badge-time">4 Months · 360 Hours</span>
+    <span class="phase-badge badge-level">PhD Level</span>
+    <span class="phase-badge badge-focus">APT + DFIR + Defense</span>
+  </div>
+</div>
+
+<div class="month-block" id="m15">
+  <div class="month-header" onclick="toggle(this)">
+    <span class="month-num">MONTH 15</span>
+    <span class="month-title">APT Tactics, Techniques & Procedures</span>
+    <span class="month-hours">~90 hrs · 3 hrs/day</span>
+    <span class="month-toggle">▾</span>
+  </div>
+  <div class="month-body">
+    <div class="days-grid">
+      <div class="day-card"><div class="day-label">WEEK 1</div><div class="day-content"><div class="day-topic">Nation-State APT Group Analysis</div><div class="day-detail">Study 6 major APT groups in depth: APT28 (Fancy Bear), APT29 (Cozy Bear), Lazarus Group (DPRK), APT41 (China), Equation Group (NSA-linked), Charming Kitten (Iran). For each: TTPs, tooling, targets, attribution indicators, notable operations. MITRE ATT&CK Groups database. Mandiant APT reports. Read: "The Grugq" on APT OPSEC.</div><div class="day-tasks"><span class="task-chip chip-research">6 APT group profiles</span><span class="task-chip chip-theory">Attribution methodology</span></div></div></div>
+      <div class="day-card"><div class="day-label">WEEK 2</div><div class="day-content"><div class="day-topic">Advanced Persistence & Living-off-the-Land</div><div class="day-detail">LOLBins: certutil, mshta, regsvr32, wscript, bitsadmin, msiexec, rundll32. LOLBAs: Application allow-listing bypass techniques. COM hijacking advanced. WMI permanent subscriptions. Boot persistence: MBR modification, UEFI implant concepts. Scheduled task XML manipulation. Driver loading (BYOVD — bring your own vulnerable driver).</div><div class="day-tasks"><span class="task-chip chip-lab">LOLBin chain execution</span><span class="task-chip chip-lab">WMI persistent sub</span></div></div></div>
+      <div class="day-card"><div class="day-label">WEEK 3–4</div><div class="day-content"><div class="day-topic">Custom C2 Development</div><div class="day-detail">Build a custom C2 from scratch in C and Python. Features: encrypted communications (AES-256-GCM), domain generation algorithm (DGA), HTTP/DNS channels, modular agent, task queuing, file operations, screenshot, keylogger. Implement OPSEC: process injection for living memory-only. Study Cobalt Strike Malleable C2 profiles. Build a detection rule for your own C2.</div><div class="day-tasks"><span class="task-chip chip-project">Custom C2 framework</span><span class="task-chip chip-project">Detection rule for own C2</span></div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="month-block" id="m16">
+  <div class="month-header" onclick="toggle(this)">
+    <span class="month-num">MONTH 16</span>
+    <span class="month-title">Digital Forensics & Incident Response (DFIR)</span>
+    <span class="month-hours">~90 hrs · 3 hrs/day</span>
+    <span class="month-toggle">▾</span>
+  </div>
+  <div class="month-body">
+    <div class="days-grid">
+      <div class="day-card"><div class="day-label">WEEK 1</div><div class="day-content"><div class="day-topic">Memory Forensics with Volatility 3</div><div class="day-detail">Memory acquisition: WinPMEM, LiME. Volatility 3: pslist, pstree, cmdline, netscan, malfind, yarascan, dlllist, handles. Detect process injection via malfind. Extract malware from memory dump. Analyze Meterpreter in memory. Build custom Volatility plugin. Practice with NIST memory forensics challenge images.</div><div class="day-tasks"><span class="task-chip chip-tool">Volatility 3 plugins</span><span class="task-chip chip-lab">Meterpreter memory extract</span></div></div></div>
+      <div class="day-card"><div class="day-label">WEEK 2</div><div class="day-content"><div class="day-topic">Disk & File System Forensics</div><div class="day-detail">Autopsy and The Sleuth Kit. File carving (Foremost, Scalpel). NTFS forensics: $MFT, $LogFile, $UsnJrnl, ADS (Alternate Data Streams). Volume Shadow Copies. Linux ext4 forensics. Timeline analysis with plaso/log2timeline. Recover deleted files. Analyze a compromised disk image. Build a forensics report following SANS format.</div><div class="day-tasks"><span class="task-chip chip-tool">Autopsy / TSK</span><span class="task-chip chip-lab">Disk forensics challenge</span></div></div></div>
+      <div class="day-card"><div class="day-label">WEEK 3</div><div class="day-content"><div class="day-topic">Windows Event Logs & Threat Hunting</div><div class="day-detail">Windows event log structure: EVTx format. Key event IDs: 4624, 4625, 4648, 4688, 4698, 4776, 7045. Sysmon deployment and rule tuning. Elastic Stack (ELK) for log analysis. Sigma rules for detection. Splunk SPL for threat hunting. Hunt for Kerberoasting, lateral movement, LOLBin usage in logs. Build 5 custom Sigma rules for ATT&CK techniques.</div><div class="day-tasks"><span class="task-chip chip-tool">Sysmon + Elastic</span><span class="task-chip chip-project">5 Sigma rules</span></div></div></div>
+      <div class="day-card"><div class="day-label">WEEK 4</div><div class="day-content"><div class="day-topic">Full DFIR Investigation</div><div class="day-detail">Run a complete DFIR investigation on a pre-planted "compromised" lab environment. Scope: identify the attack, timeline reconstruction, malware extraction, IOC generation, root cause analysis. Write a complete DFIR report (SANS incident report format). Present findings as if to executive team. This simulates a real IR engagement.</div><div class="day-tasks"><span class="task-chip chip-project">Full DFIR report</span><span class="task-chip chip-project">Executive presentation</span></div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="month-block" id="m17">
+  <div class="month-header" onclick="toggle(this)">
+    <span class="month-num">MONTH 17</span>
+    <span class="month-title">Formal Methods & Security Verification</span>
+    <span class="month-hours">~90 hrs · 3 hrs/day</span>
+    <span class="month-toggle">▾</span>
+  </div>
+  <div class="month-body">
+    <div class="days-grid">
+      <div class="day-card"><div class="day-label">WEEK 1–2</div><div class="day-content"><div class="day-topic">Formal Verification for Security</div><div class="day-detail">Propositional and predicate logic. Temporal logic: LTL and CTL for security properties. Model checking with SPIN/Promela. Verify a simple security protocol (e.g., Needham-Schroeder). Coq proof assistant basics. Verified crypto (EverCrypt, HACL*). Formal verification of OS kernels (seL4 study). Read: "Formal Methods for Protocol Verification" survey.</div><div class="day-tasks"><span class="task-chip chip-theory">SPIN model checking</span><span class="task-chip chip-lab">Protocol verification</span></div></div></div>
+      <div class="day-card"><div class="day-label">WEEK 3–4</div><div class="day-content"><div class="day-topic">Program Analysis: Taint Analysis & Abstract Interpretation</div><div class="day-detail">Static taint analysis: source, sink, sanitizer model. Dynamic taint analysis with TEMU/libdft. Abstract interpretation: abstract domains, fixed-point computation. Dataflow analysis for security. Use Clang's static analyzer. Build a simple taint tracker. Understand how industrial SAST tools work internally. Apply to finding SQL injection taint flows in a real app.</div><div class="day-tasks"><span class="task-chip chip-tool">Clang static analyzer</span><span class="task-chip chip-project">Custom taint tracker</span></div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="month-block" id="m18">
+  <div class="month-header" onclick="toggle(this)">
+    <span class="month-num">MONTH 18</span>
+    <span class="month-title">Blockchain & Smart Contract Security</span>
+    <span class="month-hours">~90 hrs · 3 hrs/day</span>
+    <span class="month-toggle">▾</span>
+  </div>
+  <div class="month-body">
+    <div class="days-grid">
+      <div class="day-card"><div class="day-label">WEEK 1–2</div><div class="day-content"><div class="day-topic">Smart Contract Vulnerabilities</div><div class="day-detail">Ethereum EVM architecture. Solidity security: reentrancy (The DAO hack — $50M), integer overflow (BEC token), access control bugs, tx.origin misuse, front-running, flash loan attacks, oracle manipulation. Ethernaut challenges (all 28 levels). Damn Vulnerable DeFi challenges. Foundry for testing. Slither and Mythril for static analysis.</div><div class="day-tasks"><span class="task-chip chip-ctf">Ethernaut all 28 levels</span><span class="task-chip chip-tool">Slither / Mythril</span></div></div></div>
+      <div class="day-card"><div class="day-label">WEEK 3–4</div><div class="day-content"><div class="day-topic">DeFi Protocol Attacks & Blockchain Forensics</div><div class="day-detail">DeFi attack anatomy: flash loan + price oracle manipulation. Reproduce historical attacks: Cream Finance, Poly Network, Beanstalk. On-chain forensics: Etherscan, Tenderly for trace analysis. Chainalysis concepts for blockchain forensics. Cross-chain bridge vulnerabilities (Ronin hack — $625M). Write a smart contract audit report for a real DeFi protocol.</div><div class="day-tasks"><span class="task-chip chip-lab">Flash loan attack simulation</span><span class="task-chip chip-project">Smart contract audit report</span></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PHASE 6: PHD -->
+<!-- ============================================================ -->
+<div id="phase8" class="phase-header" data-phase="06" style="border-left-color:var(--green)">
+  <div class="phase-tag">// Phase 06 — Year 2, Month 19–24</div>
+  <div class="phase-title">PhD-LEVEL RESEARCH & EXPERTISE</div>
+  <p style="color:var(--muted);font-size:14px;">Original vulnerability research, conference papers, open-source tools, specialization, and launching your career.</p>
+  <div class="phase-meta">
+    <span class="phase-badge badge-time">6 Months · 540 Hours</span>
+    <span class="phase-badge badge-level">PhD Research Level</span>
+    <span class="phase-badge badge-focus">Original Research + Publication</span>
+  </div>
+</div>
+
+<div class="month-block" id="m19">
+  <div class="month-header" onclick="toggle(this)">
+    <span class="month-num">MONTH 19–20</span>
+    <span class="month-title">Specialization & Deep Expertise</span>
+    <span class="month-hours">~180 hrs total</span>
+    <span class="month-toggle">▾</span>
+  </div>
+  <div class="month-body">
+    <p style="color:var(--muted);font-size:14px;margin-bottom:20px;">At this stage, choose 1–2 specializations and go extremely deep. Below are tracks — pick one as your primary, one as secondary.</p>
+    <div class="days-grid">
+      <div class="day-card"><div class="day-label">TRACK A</div><div class="day-content"><div class="day-topic">Exploit Development Research</div><div class="day-detail">Modern browser exploitation (V8, SpiderMonkey). Windows kernel 0-day research. Advanced heap exploitation (safe-linking bypass). Hypervisor escape (VMware, Hyper-V attack research). Chromium sandbox escape chains. Read every Pwn2Own writeup from the last 3 years. Reproduce a Pwn2Own-style chain in your lab. Submit to Pwn2Own contest.</div><div class="day-tasks"><span class="task-chip chip-research">Hypervisor escape study</span><span class="task-chip chip-lab">Pwn2Own chain lab</span></div></div></div>
+      <div class="day-card"><div class="day-label">TRACK B</div><div class="day-content"><div class="day-topic">Cryptography Research</div><div class="day-detail">Design and analyze cryptographic protocols. Implement and break lattice-based schemes. Contribute to NIST PQC standardization feedback. Research: multi-party computation (MPC), threshold cryptography, homomorphic encryption (TFHE, CKKS). Write a proof-of-concept for a novel cryptographic protocol. Submit to CRYPTO, Eurocrypt, or Asiacrypt conference.</div><div class="day-tasks"><span class="task-chip chip-research">Novel protocol paper</span><span class="task-chip chip-theory">MPC/HE implementation</span></div></div></div>
+      <div class="day-card"><div class="day-label">TRACK C</div><div class="day-content"><div class="day-topic">ML Security Research</div><div class="day-detail">Novel adversarial attack on real ML system. Certified robustness research. LLM red-teaming research. Federated learning poisoning. Differentially private ML. Privacy-preserving inference. Submit to IEEE S&P, CCS, USENIX Security, or NeurIPS Security workshop. Develop a new benchmark dataset for adversarial robustness evaluation.</div><div class="day-tasks"><span class="task-chip chip-research">Conference paper submission</span><span class="task-chip chip-project">Benchmark dataset</span></div></div></div>
+      <div class="day-card"><div class="day-label">TRACK D</div><div class="day-content"><div class="day-topic">Applied Security / Industry Research</div><div class="day-detail">Bug bounty at elite level: VDP/BBP with $10k+ payouts. Publish critical CVEs. Build a security tool with 100+ GitHub stars. Write for top security blogs (Google Project Zero style). Present at DEF CON, Black Hat, or BSides. Consult for companies. Build your public security research brand.</div><div class="day-tasks"><span class="task-chip chip-project">Conference talk submission</span><span class="task-chip chip-project">CVE publication</span></div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="month-block" id="m21">
+  <div class="month-header" onclick="toggle(this)">
+    <span class="month-num">MONTH 21–22</span>
+    <span class="month-title">Original Vulnerability Research & CVE Publication</span>
+    <span class="month-hours">~180 hrs total</span>
+    <span class="month-toggle">▾</span>
+  </div>
+  <div class="month-body">
+    <div class="days-grid">
+      <div class="day-card"><div class="day-label">Month 21</div><div class="day-content"><div class="day-topic">Finding Your First Real CVE</div><div class="day-detail">Week 1: Choose a target: open-source project, embedded firmware, or application. Week 2: Run AFL++/syzkaller continuously, audit source with CodeQL, fuzz APIs. Week 3: Deep manual audit of most promising component. Week 4: Develop PoC, test in controlled environment. Write full vulnerability report. Initiate coordinated disclosure with CERT/CC or vendor. Request CVE via MITRE.</div><div class="day-tasks"><span class="task-chip chip-research">CVE discovery process</span><span class="task-chip chip-project">PoC development</span></div></div></div>
+      <div class="day-card"><div class="day-label">Month 22</div><div class="day-content"><div class="day-topic">Research Publication & Community Contribution</div><div class="day-detail">Week 1–2: Write a full technical blog post on your CVE / research (Project Zero style). Submit to arXiv. Week 3: Build and release the tool you created during research as open-source. Write comprehensive documentation. Week 4: Submit a talk proposal to DEF CON, Black Hat, USENIX, or regional BSides conference. Build your public researcher profile.</div><div class="day-tasks"><span class="task-chip chip-project">Technical blog post</span><span class="task-chip chip-project">Open-source tool release</span><span class="task-chip chip-research">Conference talk submission</span></div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="month-block" id="m23">
+  <div class="month-header" onclick="toggle(this)">
+    <span class="month-num">MONTH 23–24</span>
+    <span class="month-title">PhD-Level Final Project & Career Launch</span>
+    <span class="month-hours">~180 hrs total</span>
+    <span class="month-toggle">▾</span>
+  </div>
+  <div class="month-body">
+    <div class="days-grid">
+      <div class="day-card"><div class="day-label">Month 23</div><div class="day-content"><div class="day-topic">Comprehensive Research Paper & Thesis-Level Work</div><div class="day-detail">Write a full IEEE/USENIX Security-format research paper (12–16 pages). Must include: related work, novel contribution, experimental evaluation, limitations, future work. Have it reviewed by a mentor. Submit to a peer-reviewed conference or workshop. Prepare rebuttal. This is PhD-thesis-level work that demonstrates research maturity.</div><div class="day-tasks"><span class="task-chip chip-research">Full conference paper</span><span class="task-chip chip-research">Peer review submission</span></div></div></div>
+      <div class="day-card"><div class="day-label">Month 24</div><div class="day-content"><div class="day-topic">2-Year Review, Portfolio & Career Strategy</div><div class="day-detail">Week 1: Build your complete security portfolio: GitHub (tools + research), blog (writeups + papers), LinkedIn, Twitter/X presence. Week 2: Prepare for interviews: FAANG security teams, national labs, top consulting firms, PhD programs. Week 3: Certifications to consider: OSCP, OSED, OSCE3, CRTO, CRTE, GXPN, CISA. Week 4: 2-year reflection, knowledge map, and plan your next 2 years.</div><div class="day-tasks"><span class="task-chip chip-project">Portfolio complete</span><span class="task-chip chip-theory">Career roadmap</span></div></div></div>
+    </div>
+
+    <div class="milestone">
+      <h4>✦ 2-YEAR GRADUATION MILESTONES</h4>
+      <ul>
+        <li>1+ published CVE(s) with vendor acknowledgment</li>
+        <li>1+ paper on arXiv or peer-reviewed publication</li>
+        <li>Custom C2 framework built and documented</li>
+        <li>25+ HTB/CTF machines rooted with reports</li>
+        <li>Open-source security tool with users</li>
+        <li>Kernel, web, crypto, hardware, cloud expertise</li>
+        <li>Conference talk (submitted or delivered)</li>
+        <li>OSCP or equivalent professional certification</li>
+        <li>Active bug bounty or responsible disclosure history</li>
+        <li>Research network: colleagues, mentors, collaborators</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- RESOURCES FINAL -->
+<div style="margin-top:50px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:32px;">
+  <h3 style="font-family:'Orbitron',monospace;font-size:16px;color:var(--cyan);letter-spacing:2px;margin-bottom:24px;">// MASTER RESOURCE LIST</h3>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;">
+
+    <div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--orange);letter-spacing:2px;margin-bottom:12px;">ESSENTIAL BOOKS</div>
+      <div class="res-item">Hacking: Art of Exploitation — Erickson</div>
+      <div class="res-item">The Web Application Hacker's Handbook</div>
+      <div class="res-item">Black Hat Python — Justin Seitz</div>
+      <div class="res-item">The Shellcoder's Handbook</div>
+      <div class="res-item">Practical Malware Analysis — Sikorski</div>
+      <div class="res-item">Introduction to Modern Cryptography — Katz</div>
+      <div class="res-item">A Guide to Kernel Exploitation — Perla</div>
+      <div class="res-item">The Art of Memory Forensics — Ligh</div>
+    </div>
+
+    <div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--orange);letter-spacing:2px;margin-bottom:12px;">PLATFORMS</div>
+      <div class="res-item">Hack The Box (HTB)</div>
+      <div class="res-item">TryHackMe</div>
+      <div class="res-item">PortSwigger Web Academy</div>
+      <div class="res-item">pwn.college (ASU) — FREE</div>
+      <div class="res-item">PicoCTF</div>
+      <div class="res-item">CryptoHack</div>
+      <div class="res-item">CTFtime.org (competitions)</div>
+      <div class="res-item">Ethernaut (smart contracts)</div>
+    </div>
+
+    <div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--orange);letter-spacing:2px;margin-bottom:12px;">CERTIFICATIONS (In Order)</div>
+      <div class="res-item">eJPT (Entry) — INE</div>
+      <div class="res-item">OSCP — OffSec (Month 6–8 target)</div>
+      <div class="res-item">OSED — OffSec (exploit dev)</div>
+      <div class="res-item">CRTO — ZeroPoint Security</div>
+      <div class="res-item">CRTE — Altered Security (AD)</div>
+      <div class="res-item">GXPN — SANS (advanced)</div>
+      <div class="res-item">OSCE3 — OffSec (expert level)</div>
+    </div>
+
+    <div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--orange);letter-spacing:2px;margin-bottom:12px;">RESEARCH CONFERENCES</div>
+      <div class="res-item">IEEE S&P (Oakland)</div>
+      <div class="res-item">USENIX Security</div>
+      <div class="res-item">ACM CCS</div>
+      <div class="res-item">NDSS</div>
+      <div class="res-item">Black Hat USA</div>
+      <div class="res-item">DEF CON</div>
+      <div class="res-item">BSides (regional)</div>
+      <div class="res-item">CRYPTO / Eurocrypt</div>
+    </div>
+
+    <div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--orange);letter-spacing:2px;margin-bottom:12px;">KEY TOOLS MASTERED</div>
+      <div class="res-item">Burp Suite Pro</div>
+      <div class="res-item">Metasploit Framework</div>
+      <div class="res-item">Ghidra / IDA Pro</div>
+      <div class="res-item">pwntools / GDB-PEDA</div>
+      <div class="res-item">AFL++ / syzkaller</div>
+      <div class="res-item">angr / Unicorn Engine</div>
+      <div class="res-item">Volatility 3</div>
+      <div class="res-item">BloodHound / Impacket</div>
+    </div>
+
+    <div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--orange);letter-spacing:2px;margin-bottom:12px;">BLOGS & READING</div>
+      <div class="res-item">Google Project Zero Blog</div>
+      <div class="res-item">Qualys Security Blog</div>
+      <div class="res-item">SANS Internet Storm Center</div>
+      <div class="res-item">The Hacker News</div>
+      <div class="res-item">Pwnie Awards Writeups</div>
+      <div class="res-item">Bruce Schneier's Schneier on Security</div>
+      <div class="res-item">CTFtime writeups</div>
+      <div class="res-item">GitHub: advisories & PoCs</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end container -->
+
+<footer>
+  // ZERO TO PhD HACKER ROADMAP · 2 YEARS · 2,190 HOURS · EVERY TOPIC // BUILT FOR ASHISH //
+</footer>
+
+<script>
+function toggle(header) {
+  const block = header.closest('.month-block');
+  block.classList.toggle('open');
+}
+</script>
+</body>
+</html>
