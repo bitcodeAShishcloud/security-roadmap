@@ -11,30 +11,23 @@ This repository contains structured HTML pages covering different domains of sec
 
 ---
 
+## 🌐 Deployed Pages
+
+- 🏠 [Home](https://bitcodeashishcloud.github.io/security-roadmap/index.html)
+- 🧠 [Hacker Roadmap (2 Year Plan)](https://bitcodeashishcloud.github.io/security-roadmap/hacker_roadmap_2year.html)
+- 🌐 [Web Security](https://bitcodeashishcloud.github.io/security-roadmap/WebSec.html)
+- 💻 [Cyber Security](https://bitcodeashishcloud.github.io/security-roadmap/cyber.html)
+- 🔴 [Red Team Guide](https://bitcodeashishcloud.github.io/security-roadmap/Redteam.html)
+
+---
+
 ## 📂 Project Structure
 
-### 🧠 Main Roadmap
-- 📍 [Hacker Roadmap (2 Year Plan)](https://github.com/bitcodeAshishcloud/security-roadmap/blob/main/hacker_roadmap_2year.html)
-
----
-
-### 🌐 Web Security
-- 📍 [Web Security](https://github.com/bitcodeAshishcloud/security-roadmap/blob/main/WebSec.html)
-
----
-
-### 💻 Cyber Security Basics
-- 📍 [Cyber Security](https://github.com/bitcodeAshishcloud/security-roadmap/blob/main/cyber.html)
-
----
-
-### 🔴 Red Team
-- 📍 [Red Team Guide](https://github.com/bitcodeAshishcloud/security-roadmap/blob/main/Redteam.html)
-
----
-
-### 🏠 Entry Point
-- 📍 [Home / Index](https://github.com/bitcodeAshishcloud/security-roadmap/blob/main/index.html)
+- `index.html` → Entry point  
+- `hacker_roadmap_2year.html` → Complete roadmap  
+- `WebSec.html` → Web security content  
+- `cyber.html` → Cybersecurity basics  
+- `Redteam.html` → Red team learning  
 
 ---
 
@@ -46,22 +39,21 @@ This repository contains structured HTML pages covering different domains of sec
   - Web Security
   - Red Teaming
   - Cybersecurity fundamentals
-  - Hands-on labs & concepts
+  - Hands-on concepts
 
 ---
 
 ## 🛠️ Tech Used
 - HTML
-- Basic frontend structure
-- GitHub Pages for deployment
+- GitHub Pages
 
 ---
 
 ## 📈 Future Improvements
-- Add interactive modules
-- Include labs & CTF challenges
-- Add progress tracking system
-- Improve UI/UX
+- Interactive modules  
+- Labs & CTF challenges  
+- Progress tracking  
+- Better UI/UX  
 
 ---
 
@@ -69,12 +61,11 @@ This repository contains structured HTML pages covering different domains of sec
 Contributions are welcome!
 
 1. Fork the repo  
-2. Create a new branch  
-3. Make your changes  
-4. Submit a Pull Request  
+2. Create a branch  
+3. Make changes  
+4. Submit a PR  
 
 ---
 
 ## 📬 Contact
-Created by **Ashish**  
-Feel free to connect or suggest improvements.
+Created by **Ashish**
