@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zero to PhD | Advanced Student Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --bg-dark: #0a0a0f;
+    --bg-panel: #13141c;
+    --bg-card: #1c1d28;
+    --bg-hover: #252736;
+    --primary: #00e699;
+    --primary-dim: rgba(0, 230, 153, 0.15);
+    --accent: #00b3ff;
+    --text-main: #e2e8f0;
+    --text-muted: #94a3b8;
+    --border: #2e3344;
+    --danger: #ff4d4d;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .mono { font-family: 'Fira Code', monospace; }
+
+  /* Layout */
+  .sidebar {
+    width: 320px;
+    background-color: var(--bg-panel);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+  }
+
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    background: radial-gradient(circle at top right, rgba(0, 230, 153, 0.03), transparent 50%);
+  }
+
+  /* Sidebar Styles */
+  .brand {
+    padding: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .brand h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
+  .brand span { color: var(--primary); }
+  .brand p { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+  .global-progress {
+    padding: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .progress-header { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 8px; color: var(--text-muted); }
+  .progress-header strong { color: var(--primary); font-size: 16px; }
+  .progress-bar { width: 100%; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--primary); width: 0%; transition: width 0.5s ease; }
+
+  .nav-menu {
+    padding: 16px;
+    overflow-y: auto;
+    flex: 1;
+  }
+  .nav-item {
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .nav-item:hover { background: var(--bg-card); }
+  .nav-item.active {
+    background: var(--primary-dim);
+    border-color: rgba(0, 230, 153, 0.3);
+    color: var(--primary);
+  }
+
+  /* Main Content Styles */
+  .topbar {
+    padding: 24px 40px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-panel);
+    position: sticky;
+    top: 0;
+    z-index: 5;
+  }
+  .topbar h2 { font-size: 24px; font-weight: 600; }
+  .topbar-meta { display: flex; gap: 16px; }
+  .badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--accent);
+  }
+
+  .content-body { padding: 40px; max-width: 1000px; margin: 0 auto; width: 100%; }
+
+  .briefing-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--primary);
+    padding: 24px;
+    border-radius: 8px;
+    margin-bottom: 32px;
+  }
+  .briefing-card h3 { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 8px; }
+  .briefing-card p { font-size: 15px; line-height: 1.6; }
+
+  /* Accordion / Hideable List */
+  .month-section { margin-bottom: 32px; }
+  .month-header {
+    font-size: 18px; font-weight: 600; color: #fff; margin-bottom: 16px;
+    padding-bottom: 8px; border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .month-stats { font-size: 13px; color: var(--text-muted); font-weight: 400; }
+
+  .day-list { display: flex; flex-direction: column; gap: 8px; }
+  
+  .day-item {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+  .day-item:hover { border-color: #3e445c; }
+  .day-item.completed { opacity: 0.6; }
+  .day-item.completed .day-title { text-decoration: line-through; }
+
+  .day-header {
+    display: flex; align-items: center; padding: 16px 20px; cursor: pointer; user-select: none;
+  }
+  
+  .day-check {
+    appearance: none; width: 22px; height: 22px; border: 2px solid var(--text-muted);
+    border-radius: 6px; margin-right: 16px; cursor: pointer; position: relative;
+    transition: all 0.2s; flex-shrink: 0;
+  }
+  .day-check:checked { background: var(--primary); border-color: var(--primary); }
+  .day-check:checked::after {
+    content: '✓'; position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%);
+    color: var(--bg-dark); font-size: 14px; font-weight: bold;
+  }
+
+  .day-label { font-size: 13px; color: var(--accent); width: 70px; flex-shrink: 0; }
+  .day-title { flex: 1; font-size: 15px; font-weight: 500; }
+  .day-toggle { color: var(--text-muted); font-size: 18px; transition: transform 0.3s; }
+
+  .day-body { display: none; padding: 0 20px 20px 58px; }
+  .day-item.open .day-body { display: block; }
+  .day-item.open .day-toggle { transform: rotate(180deg); }
+  .day-item.open { border-color: var(--accent); background: var(--bg-card); }
+
+  .task-box {
+    background: var(--bg-dark);
+    border: 1px dashed var(--border);
+    padding: 16px;
+    border-radius: 6px;
+    margin-top: 8px;
+  }
+  .task-box h4 { font-size: 12px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; }
+  .task-box p { font-size: 14px; color: #cbd5e1; line-height: 1.6; }
+  .time-badge { display: inline-block; margin-top: 12px; font-size: 11px; padding: 4px 8px; background: rgba(0, 179, 255, 0.1); color: var(--accent); border-radius: 4px; }
+
+  /* Mobile overlay */
+  .mobile-nav-toggle { display: none; background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; }
+  
+  @media (max-width: 768px) {
+    .sidebar { position: fixed; left: -320px; transition: left 0.3s; height: 100vh; }
+    .sidebar.show { left: 0; }
+    .mobile-nav-toggle { display: block; }
+    .topbar { padding: 16px 20px; }
+    .content-body { padding: 20px; }
+    .day-body { padding-left: 20px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <h1 class="mono">ZERO2<span>PHD</span></h1>
+      <p>Student Execution Dashboard</p>
+    </div>
+    
+    <div class="global-progress">
+      <div class="progress-header">
+        <span>CURRICULUM PROGRESS</span>
+        <strong class="mono"><span id="global-count">0</span>/730</strong>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="global-fill"></div></div>
+    </div>
+
+    <div class="nav-menu" id="nav-menu">
+      <!-- Phases injected here -->
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="main-content">
+    <div class="topbar">
+      <button class="mobile-nav-toggle" onclick="document.getElementById('sidebar').classList.toggle('show')">☰</button>
+      <h2 id="current-phase-title">Select a Phase</h2>
+      <div class="topbar-meta">
+        <span class="badge mono">3 HRS/DAY</span>
+        <span class="badge mono" style="color:var(--primary); border-color:var(--primary)">LOCAL SAVE ACTIVE</span>
+      </div>
+    </div>
+
+    <div class="content-body" id="content-body">
+      <!-- Days injected here -->
+    </div>
+  </main>
+
+<script>
+// Highly compressed 730-day database
+const rawData = `1|1|1|Install Kali Linux + VMs|Lab setup and OS Internals
+2|1|1|Linux File System & Permissions|Inode tables and Permission CTF
+3|1|1|Essential CLI Tools|grep/awk mastery and log parsing
+4|1|1|Shell Scripting (Bash)|Build Bash port scanner
+5|1|1|OSI Model & TCP/IP|OSI mapping and Wireshark intro
+6|1|1|DNS & HTTP Protocols|Burp Suite setup and DNS enum
+7|1|1|Week 1 CTF & Review|TryHackMe Pre-Security
+8|1|1|Python Data Structures|Build Wordlist generator
+9|1|1|Python Socket Programming|Build Port scanner and Scapy intro
+10|1|1|Python HTTP & Scraping|Build Dir fuzzer
+11|1|1|Python Crypto & Encoding|Build Hash cracker
+12|1|1|Python Reverse Shells|Lab Reverse shell demo
+13|1|1|C Language Basics|Memory model and Vulnerable C
+14|1|1|Week 2 CTF & Review|PicoCTF General Skills
+15|1|1|x86-64 Assembly Fundamentals|NASM hello world
+16|1|1|GDB Debugger Mastery|Debug vulnerable binary
+17|1|1|ELF Format & RE Basics|Reverse a crackme in Ghidra
+18|1|1|Classic Buffer Overflow|First BoF exploit
+19|1|1|Introduction to Shellcode|Custom shellcode generation
+20|1|1|OS Process & Memory|Kernel internals exploration
+21|1|1|Week 3 CTF & Review|PicoCTF Binary Exp
+22|1|1|Passive Recon & OSINT|Build OSINT profile
+23|1|1|Active Recon with Nmap|Python Nmap parser
+24|1|1|Subdomain Enum & DNS|Auto-recon script
+25|1|1|Vulnerability Scanning|Nessus scan on Metasploitable
+26|1|1|Metasploit Framework Intro|EternalBlue on Win VM
+27|1|1|CTF Methodology Intro|HTB Starting Point
+28|1|1|TryHackMe Rooms Practice|Solve 3 rooms end-to-end
+29|1|1|First Pentest Report|Draft report on personal lab
+30|1|1|Month 1 Review & KB Setup|Obsidian vault structuring
+31|1|2|Subnetting Mastery & IPv6|IPv6 NDP spoofing demo
+32|1|2|ARP DHCP & Layer 2 Attacks|ARP MITM in lab
+33|1|2|Wireshark Deep Analysis|Malware PCAP analysis
+34|1|2|Firewall Arch & Evasion|Firewall evasion with Nmap
+35|1|2|VPN & ProxyChains|Tor setup and OPSEC theory
+36|1|2|Wireless Security (Wi-Fi)|WPA2 crack on own AP
+37|1|2|Bluetooth & IoT Surface|BLE sniffing demo
+38|1|2|Active Directory Architecture|AD lab setup and BloodHound
+39|1|2|Kerberos Auth Deep Dive|Kerberoasting lab
+40|1|2|NTLM & Pass-the-Hash|DCSync attack lab
+41|1|2|PowerShell for Red Teams|AMSI bypass demo
+42|1|2|Windows Privilege Escalation|THM Windows Privesc
+43|1|2|Linux Privilege Escalation|HTB Linux easy boxes
+44|1|2|Post-Exploitation & Pivoting|Pivoting lab (3 VMs)
+45|1|2|Password Cracking Fundamentals|Custom rule building in Hashcat
+46|1|2|Wordlist Creation via OSINT|Build targeted wordlist
+47|1|2|Classic Cryptography|Crypto CTF challenges
+48|1|2|RSA Deep Dive & Attacks|RSA mathematics theory
+49|1|2|TLS/SSL Attacks & Analysis|SSL strip lab
+50|1|2|Social Engineering Tech|Phishing campaign demo
+51|1|2|Week 3 Review & HTB Box|HTB Easy Linux root
+52|1|2|FTP/SSH/Telnet/SMTP Exploits|Metasploitable2 service attacks
+53|1|2|SMB/RPC/NetBIOS Exploits|PrintNightmare lab
+54|1|2|Database Hacking (SQL/NoSQL)|DB privesc lab
+55|1|2|THM Jr Pentester Path Part 1|Complete web modules
+56|1|2|THM Jr Pentester Path Part 2|Complete network modules
+57|1|2|THM Jr Pentester Path Part 3|Complete privesc modules
+58|1|2|HTB Easy Machines|Root 1 Linux and 1 Windows box
+59|1|2|Lab Expansion|Build 5-VM lab network
+60|1|2|Month 2 Review & Assessment|Skill gap analysis
+61|1|3|SQL Injection Mastery|DVWA SQLi all levels
+62|1|3|Cross-Site Scripting (XSS)|PortSwigger XSS labs
+63|1|3|SSRF XXE & Cmd Injection|Cloud metadata exploit
+64|1|3|Auth & Session Attacks|JWT attacks lab
+65|1|3|Insecure Deserialization|Race condition lab
+66|1|3|File Upload & LFI/RFI|LFI to RCE chain
+67|1|3|PortSwigger Web Academy|Apprentice labs completion
+68|1|3|REST API Security Testing|GraphQL injection lab
+69|1|3|GraphQL & WebSocket Attacks|Request smuggling lab
+70|1|3|HTTP Request Smuggling|PortSwigger smuggling labs
+71|1|3|Server-Side Template Injection|SSTI detection script
+72|1|3|Access Control & IDOR|CORS full exploit chain
+73|1|3|Web Cache Poisoning|Prototype pollution RCE
+74|1|3|Burp Suite Pro Mastery|Custom Burp extension
+75|1|3|Bug Bounty Methodology|Report writing practice
+76|1|3|Automation in Bug Bounty|Full recon pipeline setup
+77|1|3|Web App Pentest Sim 1|Hack DVWA completely
+78|1|3|Web App Pentest Sim 2|Root HTB web machine
+79|1|3|Web App Pentest Sim 3|Hack bWAPP completely
+80|1|3|Web App Assessment Report|Write professional pentest report
+81|1|3|AWS Security Fundamentals|S3 bucket misconfiguration
+82|1|3|Docker & K8s Security|Docker breakout lab
+83|1|3|Month 3 Capstone Part 1|Recon on 5-VM lab
+84|1|3|Month 3 Capstone Part 2|Vulnerability scanning lab
+85|1|3|Month 3 Capstone Part 3|Exploitation phase
+86|1|3|Month 3 Capstone Part 4|Post-exploitation
+87|1|3|Month 3 Capstone Part 5|Lateral movement
+88|1|3|Month 3 Capstone Part 6|Exfiltration and cleanup
+89|1|3|Capstone Report Writing 1|Executive summary and methodology
+90|1|3|Capstone Report Writing 2|Technical findings and remediation
+91|2|4|ASLR Theory & Bypasses|Format string bypass
+92|2|4|NX/DEP & Stack Canaries|ret2libc and canary leak
+93|2|4|Return Oriented Programming|pwn.college ROP module
+94|2|4|Format String Vulnerabilities|GOT overwrite via printf
+95|2|4|Heap Exploitation Foundations|UAF demo exploit
+96|2|4|Heap Tcache Attacks|Tcache poison exploit
+97|2|4|Week 1 CTF Challenges|pwn.college memory safety
+98|2|4|Heap Houses (Force/Spirit)|House of Force exploit
+99|2|4|Heap Houses (Orange/Lore)|IO_FILE vtable hijack
+100|2|4|Kernel Exploitation Intro|QEMU kernel lab setup
+101|2|4|Kernel Module Exploitation|SMEP bypass lab
+102|2|4|Race Conditions & TOCTOU|DirtyCow recreation
+103|2|4|Integer Overflows|vtable hijack lab
+104|2|4|Exploit Dev with pwntools|3 CTF pwn solves
+105|2|4|CVE Research Methodology|Patch diff analysis
+106|2|4|Recreate CVE-2021-3156|Baron Samedit reproduction
+107|2|4|Recreate CVE-2022-0847|Dirty Pipe recreation
+108|2|4|Browser Exploitation V8 Part 1|V8 internals theory
+109|2|4|Browser Exploitation V8 Part 2|addrOf/fakeObj primitives
+110|2|4|Browser Exploitation V8 Part 3|WASM exploitation intro
+111|2|4|Month 4 Capstone Part 1|Analyze vulnerable software target
+112|2|4|Month 4 Capstone Part 2|Develop vulnerability primitive
+113|2|4|Month 4 Capstone Part 3|Bypass target mitigations
+114|2|4|Month 4 Capstone Part 4|Weaponize full exploit
+115|2|4|Month 4 Capstone Part 5|Test stability and document
+116|2|4|CTF Competition Prep|Tooling and script updates
+117|2|4|Live CTF Competition Day 1|Solve pwn and web challenges
+118|2|4|Live CTF Competition Day 2|Solve crypto and RE challenges
+119|2|4|Capstone Publication Part 1|Draft technical writeup
+120|2|4|Capstone Publication Part 2|Publish exploit to GitHub
+121|2|5|Malware Taxonomy & Arch|PE format analysis
+122|2|5|Static Malware Analysis|Real sample analysis safely
+123|2|5|Dynamic Malware Analysis|IOC extraction with ProcMon
+124|2|5|RE Malware with Ghidra/IDA|C2 configuration extraction
+125|2|5|Writing Malware in C|DLL injection lab
+126|2|5|Persistence Mechanisms|Persistence checker script
+127|2|5|Week Review & Malware CTF|FlareOn beginner challenges
+128|2|5|Antivirus & EDR Internals|AMSI architecture theory
+129|2|5|Shellcode Obfuscation|Custom shellcode encoder
+130|2|5|AMSI & ETW Bypass|AppLocker bypass lab
+131|2|5|C2 Framework Architecture|Build HTTP C2 in Python
+132|2|5|Rootkits Implementation|Volatility forensics tool
+133|2|5|Ransomware Analysis Part 1|WannaCry static analysis
+134|2|5|Ransomware Analysis Part 2|LockBit 2.0 structure analysis
+135|2|5|Ransomware Defense|Build Python ransomware honeypot
+136|2|5|Volatility Deep Dive|Memory analysis of infected image
+137|2|5|Malware Report Writing 1|Draft STIX format report
+138|2|5|Malware Report Writing 2|Finalize technical IOCs
+139|2|5|Defensive Engineering 1|Develop YARA rules for WannaCry
+140|2|5|Defensive Engineering 2|Develop YARA rules for LockBit
+141|2|5|Review Advanced Executable|Packer detection practice
+142|2|5|Review Network Evasion|C2 traffic mimicking
+143|2|5|Review Memory Forensics|Analyze complex memory dumps
+144|2|5|Review Endpoint Defense|Test YARA rules against live lab
+145|2|5|Mock Malware Incident 1|Identify initial vector
+146|2|5|Mock Malware Incident 2|Isolate and extract payload
+147|2|5|Mock Malware Incident 3|Reverse engineer payload
+148|2|5|Mock Malware Incident 4|Generate defensive signatures
+149|2|5|Month 5 Assessment 1|Theoretical evaluation
+150|2|5|Month 5 Assessment 2|Practical malware reversing
+151|2|6|OSCP Methodology 1|PTES Standard review
+152|2|6|OSCP Methodology 2|OWASP Testing Guide mapping
+153|2|6|OSCP Methodology 3|NIST SP 800-115 review
+154|2|6|OSCP Report Writing 1|Draft template and structure
+155|2|6|OSCP Report Writing 2|Write mock report 1
+156|2|6|OSCP Report Writing 3|Write mock report 2
+157|2|6|OSCP Simulation Prep|Time management strategy
+158|2|6|HTB Intensive Practice 1|Root Linux easy box
+159|2|6|HTB Intensive Practice 2|Root Windows easy box
+160|2|6|HTB Intensive Practice 3|Root Active Directory box 1
+161|2|6|HTB Intensive Practice 4|Root Active Directory box 2
+162|2|6|HTB Intensive Practice 5|Root Web exploitation box 1
+163|2|6|HTB Intensive Practice 6|Root Web exploitation box 2
+164|2|6|HTB Intensive Practice 7|Root Medium/Hard box
+165|2|6|Red Team Ops Planning 1|Red team vs Pentest theory
+166|2|6|Red Team Ops Planning 2|Rules of engagement drafting
+167|2|6|Red Team Ops Planning 3|Threat modeling execution
+168|2|6|Red Team Ops Planning 4|Assumed breach scenarios
+169|2|6|Red Team Ops Planning 5|MITRE ATT&CK Navigator mapping
+170|2|6|Red Team Ops Planning 6|Infrastructure design (C2/Redirectors)
+171|2|6|Red Team Ops Planning 7|Infrastructure deployment
+172|2|6|Red Team Capstone 1|External reconnaissance phase
+173|2|6|Red Team Capstone 2|Initial access / Phishing sim
+174|2|6|Red Team Capstone 3|Internal reconnaissance
+175|2|6|Red Team Capstone 4|Credential harvesting
+176|2|6|Red Team Capstone 5|Lateral movement execution
+177|2|6|Red Team Capstone 6|Establishing deep persistence
+178|2|6|Red Team Capstone 7|Objective completion and Exfiltration
+179|2|6|Red Team Report Part 1|Executive summary and ATT&CK map
+180|2|6|Red Team Report Part 2|Technical details and remediation
+181|3|7|IDA Pro Advanced Workflow|Stripped binary RE
+182|3|7|Ghidra Scripting & Plugins|Ghidra auto-rename script
+183|3|7|Binary Diffing & Patches|N-day discovery method
+184|3|7|Obfuscation & Deobfuscation|Deobfuscate crackmes
+185|3|7|Anti-Analysis Bypass Tricks|Anti-debug bypass lab
+186|3|7|Packer Analysis & Unpacking|Manual unpacking lab
+187|3|7|FlareOn CTF Sprint|GitHub writeups creation
+188|3|7|Symbolic Execution angr 1|Architecture and SimManager
+189|3|7|Symbolic Execution angr 2|Constraint solving with claripy
+190|3|7|Symbolic Execution angr 3|Auto-solve basic crackmes
+191|3|7|Symbolic Execution angr 4|Concolic execution implementation
+192|3|7|Symbolic Execution angr 5|Veritesting concept mapping
+193|3|7|Symbolic Execution angr 6|angr_ctf challenge suite part 1
+194|3|7|Symbolic Execution angr 7|angr_ctf challenge suite part 2
+195|3|7|Fuzzing Theory & Concepts|Coverage-guided vs Mutation
+196|3|7|AFL++ Setup & Config|Instrumentation and Corpus building
+197|3|7|AFL++ Harness Writing|Persistent mode implementation
+198|3|7|Bug Detection Integrations|ASAN/UBSAN configuration
+199|3|7|LibFuzzer Implementations|Library fuzzing practice
+200|3|7|Structure-Aware Fuzzing|Atheris framework setup
+201|3|7|Real Fuzzing Campaign|OSS project fuzzing and GDB triage
+202|3|7|Firmware Extraction Basics|UART/JTAG concepts and binwalk
+203|3|7|Firmware Unpacking|QEMU emulation (ARM/MIPS)
+204|3|7|Firmware Analysis Tools|Firmwalker deployment
+205|3|7|Router Firmware Analysis 1|Extract filesystem and configs
+206|3|7|Router Firmware Analysis 2|Hunt hardcoded credentials
+207|3|7|Router Firmware Analysis 3|Command injection discovery
+208|3|7|IoT Attack Case Studies|Mapping attacks to architecture
+209|3|7|Firmware Assessment Report 1|Vulnerability documentation
+210|3|7|Firmware Assessment Report 2|Remediation and wrap-up
+211|3|8|Math for Cryptography 1|Group theory essentials
+212|3|8|Math for Cryptography 2|Ring and Field theory
+213|3|8|Math for Cryptography 3|Elliptic curve mathematics
+214|3|8|Math for Cryptography 4|Number theory and CRT
+215|3|8|Math for Cryptography 5|Lattice-based crypto intro
+216|3|8|Math for Cryptography 6|SageMath Python setup
+217|3|8|Math for Cryptography 7|EC operations from scratch
+218|3|8|Symmetric Crypto Internals|AES internals and side-channels
+219|3|8|Block Cipher Modes 1|ECB and CBC vulnerabilities
+220|3|8|Block Cipher Modes 2|CTR and GCM mechanics
+221|3|8|Block Cipher Attacks 1|Padding oracle implementation
+222|3|8|Block Cipher Attacks 2|CBC bit-flipping exploit
+223|3|8|Block Cipher Attacks 3|GCM nonce reuse attack
+224|3|8|Lightweight Ciphers Analysis|SIMON and SPECK overview
+225|3|8|ECC Attacks Part 1|ECDSA nonce reuse mechanics
+226|3|8|ECC Attacks Part 2|Sony PS3 fail0verflow recreation
+227|3|8|ECC Attacks Part 3|Invalid curve attacks
+228|3|8|ECC Attacks Part 4|ECDH small subgroup attack
+229|3|8|ECC Attacks Part 5|Pohlig-Hellman on weak curves
+230|3|8|ECC Attacks Part 6|Implement attacks in SageMath
+231|3|8|ECC Attacks Part 7|CryptoHack EC challenges
+232|3|8|Post-Quantum Crypto 1|Shor's and Grover's algorithms
+233|3|8|Post-Quantum Crypto 2|NIST PQC finalists review
+234|3|8|Post-Quantum Crypto 3|Lattice cryptography deep dive
+235|3|8|Zero-Knowledge Proofs 1|ZK-SNARKs and STARKs
+236|3|8|Zero-Knowledge Proofs 2|Interactive vs Non-interactive
+237|3|8|Zero-Knowledge Proofs 3|Simple ZK protocol implementation
+238|3|8|Month 8 Review 1|Consolidate mathematical notes
+239|3|8|Month 8 Review 2|Re-test ECC exploits
+240|3|8|Month 8 Capstone|Solve remaining CryptoHack tiers
+241|3|9|AWS Attack Paths 1|IAM privilege escalation vectors
+242|3|9|AWS Attack Paths 2|S3 enum and EC2 userdata
+243|3|9|AWS Attack Paths 3|Lambda and CloudFormation exploitation
+244|3|9|GCP Attack Paths|Service accounts and metadata abuse
+245|3|9|Azure Attack Paths|AD integration and managed identities
+246|3|9|Cloud Security Labs 1|CloudGoat scenarios deployment
+247|3|9|Cloud Security Labs 2|flaws.cloud lab completion
+248|3|9|Kubernetes Advanced Security 1|etcd access and node compromise
+249|3|9|Kubernetes Advanced Security 2|RBAC misconfig and pod breakout
+250|3|9|Kubernetes Auditing|kube-hunter and kube-bench usage
+251|3|9|Service Mesh Security|Istio security model review
+252|3|9|Container Supply Chain|Image layer analysis
+253|3|9|Container Runtime Defense|Falco rules configuration
+254|3|9|K8s Practical Exploitation|k8s-goat lab execution
+255|3|9|CI/CD Pipeline Attacks 1|GitHub Actions OIDC abuse
+256|3|9|CI/CD Pipeline Attacks 2|Jenkins Groovy console injection
+257|3|9|Supply Chain Attack Methods|SolarWinds and XZ Utils analysis
+258|3|9|Dependency Confusion|Malicious npm/PyPI concept
+259|3|9|SLSA Framework|Supply chain integrity review
+260|3|9|SBOM Analysis|Generation and vulnerability mapping
+261|3|9|CI/CD Lab Implementation|GitHub Actions exploit lab
+262|3|9|Threat Intelligence 1|OSINT for threat intel gathering
+263|3|9|Threat Intelligence 2|MISP platform and TAXII/STIX
+264|3|9|Threat Intelligence 3|Diamond model and Kill Chain
+265|3|9|Year 1 Capstone CTF 1|Participate in real CTF competition
+266|3|9|Year 1 Capstone CTF 2|Writeups for CTF challenges
+267|3|9|Year 1 Capstone HTB 1|Root medium HTB machine 1
+268|3|9|Year 1 Capstone HTB 2|Root medium HTB machine 2
+269|3|9|Year 1 Capstone HTB 3|Root medium HTB machine 3
+270|3|9|Year 1 Finalization|Publish personal tool to GitHub
+271|4|10|Source Code Auditing 1|Top-down vs bottom-up review
+272|4|10|Source Code Auditing 2|Dangerous C functions identification
+273|4|10|Source Code Auditing 3|PHP code execution flaws
+274|4|10|Source Code Auditing 4|Python eval and pickle flaws
+275|4|10|Source Code Auditing 5|Build source code audit checklist
+276|4|10|OSS Audit Practical 1|Audit open-source project 1
+277|4|10|OSS Audit Practical 2|Audit open-source project 2
+278|4|10|SAST Tools Setup|CodeQL installation and basics
+279|4|10|CodeQL Mastery|Write queries for taint flows
+280|4|10|Semgrep Deployment|Rule writing for security patterns
+281|4|10|Joern Graphing|Code property graph for C/C++
+282|4|10|SAST Integration|LGTM/GitHub Actions SAST pipeline
+283|4|10|Custom SAST Rules|Build rules for common vulns
+284|4|10|Pre-CVE Discovery|Scan OSS for unpatched bugs
+285|4|10|Advanced Fuzzing Concepts|Grammar vs Differential fuzzing
+286|4|10|Grammar Fuzzing Setup|Domato DOM fuzzer installation
+287|4|10|Differential Fuzzing|Compare two implementations
+288|4|10|Kernel Fuzzing Setup 1|syzkaller architecture review
+289|4|10|Kernel Fuzzing Setup 2|Deploy syzkaller for Linux
+290|4|10|Kernel Fuzzing Execution|Fuzz Linux kernel subsystem
+291|4|10|Network Protocol Fuzzing|Design network mutator
+292|4|10|WebAssembly Fuzzing|WASM fuzzing harnesses
+293|4|10|Mutation Strategies|Design custom fuzzing mutator
+294|4|10|Coverage Optimization|Analyze branch coverage maps
+295|4|10|Cloud Fuzzing Infra 1|Provision 24/7 cloud server
+296|4|10|Cloud Fuzzing Infra 2|Deploy automated fuzzer fleet
+297|4|10|Crash Triage Process 1|Automate GDB backtrace capture
+298|4|10|Crash Triage Process 2|Filter unique crashes
+299|4|10|Month 10 Review|Document fuzzing findings
+300|4|10|Month 10 Capstone|Report discovered bug responsibly
+301|4|11|Hardware Hacking Intro|UART/JTAG/SPI/I2C interfaces
+302|4|11|Flash Extraction|Reading chips with flashrom/CH341A
+303|4|11|Signal Analysis|Logic analyzer (Saleae) usage
+304|4|11|Hardware Glitching|Voltage fault injection concepts
+305|4|11|Bus Interfacing|Bus Pirate tool configuration
+306|4|11|Hardware Extraction Lab 1|Extract firmware from real device
+307|4|11|Hardware Extraction Lab 2|Reverse engineer extracted code
+308|4|11|Side-Channel Attacks Intro|Timing attacks and remote timing
+309|4|11|Cache Attacks|Flush+Reload cache exploitation
+310|4|11|Speculative Execution|Spectre and Meltdown analysis
+311|4|11|Memory Attacks|RowHammer DRAM bit-flip
+312|4|11|Power & EM Analysis|Electromagnetic side-channel concepts
+313|4|11|Practical SCA Tools|ChipWhisperer architecture
+314|4|11|SCA Implementation Lab|Timing attack against crypto
+315|4|11|Hardware Trust Roots|TPM 2.0 architecture
+316|4|11|Secure Boot Sequence|UEFI security and chain of trust
+317|4|11|Secure Boot Bypasses|Analyze historical Secure Boot CVEs
+318|4|11|Trusted Execution Envs 1|AMD SEV and Intel TDX
+319|4|11|Trusted Execution Envs 2|SGX side-channel attacks
+320|4|11|ARM Architecture|TrustZone security model
+321|4|11|Firmware Signing|Verification bypass mechanics
+322|4|11|Academic Research 1|Read TPM-FAIL paper
+323|4|11|Academic Research 2|Read Plundervolt paper
+324|4|11|Academic Research 3|Read SGAxe paper
+325|4|11|Hardware Simulation Lab 1|Setup hardware emulation
+326|4|11|Hardware Simulation Lab 2|Reproduce TEE attack concept
+327|4|11|Hardware Simulation Lab 3|Document attack vector
+328|4|11|Month 11 Review 1|Consolidate hardware methodologies
+329|4|11|Month 11 Review 2|Organize logic analyzer captures
+330|4|11|Month 11 Capstone|Draft hardware assessment methodology
+331|4|12|BGP Security Fundamentals|BGP hijacking concepts
+332|4|12|BGP Defenses|RPKI and BGPsec implementation
+333|4|12|DNS Security Architectures|DNSSEC/DoH/DoT analysis
+334|4|12|DNS DDoS Vectors|DNS amplification attack mapping
+335|4|12|Telecom Security 1|SS7 protocol vulnerabilities
+336|4|12|Telecom Security 2|Diameter protocol security
+337|4|12|Mobile Network Security|4G/5G security architecture
+338|4|12|Lawful Intercept Systems|CALEA abuse case studies
+339|4|12|Network Protocol Lab 1|Analyze SS7 Hack Explained
+340|4|12|Network Protocol Lab 2|Simulate BGP hijack internally
+341|4|12|Network Protocol Lab 3|PCAP analysis of BGP anomaly
+342|4|12|Network Protocol Lab 4|PCAP analysis of DNS anomaly
+343|4|12|ICS/SCADA Introduction|PLCs RTUs and Historians
+344|4|12|ICS Protocols|Modbus DNP3 IEC 61850
+345|4|12|Historical ICS Attacks 1|Stuxnet deep analysis part 1
+346|4|12|Historical ICS Attacks 2|Stuxnet deep analysis part 2
+347|4|12|Historical ICS Attacks 3|TRITON/TRISIS safety attack
+348|4|12|ICS Attack Methodology|Mapping ATT&CK for ICS
+349|4|12|ICS Defense & Monitoring|SecurityOnion for ICS
+350|4|12|ICS Threat Intel|DRAGOS intelligence review
+351|4|12|SCADA Simulation Lab 1|OpenPLC installation
+352|4|12|SCADA Simulation Lab 2|Configure simulated Modbus network
+353|4|12|SCADA Simulation Lab 3|Execute Modbus manipulation
+354|4|12|SCADA Simulation Lab 4|Detect manipulation via SecurityOnion
+355|4|12|Custom Protocol Design 1|Define binary protocol spec
+356|4|12|Custom Protocol Design 2|Implement parsing logic in C
+357|4|12|Custom Protocol Design 3|Identify flaws in own design
+358|4|12|Month 12 Review 1|Review ICS threat models
+359|4|12|Month 12 Review 2|Review Telecom protocol flaws
+360|4|12|Month 12 Capstone|Write ICS lab methodology report
+361|4|13|Adversarial ML Intro|ML security threat model
+362|4|13|Adversarial Examples 1|FGSM attacks on classifiers
+363|4|13|Adversarial Examples 2|PGD and C&W attacks
+364|4|13|ML Attack Frameworks|Adversarial Robustness Toolbox (ART)
+365|4|13|Evasion in Security|Attacking malware classifiers
+366|4|13|Data Manipulation|Poisoning attacks on training sets
+367|4|13|Inference & Stealing|Model inversion and extraction
+368|4|13|LLM Security Surface|Prompt injection fundamentals
+369|4|13|Advanced Prompt Attacks|Indirect injection and jailbreaking
+370|4|13|Data Privacy in LLMs|Training data extraction
+371|4|13|Agentic System Exploits|AutoGPT exploitation concepts
+372|4|13|OWASP LLM Top 10|Comprehensive review and mapping
+373|4|13|RAG Architectures|RAG poisoning techniques
+374|4|13|LLM Lab Execution|Build prompt injection test suite
+375|4|13|Offensive AI Integration 1|AI for recon automation
+376|4|13|Offensive AI Integration 2|LLM for vulnerability analysis
+377|4|13|Offensive AI Integration 3|AI-generated phishing (Social Eng)
+378|4|13|Defensive AI Tools|Copilot/CodeQL automated audit
+379|4|13|OSINT Correlation|Using AI for data correlation
+380|4|13|AI-Based Fuzzing|MUZZ and Neuzz review
+381|4|13|Automated Exploit Gen 1|AEG research concepts
+382|4|13|Automated Exploit Gen 2|Read AEG academic papers
+383|4|13|ML Academic Reading 1|Intriguing Properties of Neural Networks
+384|4|13|ML Academic Reading 2|Review latest USENIX ML attacks
+385|4|13|ML Academic Reading 3|Review latest IEEE S&P ML attacks
+386|4|13|AI Implementation Lab 1|Build AI-powered recon script
+387|4|13|AI Implementation Lab 2|Test recon script against lab
+388|4|13|Month 13 Review 1|Synthesize LLM vulnerabilities
+389|4|13|Month 13 Review 2|Synthesize Adversarial ML techniques
+390|4|13|Month 13 Capstone|Document ML threat landscape
+391|4|14|Academic Research Intro|Problem definition and scoping
+392|4|14|Literature Review 1|Google Scholar and Semantic Scholar
+393|4|14|Literature Review 2|The Big Four conferences
+394|4|14|Research Gap Analysis|Identifying novel contributions
+395|4|14|Hypothesis Formulation|Drafting research questions
+396|4|14|Experimental Design|Methodology and metrics planning
+397|4|14|Research Ethics|IRB ethics for security research
+398|4|14|Topic Selection Day 1|Brainstorm novel vulnerability variants
+399|4|14|Topic Selection Day 2|Evaluate feasibility and impact
+400|4|14|Topic Selection Day 3|Finalize specific research topic
+401|4|14|Experiment Execution 1|Environment setup and baselining
+402|4|14|Experiment Execution 2|Data collection phase 1
+403|4|14|Experiment Execution 3|Data collection phase 2
+404|4|14|Experiment Execution 4|Proof-of-concept development
+405|4|14|Experiment Execution 5|Result validation and graphing
+406|4|14|Paper Drafting 1|LaTeX setup and Conference format
+407|4|14|Paper Drafting 2|Write Abstract and Introduction
+408|4|14|Paper Drafting 3|Write Related Work section
+409|4|14|Paper Drafting 4|Write Methodology section
+410|4|14|Paper Drafting 5|Write Evaluation and Results
+411|4|14|Paper Drafting 6|Write Discussion and Limitations
+412|4|14|Paper Drafting 7|Write Conclusion and References
+413|4|14|Paper Editing 1|Self-review for clarity and flow
+414|4|14|Paper Editing 2|Peer review integration
+415|4|14|Paper Editing 3|Final formatting pass
+416|4|14|Preprint Submission|Submit finalized paper to arXiv
+417|4|14|Target Selection|Identify target workshop/conference
+418|4|14|Presentation Prep 1|Draft 15-minute slide deck
+419|4|14|Presentation Prep 2|Rehearse and refine timings
+420|4|14|Phase 4 Capstone|Deliver mock presentation
+421|5|15|APT Group Analysis 1|APT28 (Fancy Bear) profile
+422|5|15|APT Group Analysis 2|APT29 (Cozy Bear) profile
+423|5|15|APT Group Analysis 3|Lazarus Group (DPRK) profile
+424|5|15|APT Group Analysis 4|APT41 (China) profile
+425|5|15|APT Group Analysis 5|Equation Group (NSA-linked)
+426|5|15|APT Group Analysis 6|Charming Kitten (Iran)
+427|5|15|Attribution Methodology|Read The Grugq on OPSEC
+428|5|15|Advanced LOLBins 1|certutil mshta regsvr32 abuse
+429|5|15|Advanced LOLBins 2|wscript bitsadmin msiexec abuse
+430|5|15|App Allow-Listing Bypasses|WDAC bypass execution
+431|5|15|Advanced Persistence 1|COM hijacking implementation
+432|5|15|Advanced Persistence 2|WMI permanent subscriptions
+433|5|15|Boot Persistence|MBR and UEFI implant concepts
+434|5|15|Advanced Persistence 3|Scheduled task XML manipulation
+435|5|15|Driver Loading|BYOVD (Bring your own vulnerable driver)
+436|5|15|Custom C2 Design 1|Architecture and language choice (C/Python)
+437|5|15|Custom C2 Design 2|Encryption layer (AES-256-GCM)
+438|5|15|Custom C2 Implementation 1|Domain Generation Algorithm (DGA)
+439|5|15|Custom C2 Implementation 2|HTTP/DNS communication channels
+440|5|15|Custom C2 Implementation 3|Modular agent design
+441|5|15|Custom C2 Implementation 4|Task queuing and execution
+442|5|15|Custom C2 Implementation 5|File operations module
+443|5|15|Custom C2 Implementation 6|Screenshot and keylogger modules
+444|5|15|C2 OPSEC Integration|Process injection for memory-only ops
+445|5|15|Malleable C2 Study|Analyze Cobalt Strike profiles
+446|5|15|C2 Weaponization|Deploy custom C2 in lab
+447|5|15|Defense Engineering 1|Build detection rule for own C2
+448|5|15|Month 15 Review 1|Review APT TTP matrices
+449|5|15|Month 15 Review 2|Test C2 against AV solutions
+450|5|15|Month 15 Capstone|Finalize Custom C2 GitHub repo (private)
+451|5|16|Memory Acquisition|WinPMEM and LiME utilization
+452|5|16|Volatility 3 Fundamentals|pslist pstree cmdline netscan
+453|5|16|Advanced Volatility|malfind yarascan dlllist handles
+454|5|16|Injection Detection|Detect process injection via malfind
+455|5|16|Memory Extraction|Extract malware from memory dump
+456|5|16|Volatility Plugin Dev|Build custom Volatility 3 plugin
+457|5|16|Memory Forensics Lab|Solve NIST memory challenges
+458|5|16|Disk Forensics Intro|Autopsy and The Sleuth Kit setup
+459|5|16|File Carving|Foremost and Scalpel recovery
+460|5|16|NTFS Forensics 1|$MFT $LogFile $UsnJrnl analysis
+461|5|16|NTFS Forensics 2|Alternate Data Streams (ADS)
+462|5|16|System Recovery Forensics|Volume Shadow Copies exploitation
+463|5|16|Linux Forensics|ext4 artifact analysis
+464|5|16|Timeline Analysis|plaso/log2timeline execution
+465|5|16|Event Log Structure|Windows EVTx format and IDs
+466|5|16|Sysmon Deployment|Installation and rule tuning
+467|5|16|Log Analysis Infra|Elastic Stack (ELK) configuration
+468|5|16|Detection Engineering 1|Sigma rules development
+469|5|16|Detection Engineering 2|Splunk SPL for threat hunting
+470|5|16|Threat Hunting Lab|Hunt Kerberoasting/LOLBins in logs
+471|5|16|Custom Sigma Rules|Build 5 rules for ATT&CK techniques
+472|5|16|DFIR Investigation Day 1|Pre-plant compromised environment
+473|5|16|DFIR Investigation Day 2|Initial triage and scope identification
+474|5|16|DFIR Investigation Day 3|Timeline reconstruction
+475|5|16|DFIR Investigation Day 4|Malware extraction and reversing
+476|5|16|DFIR Investigation Day 5|IOC generation and Root Cause Analysis
+477|5|16|DFIR Report Writing 1|Draft SANS incident report format
+478|5|16|DFIR Report Writing 2|Finalize technical appendices
+479|5|16|DFIR Presentation Prep|Create executive summary deck
+480|5|16|Month 16 Capstone|Mock executive DFIR presentation
+481|5|17|Formal Methods Intro|Propositional and predicate logic
+482|5|17|Temporal Logic|LTL and CTL for security properties
+483|5|17|Model Checking 1|SPIN/Promela installation and syntax
+484|5|17|Model Checking 2|Verify Needham-Schroeder protocol
+485|5|17|Proof Assistants|Coq basics and environment setup
+486|5|17|Verified Cryptography|Study EverCrypt and HACL*
+487|5|17|Kernel Verification|seL4 formal verification study
+488|5|17|Academic Review|Read Protocol Verification survey
+489|5|17|Program Analysis Intro|Taint analysis theory (Source/Sink)
+490|5|17|Dynamic Taint Analysis|TEMU/libdft overview
+491|5|17|Abstract Interpretation 1|Abstract domains theory
+492|5|17|Abstract Interpretation 2|Fixed-point computation
+493|5|17|Dataflow Analysis|Control flow mapping for security
+494|5|17|Static Analysis Tools|Clang static analyzer execution
+495|5|17|Custom Analysis Tool 1|Design simple taint tracker logic
+496|5|17|Custom Analysis Tool 2|Implement AST parsing in Python
+497|5|17|Custom Analysis Tool 3|Implement source-to-sink tracing
+498|5|17|Industrial SAST Study|Internal mechanics of commercial tools
+499|5|17|Applied Taint Analysis|Find SQLi flows in real application
+500|5|17|Month 17 Review 1|Synthesize formal verification notes
+501|5|17|Month 17 Review 2|Refine custom taint tracker
+502|5|17|Month 17 Capstone|Document program analysis findings
+503|5|18|Ethereum EVM Arch|Stack memory and storage mechanics
+504|5|18|Solidity Security 1|Reentrancy (The DAO hack)
+505|5|18|Solidity Security 2|Integer overflow/underflow (BEC token)
+506|5|18|Solidity Security 3|Access control and tx.origin misuse
+507|5|18|Solidity Security 4|Front-running and MEV concepts
+508|5|18|Solidity Security 5|Flash loan attacks and logic bugs
+509|5|18|Solidity Security 6|Oracle manipulation theory
+510|5|18|Ethernaut Challenges 1|Solve levels 1-5
+511|5|18|Ethernaut Challenges 2|Solve levels 6-10
+512|5|18|Ethernaut Challenges 3|Solve levels 11-15
+513|5|18|Ethernaut Challenges 4|Solve levels 16-20
+514|5|18|Ethernaut Challenges 5|Solve levels 21-28
+515|5|18|Damn Vulnerable DeFi 1|Setup environment and first challenges
+516|5|18|Damn Vulnerable DeFi 2|Complete advanced DeFi exploits
+517|5|18|Smart Contract Testing|Foundry deployment and testing
+518|5|18|Smart Contract SAST|Slither and Mythril execution
+519|5|18|DeFi Attack Anatomy|Flash loan + price oracle manipulation
+520|5|18|Historical DeFi Hacks 1|Reproduce Cream Finance exploit
+521|5|18|Historical DeFi Hacks 2|Reproduce Poly Network exploit
+522|5|18|Historical DeFi Hacks 3|Reproduce Beanstalk exploit
+523|5|18|On-Chain Forensics 1|Etherscan trace analysis
+524|5|18|On-Chain Forensics 2|Tenderly debugger utilization
+525|5|18|Blockchain Tracking|Chainalysis concepts for forensics
+526|5|18|Cross-Chain Bridges|Ronin hack vulnerability study
+527|5|18|Smart Contract Audit 1|Select real DeFi protocol for audit
+528|5|18|Smart Contract Audit 2|Execute manual and automated review
+529|5|18|Smart Contract Audit 3|Draft audit report findings
+530|5|18|Phase 5 Capstone|Finalize DeFi smart contract audit report
+531|6|19|Specialization Decision|Select Primary and Secondary Tracks
+532|6|19|Track Deep Dive Day 1|Literature review of chosen track
+533|6|19|Track Deep Dive Day 2|Environment setup for deep research
+534|6|19|Track Deep Dive Day 3|Identify tooling gaps
+535|6|19|Track Deep Dive Day 4|Develop custom tooling part 1
+536|6|19|Track Deep Dive Day 5|Develop custom tooling part 2
+537|6|19|Track Deep Dive Day 6|Establish baseline testing protocol
+538|6|19|Track Deep Dive Day 7|Begin primary vulnerability hunting
+539|6|19|Track Deep Dive Day 8|Analyze edge cases in target software
+540|6|19|Track Deep Dive Day 9|Review historical CVEs in target
+541|6|19|Track Deep Dive Day 10|Patch diffing recent target updates
+542|6|19|Track Deep Dive Day 11|Fuzzing target components 1
+543|6|19|Track Deep Dive Day 12|Fuzzing target components 2
+544|6|19|Track Deep Dive Day 13|Manual code auditing of target 1
+545|6|19|Track Deep Dive Day 14|Manual code auditing of target 2
+546|6|19|Track Deep Dive Day 15|Hypothesis testing on discovered bugs
+547|6|19|Track Deep Dive Day 16|Develop minimal PoC for crashes
+548|6|19|Track Deep Dive Day 17|Root cause analysis of crashes
+549|6|19|Track Deep Dive Day 18|Exploitability assessment
+550|6|19|Track Deep Dive Day 19|Bypass exploit mitigations 1
+551|6|19|Track Deep Dive Day 20|Bypass exploit mitigations 2
+552|6|19|Track Deep Dive Day 21|Refine exploit reliability
+553|6|19|Track Deep Dive Day 22|Document exploitation chain
+554|6|19|Track Deep Dive Day 23|Prepare disclosure timeline
+555|6|19|Track Deep Dive Day 24|Draft initial vendor report
+556|6|19|Track Deep Dive Day 25|Review report against standards
+557|6|19|Track Deep Dive Day 26|Submit vulnerability to vendor
+558|6|19|Track Deep Dive Day 27|Begin secondary track exploration
+559|6|19|Track Deep Dive Day 28|Secondary track environment setup
+560|6|19|Month 19 Review|Assess specialization progress
+561|6|20|Secondary Track Research 1|Literature review
+562|6|20|Secondary Track Research 2|Tooling adaptation
+563|6|20|Secondary Track Research 3|Initial experimentation
+564|6|20|Secondary Track Research 4|Data collection
+565|6|20|Secondary Track Research 5|Analysis of findings
+566|6|20|Primary Track Follow-up 1|Vendor communication
+567|6|20|Primary Track Follow-up 2|Patch verification
+568|6|20|Primary Track Follow-up 3|Request CVE ID from MITRE
+569|6|20|Research Synergy 1|Combine primary and secondary findings
+570|6|20|Research Synergy 2|Identify novel intersection vulnerabilities
+571|6|20|Advanced Exploitation 1|Chain vulnerabilities
+572|6|20|Advanced Exploitation 2|Develop full weaponized payload
+573|6|20|Advanced Exploitation 3|Test payload across target versions
+574|6|20|Advanced Exploitation 4|Optimize payload size and evasion
+575|6|20|Documentation Sprint 1|Write technical deep dive
+576|6|20|Documentation Sprint 2|Create diagrams and flowcharts
+577|6|20|Documentation Sprint 3|Record demonstration video
+578|6|20|Documentation Sprint 4|Draft blog post outline
+579|6|20|Community Prep 1|Sanitize exploit code for release
+580|6|20|Community Prep 2|Write README and documentation
+581|6|20|Community Prep 3|Prepare GitHub repository
+582|6|20|Community Prep 4|Review code for OPSEC leaks
+583|6|20|Pwn2Own Prep 1|Review competition rules
+584|6|20|Pwn2Own Prep 2|Align exploit with categories
+585|6|20|Pwn2Own Prep 3|Simulate competition constraints
+586|6|20|Month 20 Review 1|Finalize vulnerability disclosure status
+587|6|20|Month 20 Review 2|Complete secondary track assessment
+588|6|20|Month 20 Review 3|Refine long-term research goals
+589|6|20|Month 20 Capstone 1|Publish technical blog post (Part 1)
+590|6|20|Month 20 Capstone 2|Publish technical blog post (Part 2)
+591|6|21|CVE Discovery Phase 1|Select new high-impact target
+592|6|21|CVE Discovery Phase 2|Deploy distributed fuzzing infra
+593|6|21|CVE Discovery Phase 3|Run SAST pipelines continuously
+594|6|21|CVE Discovery Phase 4|Deep manual audit session 1
+595|6|21|CVE Discovery Phase 5|Deep manual audit session 2
+596|6|21|CVE Discovery Phase 6|Deep manual audit session 3
+597|6|21|CVE Discovery Phase 7|Triage SAST and Fuzzer outputs
+598|6|21|CVE Discovery Phase 8|Identify 0-day vulnerability candidate
+599|6|21|CVE Discovery Phase 9|Develop working PoC
+600|6|21|CVE Discovery Phase 10|Test PoC in isolated environment
+601|6|21|CVE Discovery Phase 11|Write comprehensive vulnerability report
+602|6|21|CVE Discovery Phase 12|Initiate coordinated disclosure
+603|6|21|CVE Discovery Phase 13|Engage with vendor security team
+604|6|21|CVE Discovery Phase 14|Request official CVE via CNA
+605|6|21|Tooling Development 1|Identify automation gap in research
+606|6|21|Tooling Development 2|Design architecture for new tool
+607|6|21|Tooling Development 3|Core engine implementation
+608|6|21|Tooling Development 4|CLI interface and UX integration
+609|6|21|Tooling Development 5|Testing and debugging tool
+610|6|21|Tooling Development 6|Writing test cases and CI/CD
+611|6|21|Tooling Development 7|Drafting documentation and Wiki
+612|6|21|Tooling Release Prep 1|Open-source licensing review
+613|6|21|Tooling Release Prep 2|Create promotional assets/demos
+614|6|21|Tooling Release Prep 3|Publish repository to public
+615|6|21|Conference Prep 1|Select target conferences (BlackHat/DEFCON)
+616|6|21|Conference Prep 2|Draft Call for Papers (CFP) abstract
+617|6|21|Conference Prep 3|Draft detailed CFP outline
+618|6|21|Conference Prep 4|Review CFP with mentors
+619|6|21|Month 21 Review|Submit CFP to target conferences
+620|6|21|Month 21 Capstone|Publicly announce open-source tool
+621|6|22|Post-Release Maintenance 1|Triage GitHub issues for tool
+622|6|22|Post-Release Maintenance 2|Implement community feature requests
+623|6|22|Post-Release Maintenance 3|Refactor code based on feedback
+624|6|22|Research Expansion 1|Extend CVE research to other vendors
+625|6|22|Research Expansion 2|Automate discovery of similar bugs
+626|6|22|Research Expansion 3|Run wide-scale internet scan (legal)
+627|6|22|Research Expansion 4|Analyze scale of vulnerability impact
+628|6|22|Whitepaper Drafting 1|Structure technical whitepaper
+629|6|22|Whitepaper Drafting 2|Write technical depth sections
+630|6|22|Whitepaper Drafting 3|Generate statistical graphics
+631|6|22|Whitepaper Drafting 4|Review and edit whitepaper
+632|6|22|Whitepaper Publication|Release whitepaper independently
+633|6|22|Presentation Build 1|Start slide deck for conference
+634|6|22|Presentation Build 2|Design visual exploit walkthroughs
+635|6|22|Presentation Build 3|Create live demo environment
+636|6|22|Presentation Build 4|Record backup video of demo
+637|6|22|Presentation Build 5|Refine speaker notes
+638|6|22|Speaker Rehearsal 1|Practice timing without audience
+639|6|22|Speaker Rehearsal 2|Practice with peer feedback
+640|6|22|Speaker Rehearsal 3|Final polish of delivery
+641|6|22|Advanced Cert Prep 1|Review OSCE3 or equivalent syllabus
+642|6|22|Advanced Cert Prep 2|Identify knowledge gaps for cert
+643|6|22|Advanced Cert Prep 3|Targeted lab practice for cert gaps
+644|6|22|Mentorship & Community 1|Review junior researcher's code
+645|6|22|Mentorship & Community 2|Contribute to OSS security project
+646|6|22|Mentorship & Community 3|Write educational thread/post
+647|6|22|Month 22 Review 1|Assess conference submission status
+648|6|22|Month 22 Review 2|Verify CVE publication status
+649|6|22|Month 22 Review 3|Plan final 60 days
+650|6|22|Month 22 Capstone|Deliver internal/local security talk
+651|6|23|Final Paper Drafting 1|Outline IEEE/USENIX format paper
+652|6|23|Final Paper Drafting 2|Write Abstract and Intro
+653|6|23|Final Paper Drafting 3|Write Related Work deeply
+654|6|23|Final Paper Drafting 4|Write Novel Contribution details
+655|6|23|Final Paper Drafting 5|Write Experimental Evaluation
+656|6|23|Final Paper Drafting 6|Write Limitations and Future Work
+657|6|23|Final Paper Drafting 7|Format references and citations
+658|6|23|Final Paper Review 1|Self-edit for academic rigor
+659|6|23|Final Paper Review 2|Submit to mentor for peer review
+660|6|23|Final Paper Review 3|Integrate peer review feedback
+661|6|23|Final Paper Submission|Submit to peer-reviewed conference
+662|6|23|Portfolio Assembly 1|Audit GitHub repositories
+663|6|23|Portfolio Assembly 2|Pin and document best projects
+664|6|23|Portfolio Assembly 3|Update personal blog with latest research
+665|6|23|Portfolio Assembly 4|Ensure all CVEs are documented
+666|6|23|Professional Branding 1|Update LinkedIn with deep technical details
+667|6|23|Professional Branding 2|Clean up public social media presence
+668|6|23|Professional Branding 3|Create centralized portfolio website
+669|6|23|Career Strategy 1|Identify target companies/labs
+670|6|23|Career Strategy 2|Map skills to senior/researcher roles
+671|6|23|Career Strategy 3|Draft highly technical resume
+672|6|23|Career Strategy 4|Tailor resume for specific roles
+673|6|23|Interview Prep 1|Review fundamental CS algorithms
+674|6|23|Interview Prep 2|Practice whiteboard exploitation concepts
+675|6|23|Interview Prep 3|Prepare research presentation for interviews
+676|6|23|Mock Interviews 1|Conduct technical mock interview
+677|6|23|Mock Interviews 2|Review mock interview feedback
+678|6|23|Month 23 Review|Finalize all documentation
+679|6|23|Month 23 Capstone 1|Launch personal portfolio website
+680|6|23|Month 23 Capstone 2|Begin applying to target roles
+681|6|24|Capstone Project Wrap 1|Ensure all lab infra is documented
+682|6|24|Capstone Project Wrap 2|Archive obsolete VMs and data
+683|6|24|Capstone Project Wrap 3|Securely backup all research data
+684|6|24|Active Bug Bounty 1|Select VDP/BBP program
+685|6|24|Active Bug Bounty 2|Execute targeted recon
+686|6|24|Active Bug Bounty 3|Hunt for logic flaws
+687|6|24|Active Bug Bounty 4|Draft bounty report
+688|6|24|Active Bug Bounty 5|Submit bounty report
+689|6|24|CISO Path Planning 1|Review enterprise risk frameworks
+690|6|24|CISO Path Planning 2|Study compliance (SOC2/ISO27001)
+691|6|24|CISO Path Planning 3|Understand business alignment in security
+692|6|24|CISO Path Planning 4|Review budget and team management basics
+693|6|24|Leadership Development 1|Read key security management books
+694|6|24|Leadership Development 2|Draft 5-year career roadmap
+695|6|24|Networking Sprint 1|Reach out to industry professionals
+696|6|24|Networking Sprint 2|Schedule informational interviews
+697|6|24|Networking Sprint 3|Attend local security meetup
+698|6|24|Final Certification Dash 1|Schedule OSCP/Equivalent exam
+699|6|24|Final Certification Dash 2|Take practice exam
+700|6|24|Final Certification Dash 3|Review weak areas
+701|6|24|Final Certification Dash 4|Final prep for exam
+702|6|24|Live Exam Simulation 1|24-hour hack simulation part 1
+703|6|24|Live Exam Simulation 2|24-hour hack simulation part 2
+704|6|24|Live Exam Simulation 3|Write exam report
+705|6|24|Exam Review|Grade self on simulation
+706|6|24|Mental Rest & Recovery 1|Step away from keyboard
+707|6|24|Mental Rest & Recovery 2|Physical exercise and rest
+708|6|24|Deep Work Sprint 1|Final polish of any pending code
+709|6|24|Deep Work Sprint 2|Resolve any open GitHub issues
+710|6|24|Deep Work Sprint 3|Finalize outstanding blog drafts
+711|6|24|Future Tech Exploration 1|Read about quantum computing impact
+712|6|24|Future Tech Exploration 2|Study advanced AI threats
+713|6|24|Future Tech Exploration 3|Review brain-computer interface security
+714|6|24|Mentorship Outreach|Find a long-term career mentor
+715|6|24|Community Giving 1|Donate to EFF or open-source project
+716|6|24|Community Giving 2|Publish a free cheat sheet/guide
+717|6|24|Year 2 Review 1|Assess Phase 4 goals
+718|6|24|Year 2 Review 2|Assess Phase 5 goals
+719|6|24|Year 2 Review 3|Assess Phase 6 goals
+720|6|24|Knowledge Map 1|Map all mastered skills
+721|6|24|Knowledge Map 2|Identify decaying skills for review
+722|6|24|Knowledge Map 3|Set up spaced repetition system
+723|6|24|Infrastructure Teardown 1|Decommission old cloud servers
+724|6|24|Infrastructure Teardown 2|Rotate all personal credentials
+725|6|24|Infrastructure Setup 1|Build new secure baseline workstation
+726|6|24|Infrastructure Setup 2|Configure long-term SIEM for personal network
+727|6|24|Final Reflection 1|Write personal retrospective
+728|6|24|Final Reflection 2|Share journey publicly (optional)
+729|6|24|Celebration Prep|Plan reward for 2-year completion
+730|6|24|2-Year Graduation|Zero to PhD Curriculum Complete`;
+
+// Phase Titles and Briefings (Student Guide Meta)
+const phaseMeta = {
+  1: { 
+    title: "Phase 1: Absolute Foundations", 
+    briefing: "Welcome to the baseline. For the next 90 days, you will build the bedrock of your technical knowledge. You will master Linux, Networking, and Web Security fundamentals. Do not skip days. Do not rely on automated tools before understanding the underlying protocols."
+  },
+  2: { 
+    title: "Phase 2: Exploitation Engineering", 
+    briefing: "You are entering the low-level domain. This phase focuses heavily on memory corruption, binary exploitation, and kernel hacking. Prepare to spend significant time in GDB and reading C/Assembly. Precision is critical."
+  },
+  3: { 
+    title: "Phase 3: RE & Advanced Analysis", 
+    briefing: "Reverse Engineering requires extreme patience. You will learn how to dissect malware, firmware, and complex cryptographic implementations. This phase transitions you from a consumer of exploits to an analyst of underlying architectures."
+  },
+  4: { 
+    title: "Phase 4: Advanced Vulnerability Research", 
+    briefing: "You are now at the Graduate level. Your goal shifts from exploiting known vulnerabilities to discovering 0-days via Code Auditing, Advanced Fuzzing, and Hardware hacking. You will write your first academic research paper during this phase."
+  },
+  5: { 
+    title: "Phase 5: APT Simulation & Defense", 
+    briefing: "Think like a Nation-State. You will simulate Advanced Persistent Threats, build custom Command & Control frameworks, and learn digital forensics to understand exactly how elite defenders hunt elite attackers."
+  },
+  6: { 
+    title: "Phase 6: PhD-Level Research", 
+    briefing: "The final stretch. You will specialize deeply, discover real CVEs, publish tools, present at conferences, and transition into a senior/researcher role in the industry. Your journey ends with a fully weaponized portfolio."
+  }
+};
+
+// Global State
+let tree = {};
+let completedDays = new Set();
+const TOTAL_DAYS = 730;
+
+// Init
+function init() {
+  loadProgress();
+  buildTree();
+  renderSidebar();
+  selectPhase('1'); // Default to phase 1
+  updateGlobalProgress();
+}
+
+// 1. Data Parsing
+function buildTree() {
+  const lines = rawData.trim().split('\n');
+  lines.forEach(line => {
+    const [day, phase, month, topic, detail] = line.split('|');
+    if (!tree[phase]) tree[phase] = { months: {} };
+    if (!tree[phase].months[month]) tree[phase].months[month] = [];
+    tree[phase].months[month].push({ day, topic, detail });
+  });
+}
+
+// 2. Sidebar Rendering
+function renderSidebar() {
+  const menu = document.getElementById('nav-menu');
+  let html = '';
+  for (const phase in phaseMeta) {
+    html += `<div class="nav-item" id="nav-phase-${phase}" onclick="selectPhase('${phase}')">
+               ${phaseMeta[phase].title}
+             </div>`;
+  }
+  menu.innerHTML = html;
+}
+
+// 3. Main Content Rendering
+function selectPhase(phaseId) {
+  // Update Active Nav
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  document.getElementById(`nav-phase-${phaseId}`).classList.add('active');
+  
+  // Update Topbar
+  document.getElementById('current-phase-title').innerText = phaseMeta[phaseId].title;
+
+  // Build Content
+  const container = document.getElementById('content-body');
+  let html = `
+    <div class="briefing-card">
+      <h3>Phase ${phaseId} Briefing</h3>
+      <p>${phaseMeta[phaseId].briefing}</p>
+    </div>
+  `;
+
+  for (const month in tree[phaseId].months) {
+    const daysInMonth = tree[phaseId].months[month];
+    const completedInMonth = daysInMonth.filter(d => completedDays.has(d.day)).length;
+
+    html += `
+      <div class="month-section">
+        <div class="month-header">
+          <span>Month ${month.padStart(2, '0')}</span>
+          <span class="month-stats mono" id="stats-m${month}">${completedInMonth} / ${daysInMonth.length} Completed</span>
+        </div>
+        <div class="day-list">
+    `;
+
+    daysInMonth.forEach(d => {
+      const isChecked = completedDays.has(d.day) ? 'checked' : '';
+      const isCompletedClass = completedDays.has(d.day) ? 'completed' : '';
+      
+      html += `
+        <div class="day-item ${isCompletedClass}" id="day-${d.day}">
+          <div class="day-header" onclick="toggleDay('${d.day}')">
+            <input type="checkbox" class="day-check" id="check-${d.day}" ${isChecked} onclick="toggleCheck(event, '${d.day}', '${month}')">
+            <span class="day-label mono">DAY ${d.day.padStart(3,'0')}</span>
+            <span class="day-title">${d.topic}</span>
+            <span class="day-toggle">▾</span>
+          </div>
+          <div class="day-body">
+            <div class="task-box">
+              <h4>Action Required</h4>
+              <p>${d.detail}</p>
+              <span class="time-badge">Estimated Time: 3 Hours</span>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+    html += `</div></div>`;
+  }
+
+  container.innerHTML = html;
+  
+  // Auto-close mobile sidebar on selection
+  if(window.innerWidth <= 768) {
+    document.getElementById('sidebar').classList.remove('show');
+  }
+}
+
+// 4. Interactions
+function toggleDay(dayStr) {
+  document.getElementById(`day-${dayStr}`).classList.toggle('open');
+}
+
+function toggleCheck(event, dayStr, monthStr) {
+  event.stopPropagation();
+  const item = document.getElementById(`day-${dayStr}`);
+  
+  if (event.target.checked) {
+    completedDays.add(dayStr);
+    item.classList.add('completed');
+  } else {
+    completedDays.delete(dayStr);
+    item.classList.remove('completed');
+  }
+  
+  saveProgress();
+  updateGlobalProgress();
+  
+  // Update month stats text
+  const currentPhase = document.querySelector('.nav-item.active').id.split('-')[2];
+  const daysInMonth = tree[currentPhase].months[monthStr];
+  const completedInMonth = daysInMonth.filter(d => completedDays.has(d.day)).length;
+  document.getElementById(`stats-m${monthStr}`).innerText = `${completedInMonth} / ${daysInMonth.length} Completed`;
+}
+
+// 5. Progress & Storage Management
+function updateGlobalProgress() {
+  const count = completedDays.size;
+  document.getElementById('global-count').innerText = count;
+  document.getElementById('global-fill').style.width = `${(count / TOTAL_DAYS) * 100}%`;
+}
+
+function saveProgress() {
+  localStorage.setItem('zero2phd_progress', JSON.stringify(Array.from(completedDays)));
+}
+
+function loadProgress() {
+  const saved = localStorage.getItem('zero2phd_progress');
+  if (saved) {
+    completedDays = new Set(JSON.parse(saved));
+  }
+}
+
+// Run
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
